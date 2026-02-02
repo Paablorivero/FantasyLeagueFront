@@ -21,6 +21,9 @@ CREATE DATABASE fantasy_league
 	drop table if exists usuarios;
 	drop table if exists equipos;
 	drop table if exists ligas;
+	drop table if exists participantes_liga;
+	drop table if exists jugadores;
+	drop table if exists temporadas;
 
 -- Empezamos a crear las tablas
 	create table if not exists usuarios (
@@ -47,4 +50,25 @@ CREATE DATABASE fantasy_league
 	);
 
 	select * from ligas;
+
+	create table if not exists participantes_liga(
+		liga_id varchar(36) not null references ligas(liga_id),
+		equipo_id varchar(36) not null references ligas(liga_id),
+		primary key(liga_id, equipo_id)
+	);
+
+	create table if not exists jugadores(
+		jugador_id integer primary key,
+		nombre varchar(50) not null,
+		first_name varchar(50) not null,
+		last_name varchar(50) not null,
+		edad integer not null,
+		nacionalidad varchar(50) not null,
+		lesionado boolean default FALSE,
+		foto text not null,
+		equipo_profesional_id integer not null
+	);
+
+	select * from jugadores;
+
 	
