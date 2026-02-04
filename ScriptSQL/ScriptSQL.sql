@@ -24,36 +24,43 @@ CREATE DATABASE fantasy_league
 	drop table if exists participantes_liga;
 	drop table if exists jugadores;
 	drop table if exists temporadas;
+	drop table if exists jornadas;
+	drop table if exists alineaciones;
+
+-- Parece ser que para usar UUID y almacenar correctamente los pass necesito la extensión pgcrypto
+
+	create extension if not exists pgcrypto;
 
 -- Empezamos a crear las tablas
 	create table if not exists usuarios (
-		usuario_id varchar(36) primary key,
+		usuario_id uuid default gen_random_uuid() primary key,
 		username varchar(50) not null,
 		email varchar(100) not null,
+		--Hay que dejar sitio al password. Usa pgcrypto, pero hay que mirar como se inserta y se valida desde el front.
 		f_nacim date not null
 	);
 
 
 	create table if not exists equipos(
-		equipo_id varchar(36) primary key,
+		equipo_id uuid default gen_random_uuid() primary key,
 		nombre varchar(50) not null,
 		logo text,
-		usuario_id varchar(36) not null references usuarios(usuario_id)
+		usuario_id uuid not null references usuarios(usuario_id)
 	);
 
 
 	create table if not exists ligas(
-		liga_id varchar(36) primary key,
+		liga_id uuid default gen_random_uuid() primary key,
 		nombre_liga varchar(50) not null,
 		participantes integer default 1,
-		usuario_id varchar(36) not null references usuarios(usuario_id)
+		usuario_id uuid not null references usuarios(usuario_id)
 	);
 
 	select * from ligas;
 
 	create table if not exists participantes_liga(
-		liga_id varchar(36) not null references ligas(liga_id),
-		equipo_id varchar(36) not null references ligas(liga_id),
+		liga_id uuid not null references ligas(liga_id),
+		equipo_id uuid not null references ligas(liga_id),
 		primary key(liga_id, equipo_id)
 	);
 
@@ -71,4 +78,23 @@ CREATE DATABASE fantasy_league
 
 	select * from jugadores;
 
-	
+	create table if not exists temporadas(
+		temporada_id integer primary key,
+		f_inicio date not null,
+		f_fin date not null
+	);
+
+	create table if not exists jornadas(
+		jornada_id integer primary key,
+		f_inicio date not null,
+		f_fin date not null,
+		temporada_id integer not null references temporadas(temporada_id)
+	);
+
+	create table if not exists alineaciones(
+		equipo_id uuid not null references equipos(equipo_id),
+		jugador_id integer not null references jugadores(jugador_id),
+		jornada_id integer not null references jornadas(jornada_id),
+		puntuacion integer not null,
+		primary key (equipo_id,jugador_id, jornada_id)
+	);
