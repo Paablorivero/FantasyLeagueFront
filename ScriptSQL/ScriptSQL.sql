@@ -14,18 +14,17 @@ CREATE DATABASE fantasy_league
     IS_TEMPLATE = False;
 
 --Creamos un usuario que es el que vamos a usar por ahora y le damos todos los privilegios para poder trabajar y hacer pruebas
-	create user usuario_prueba  with password 'test';
+	drop user usuario_prueba;
+	create user usuario_prueba  with password 'test' superuser;
 
-	grant all privileges on fantasy_league to usuario_prueba;
-
-	drop table if exists usuarios;
-	drop table if exists equipos;
-	drop table if exists ligas;
-	drop table if exists participantes_liga;
-	drop table if exists jugadores;
-	drop table if exists temporadas;
-	drop table if exists jornadas;
 	drop table if exists alineaciones;
+	drop table if exists jornadas;
+	drop table if exists temporadas;
+	drop table if exists jugadores;
+	drop table if exists participantes_liga;
+	drop table if exists ligas;
+	drop table if exists equipos;
+	drop table if exists usuarios;
 
 -- Parece ser que para usar UUID y almacenar correctamente los pass necesito la extensión pgcrypto
 
@@ -65,7 +64,8 @@ CREATE DATABASE fantasy_league
 	);
 
 	create table if not exists jugadores(
-		jugador_id integer primary key,
+		system_id serial not null primary key,
+		jugador_id integer unique not null,
 		nombre varchar(50) not null,
 		first_name varchar(50) not null,
 		last_name varchar(50) not null,
@@ -98,3 +98,6 @@ CREATE DATABASE fantasy_league
 		puntuacion integer not null,
 		primary key (equipo_id,jugador_id, jornada_id)
 	);
+
+	select * from jugadores;
+
