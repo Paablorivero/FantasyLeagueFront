@@ -34,8 +34,8 @@ CREATE DATABASE fantasy_league
 -- Empezamos a crear las tablas
 	create table if not exists usuarios (
 		usuario_id uuid default gen_random_uuid() primary key,
-		username varchar(50) not null,
-		email varchar(100) not null,
+		username varchar(50) not null unique,
+		email varchar(100) not null unique,
 		--Hay que dejar sitio al password. Usa pgcrypto, pero hay que mirar como se inserta y se valida desde el front.
 		f_nacim date not null
 	);
@@ -52,7 +52,7 @@ CREATE DATABASE fantasy_league
 	create table if not exists ligas(
 		liga_id uuid default gen_random_uuid() primary key,
 		nombre_liga varchar(50) not null,
-		participantes integer default 1,
+		participantes integer default 1 not null,
 		usuario_id uuid not null references usuarios(usuario_id)
 	);
 
@@ -60,7 +60,7 @@ CREATE DATABASE fantasy_league
 
 	create table if not exists participantes_liga(
 		liga_id uuid not null references ligas(liga_id),
-		equipo_id uuid not null references ligas(liga_id),
+		equipo_id uuid not null references equipos(equipo_id),
 		primary key(liga_id, equipo_id)
 	);
 
