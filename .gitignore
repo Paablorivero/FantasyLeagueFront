@@ -1,0 +1,56 @@
+# =========================
+# Node / Package managers
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Angular v20
+# =========================
+dist/
+out-tsc/
+.angular/
+.angular/cache/
+.angular/build/
+.tmp/
+
+# Vite / builder cache (Angular moderno)
+.cache/
+
+# =========================
+# TypeScript
+# =========================
+*.tsbuildinfo
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# IDEs - WebStorm / IntelliJ
+# =========================
+.idea/
+*.iml
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+
+# =========================
+# Tests / Coverage
+# =========================
+coverage/
