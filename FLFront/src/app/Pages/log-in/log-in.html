@@ -1,1 +1,38 @@
-<p>log-in works!</p>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+
+
+<!-- Contenedor centrado -->
+<div class="min-h-screen flex items-center justify-center p-4 
+bg-[url('images/R.jpg')] bg-cover bg-center bg-no-repeat">
+  <!--Tarjeta de formulario completa-->
+  <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-xs border p-4">
+
+    <div class="card rounded-box grid h-20 grow place-items-center">
+      <img src="images/LogoFNTS__1_-removebg-preview.png" alt="Logo" class="max-w-35" />
+    </div>
+
+    <!--Formulario-->
+    <label class="label">Usuario</label>
+    <input type="email" class="input" placeholder="Email" />
+
+    <label class="label">Contraseña</label>
+    <input type="password" class="input" placeholder="Password" />
+
+    <!--Botones-->
+    <div class="flex w-full">
+      <!--Boton 1 - Iniciar Sesion-->
+      <div class="card rounded-box grid h-20 grow place-items-center">
+        <button class="btn btn-neutral">Entrar</button>
+      </div>
+
+      <!--Divisor vertical - Linea + O-->
+      <div class="divider divider-horizontal">O</div>
+
+      <!--Boton Crear cuenta-->
+      <div class="card rounded-box grid h-20 grow place-items-center">
+        <button class="btn btn-neutral btn-outline">Crear cuenta</button>
+      </div>
+    </div>
+  </fieldset>
+</div>
