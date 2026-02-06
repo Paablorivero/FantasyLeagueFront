@@ -6,8 +6,8 @@ CREATE DATABASE fantasy_league
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'Spanish_Spain.1252'
-    LC_CTYPE = 'Spanish_Spain.1252'
+    LC_COLLATE = 'es_ES.UTF8'
+    LC_CTYPE = 'es_ES.UTF8'
     LOCALE_PROVIDER = 'libc'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
@@ -64,8 +64,7 @@ CREATE DATABASE fantasy_league
 	);
 
 	create table if not exists jugadores(
-		system_id serial not null primary key,
-		jugador_id integer unique not null,
+		jugador_id integer primary key,
 		nombre varchar(50) not null,
 		first_name varchar(50) not null,
 		last_name varchar(50) not null,
