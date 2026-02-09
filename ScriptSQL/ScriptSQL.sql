@@ -100,3 +100,4 @@ CREATE DATABASE fantasy_league
 
 	select * from jugadores;
 
+	select * from usuarios;
