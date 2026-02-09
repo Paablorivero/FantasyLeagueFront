@@ -27,6 +27,22 @@ a:focus-visible {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.dazn-badge-yellow {
+  background: rgba(255, 237, 0, 0.1);
+  border: 1px solid rgba(255, 237, 0, 0.3);
+  backdrop-filter: blur(20px);
+}
+
+.dazn-pulse {
+  animation: pulse-yellow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .bounce-animation {
   animation: bounce 2s infinite;
 }
@@ -196,38 +212,4 @@ a:focus-visible {
 }
 
 
-
-/*Esto es de prueba para ver que nos gusta mas*/
-:root {
-  --dazn-yellow: #FFED00;
-  --dazn-black: #0a0a0a;
-  --spacing-section: 6rem;
-}
-.gradient-text-yellow {
-  background: linear-gradient(135deg, var(--dazn-yellow) 0%, #ffd700 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-/* Nuevo CSS */
-.dazn-badge {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(20px);
-}
-
-.dazn-badge-yellow {
-  background: rgba(255, 237, 0, 0.1);
-  border: 1px solid rgba(255, 237, 0, 0.3);
-  backdrop-filter: blur(20px);
-}
-
-.dazn-pulse {
-  animation: pulse-yellow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-yellow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
 

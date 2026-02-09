@@ -1,207 +1,116 @@
-<!--Seccion del hero-->
-<section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-  <!--Imagen de fondo con varios filtros aplicados para que no se vea 100% nitida-->
-  <div class="absolute inset-0 bg-cover bg-center brightness-50 contrast-125 saturate-50" style="background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop');"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-  <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
+<body>
+  <!--Seccion del hero-->
+  <section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <!--Imagen de fondo con varios filtros aplicados para que no se vea 100% nitida-->
+    <div class="absolute inset-0 bg-cover bg-center brightness-50 contrast-125 saturate-50" style="background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop');"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
 
-  <div class="relative z-10 container mx-auto px-6 py-20">
-    <div class="max-w-5xl mx-auto text-center space-y-8">
-      <!--Badge de powered por DAZN, no se si dejarlo asi o poner otro color tipo amarillo mas llamativo -->
-      <div class="inline-flex items-center gap-2 px-5 py-2.5 dazn-badge rounded-full">
-        <span class="relative flex h-2.5 w-2.5">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white dazn-pulse"></span>
-        </span>
-        <span class="font-mono text-xs font-bold tracking-wider uppercase text-white">Powered by DAZN</span>
-      </div>
-
-      <div class="inline-flex items-center gap-2 px-5 py-2.5 dazn-badge-yellow rounded-full">
-        <span class="relative flex h-2.5 w-2.5">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400 dazn-pulse"></span>
-        </span>
-        <span class="font-mono text-xs font-bold tracking-wider uppercase text-yellow-400">Powered by DAZN</span>
-      </div>
-
-      <!--Titulo principal del hero-->
-      <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-none md:leading-[1.08]">
-        <span class="block gradient-text pb-[0.12em]">Fantasy League</span>
-        <span class="block text-5xl md:text-7xl mt-2 text-white/70 pb-[0.12em]">LaLiga</span>
-      </h1>
-      <!--Subtitulo del hero-->
-      <p class="text-lg md:text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
-        Crea tu equipo perfecto, compite contra millones de managers y demuestra que eres el mejor estratega de LaLiga.
-      </p>
-      <!--Botones del hero-->
-      <div class="hero-actions flex flex-col md:flex-row items-center justify-center gap-4 pt-6">
-        <button class="btn btn-primary">
-          <span class="relative z-10">Comenzar ahora</span>
-        </button>
-        <button class="btn btn-secondary">Iniciar sesión</button>
-      </div>
-    </div>
-  </div>
-  <!--Flecha indicadora de scroll-->
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bounce-animation">
-    <svg aria-hidden="true" class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-    </svg>
-  </div>
-</section>
-
-<!--Seccion de features(card group)-->
-<section class="py-24 bg-base-100">
-  <div class="container mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
-      <!--Card de noticias-->
-      <div class="card bg-base-200/50 backdrop-blur-sm border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/5">
-        <figure class="relative h-56 overflow-hidden bg-gradient-to-br from-base-300 to-base-200">
-          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?q=80&w=2000&auto=format&fit=crop');"></div>
-          <div class="absolute inset-0 bg-black/60"></div>
-          <div class="absolute inset-0 bg-gradient-radial from-white/10 to-transparent opacity-50"></div>
-          <svg aria-hidden="true" class="w-20 h-20 text-white/40 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <!--no se si dejar el svg tanto en esta como en las otras cards-->
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-          </svg>
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title text-2xl font-bold">Noticias al instante</h2>
-          <p class="text-white/60 leading-relaxed">
-            Mantente al día con lesiones, sanciones y rumores de última hora. Información en tiempo real para tomar las mejores decisiones.
-          </p>
-          <div class="card-actions justify-start mt-4">
-            <button class="btn btn-sm btn-ghost gap-2 group">
-              <span>Explorar noticias</span>
-              <svg aria-hidden="true" class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-              </svg>
-            </button>
-          </div>
+    <div class="relative z-10 container mx-auto px-6 py-20">
+      <div class="max-w-5xl mx-auto text-center space-y-8">
+        <!--Badge de powered por DAZN-->
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 dazn-badge-yellow rounded-full">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400 dazn-pulse"></span>
+          </span>
+          <span class="font-mono text-xs font-bold tracking-wider uppercase text-yellow-400">Powered by DAZN</span>
         </div>
-      </div>
-      <!--Card de ver ligas-->
-      <div class="card bg-base-200/50 backdrop-blur-sm border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/5">
-        <figure class="relative h-56 overflow-hidden bg-gradient-to-br from-base-300 to-base-200">
-          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?q=80&w=2000&auto=format&fit=crop');"></div>
-          <div class="absolute inset-0 bg-black/60"></div>
-          <div class="absolute inset-0 bg-gradient-radial from-white/10 to-transparent opacity-50"></div>
-          <svg aria-hidden="true" class="w-20 h-20 text-white/40 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-          </svg>
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title text-2xl font-bold">Ligas oficiales</h2>
-          <p class="text-white/60 leading-relaxed">
-            Únete a las ligas de tus clubes favoritos o compite en la liga global de DAZN con premios exclusivos y experiencias únicas.
-          </p>
-          <div class="card-actions justify-start mt-4">
-            <button class="btn btn-sm btn-ghost gap-2 group">
-              <span>Ver todas las ligas</span>
-              <svg aria-hidden="true" class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <!--Card de ir a tu perfil-->
-      <div class="card bg-base-200/50 backdrop-blur-sm border border-white/10 hover:border-white/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/5">
-        <figure class="relative h-56 overflow-hidden bg-gradient-to-br from-base-300 to-base-200">
-          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-110" style="background-image: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000&auto=format&fit=crop');"></div>
-          <div class="absolute inset-0 bg-black/60"></div>
-          <div class="absolute inset-0 bg-gradient-radial from-white/10 to-transparent opacity-50"></div>
-          <svg aria-hidden="true" class="w-20 h-20 text-white/40 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-          </svg>
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title text-2xl font-bold">Personalización total</h2>
-          <p class="text-white/60 leading-relaxed">
-            Configura tu perfil, gestiona notificaciones inteligentes y vincula tu cuenta DAZN para desbloquear funciones premium.
-          </p>
-          <div class="card-actions justify-start mt-4">
-            <button class="btn btn-sm btn-ghost gap-2 group">
-              <span>Configurar perfil</span>
-              <svg aria-hidden="true" class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-              </svg>
-            </button>
-          </div>
+        <!--Titulo principal del hero-->
+        <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-none md:leading-[1.08]">
+          <span class="block gradient-text pb-[0.12em]">Fantasy League</span>
+          <span class="block text-5xl md:text-7xl mt-2 text-white/70 pb-[0.12em]">LaLiga</span>
+        </h1>
+        <!--Subtitulo del hero-->
+        <p class="text-lg md:text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
+          Crea tu equipo perfecto, compite contra millones de managers y demuestra que eres el mejor estratega de LaLiga.
+        </p>
+        <!--Botones del hero-->
+        <div class="hero-actions flex flex-col md:flex-row items-center justify-center gap-4 pt-6">
+          <button class="btn btn-primary">
+            <span class="relative z-10">Comenzar ahora</span>
+          </button>
+          <button class="btn btn-secondary">Iniciar sesión</button>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- Seccion de pasos para comenzar a jugar -->
-<section class="py-24 bg-neutral/30 border-y border-white/10">
-  <div class="container mx-auto px-6">
-    <div class="max-w-4xl mx-auto text-center mb-20">
-      <h2 class="text-4xl md:text-6xl font-black tracking-tighter mb-6">
-        Comienza en <span class="gradient-text">3 pasos</span>
-      </h2>
-      <p class="text-lg text-white/60 max-w-2xl mx-auto">
-        Es rápido, sencillo y adictivo. Únete a la mejor fantasy de LaLiga en minutos.
-      </p>
+    <!--Flecha indicadora de scroll-->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bounce-animation">
+      <svg aria-hidden="true" class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
-      <!--Card paso 1-->
-      <div class="step-card">
-        <div class="step-number">
-          <span class="relative z-10">1</span>
-        </div>
-        <h3 class="text-2xl font-bold mb-4">Crea tu cuenta</h3>
-        <p class="text-white/60 leading-relaxed">
-          Registro instantáneo con tu cuenta de DAZN. Sin complicaciones, sin esperas. Comienza a jugar de inmediato.
+  </section>
+
+  <!-- Seccion de pasos para comenzar a jugar -->
+  <section class="py-24 bg-neutral-900 border-y border-white/10">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto text-center mb-20">
+        <h2 class="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+          Comienza en <span class="gradient-text">3 pasos</span>
+        </h2>
+        <p class="text-lg text-white/60 max-w-2xl mx-auto">
+          Es rápido, sencillo y adictivo. Únete a la mejor fantasy de LaLiga en minutos.
         </p>
       </div>
-      <!--Card paso 2-->
-      <div class="step-card delay-1">
-        <div class="step-number">
-          <span class="relative z-10">2</span>
-          <div class="number-glow delay-1"></div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
+        <!--Card paso 1-->
+        <div class="step-card">
+          <div class="step-number">
+            <span class="relative z-10">1</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Crea tu cuenta</h3>
+          <p class="text-white/60 leading-relaxed">
+            Registro instantáneo con tu cuenta de DAZN. Sin complicaciones, sin esperas. Comienza a jugar de inmediato.
+          </p>
         </div>
-        <h3 class="text-2xl font-bold mb-4">Construye tu plantilla</h3>
-        <p class="text-white/60 leading-relaxed">
-          Selecciona a tus jugadores favoritos con un presupuesto estratégico. Analiza estadísticas y forma reciente.
-        </p>
-      </div>
-      <!--Card paso 3-->
-      <div class="step-card delay-2">
-        <div class="step-number">
-          <span class="relative z-10">3</span>
-          <div class="number-glow delay-2"></div>
+        <!--Card paso 2-->
+        <div class="step-card delay-1">
+          <div class="step-number">
+            <span class="relative z-10">2</span>
+            <div class="number-glow delay-1"></div>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Construye tu plantilla</h3>
+          <p class="text-white/60 leading-relaxed">
+            Selecciona a tus jugadores favoritos con un presupuesto estratégico. Analiza estadísticas y forma reciente.
+          </p>
         </div>
-        <h3 class="text-2xl font-bold mb-4">Compite y gana</h3>
-        <p class="text-white/60 leading-relaxed">
-          Enfrenta a managers de todo el mundo. Cada jornada cuenta, cada decisión importa. Demuestra tu conocimiento.
-        </p>
+        <!--Card paso 3-->
+        <div class="step-card delay-2">
+          <div class="step-number">
+            <span class="relative z-10">3</span>
+            <div class="number-glow delay-2"></div>
+          </div>
+          <h3 class="text-2xl font-bold mb-4">Compite y gana</h3>
+          <p class="text-white/60 leading-relaxed">
+            Enfrenta a managers de todo el mundo. Cada jornada cuenta, cada decisión importa. Demuestra tu conocimiento.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!--Seccion final cta-->
-<section class="py-24">
-  <div class="container mx-auto px-6">
-    <div class="max-w-4xl mx-auto">
-      <div class="cta-container">
-        <div class="cta-pattern"></div>
-        <div class="relative z-10 space-y-8 text-center">
-          <h2 class="text-4xl md:text-6xl font-black tracking-tighter">
-            ¿Listo para dominar <span class="gradient-text">LaLiga?</span>
-          </h2>
-          <p class="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
-            Únete a miles de managers y descubre si tienes lo necesario para llegar a lo más alto.
-          </p>
-          <div class="cta-actions">
-            <button class="btn btn-primary btn-lg">
-              <span class="relative z-10">Crear mi equipo gratis</span>
-            </button>
+  <!--Seccion final cta-->
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="cta-container">
+          <div class="cta-pattern"></div>
+          <div class="relative z-10 space-y-8 text-center">
+            <h2 class="text-4xl md:text-6xl font-black tracking-tighter">
+              ¿Listo para dominar <span class="gradient-text">LaLiga?</span>
+            </h2>
+            <p class="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
+              Únete a miles de managers y descubre si tienes lo necesario para llegar a lo más alto.
+            </p>
+            <div class="cta-actions">
+              <button class="btn btn-primary btn-lg">
+                <span class="relative z-10">Crear mi equipo gratis</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</body>
