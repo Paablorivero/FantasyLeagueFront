@@ -8,6 +8,8 @@ import {Home} from './Pages/home/home';
 import {LigaClasificacion} from './Pages/liga-clasificacion/liga-clasificacion';
 import {LigaMercado} from './Pages/liga-mercado/liga-mercado';
 import {LigaPlantilla} from './Pages/liga-plantilla/liga-plantilla';
+import {Page404} from './Pages/page404/page404';
+import {UserSettings} from './Pages/user-settings/user-settings';
 
 export const routes: Routes = [
   {path: '', pathMatch: "full", redirectTo: 'daznfantasy'},
@@ -16,7 +18,7 @@ export const routes: Routes = [
   {path: 'daznfantasy/register',component: SignIn},
   {path: 'daznfantasy/news', component: LigaNoticias},
   {path: 'daznfantasy/leagues', component: SeleccionLigas},
-  {path: 'daznfantasy/user/:id'}, //aqui hay meter la de usersettings
+  {path: 'daznfantasy/user/:id', component: UserSettings},
   {path: 'daznfantasy/league/:id', component: Home, canActivate: [], children: [
       {path: 'clasificacion', component: LigaClasificacion},
       {path: 'mercado', component: LigaMercado},
@@ -24,6 +26,6 @@ export const routes: Routes = [
       {path: 'plantilla', component: LigaPlantilla},
     ]
   },
-  {path: 'page404'}, //pagina 404
-  {path: '**', redirectTo: 'page404'} //redirigir a 404
+  {path: 'page404', component: Page404},
+  {path: '**', redirectTo: 'page404'}
   ];

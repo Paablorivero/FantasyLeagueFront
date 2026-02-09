@@ -1,1 +1,38 @@
-<p>sign-in works!</p>
+<!-- Contenedor centrado con imagen de fondo -->
+<div class="min-h-screen flex items-center justify-center p-4 signin-background relative overflow-hidden">
+  <!-- Overlay con gradientes similares a landing page -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
+  
+  <!-- Tarjeta de formulario con estilo moderno -->
+  <div class="relative z-10 signin-card">
+    <!-- Logo destacado -->
+    <div class="signin-logo-container">
+      <img src="/images/LogoFNTS__1_-removebg-preview.png" alt="Logo" class="signin-logo" />
+    </div>
+
+    <!-- Formulario -->
+    <div class="signin-form">
+      <label class="signin-label">Usuario</label>
+      <input type="text" class="signin-input" placeholder="Nombre de usuario" />
+
+      <label class="signin-label">Email</label>
+      <input type="email" class="signin-input" placeholder="Email" />
+
+      <label class="signin-label">Contraseña</label>
+      <input type="password" class="signin-input" placeholder="Password" />
+
+      <label class="signin-label">Confirmar Contraseña</label>
+      <input type="password" class="signin-input" placeholder="Confirmar Password" />
+
+      <!-- Botones con estilo de landing page -->
+      <div class="signin-actions">
+        <button class="btn btn-primary">Crear cuenta</button>
+        <div class="signin-divider">
+          <span>O</span>
+        </div>
+        <button class="btn btn-secondary">Ya tengo cuenta</button>
+      </div>
+    </div>
+  </div>
+</div>

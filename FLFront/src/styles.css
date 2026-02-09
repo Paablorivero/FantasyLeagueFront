@@ -2,3 +2,46 @@
 
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Variables de color basadas en el logo FNTS */
+:root {
+  --fnts-yellow: #FFED00;
+  --fnts-yellow-bright: #FFFF00;
+  --fnts-yellow-dark: #FFD700;
+  --fnts-black: #000000;
+  --fnts-dark: #0a0a0a;
+}
+
+/* Estilos globales con paleta amarillo/negro */
+body {
+  background-color: var(--fnts-dark);
+  color: #ffffff;
+}
+
+/* Botones globales con estilo FNTS */
+.btn-primary {
+  background: linear-gradient(135deg, var(--fnts-yellow), var(--fnts-yellow-dark));
+  color: var(--fnts-black);
+  box-shadow: 0 4px 20px rgba(255, 237, 0, 0.4);
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 237, 0, 0.5);
+  background: linear-gradient(135deg, var(--fnts-yellow-bright), var(--fnts-yellow));
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--fnts-yellow);
+  border: 2px solid rgba(255, 237, 0, 0.5);
+  backdrop-filter: blur(10px);
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 237, 0, 0.1);
+  border-color: rgba(255, 237, 0, 0.8);
+  color: var(--fnts-yellow-bright);
+}
