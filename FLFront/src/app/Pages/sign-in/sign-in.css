@@ -1,13 +1,21 @@
-/* Fondo con imagen y filtros similares a landing page */
-.signin-background {
+/* CSS mínimo necesario */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evita scroll */
+  max-height: 80vh;
+  width: 100vw;
+}
+
+.login-background {
   background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #0a0a0a;
+  position: relative;
 }
 
-.signin-background::before {
+.login-background::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -18,164 +26,73 @@
   z-index: 0;
 }
 
-/* Tarjeta de signin con estilo moderno */
-.signin-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 237, 0, 0.2);
-  border-radius: 1.5rem;
-  padding: 3rem 2.5rem;
-  width: 100%;
-  max-width: 450px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-/* Contenedor del logo */
-.signin-logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2.5rem;
-  padding: 1.5rem 0;
-}
-
-.signin-logo {
+.login-logo {
   max-width: 200px;
   height: auto;
-  filter: drop-shadow(0 4px 20px rgba(255, 237, 0, 0.5));
   transition: transform 0.3s ease;
 }
 
-.signin-logo:hover {
+.login-logo:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 6px 30px rgba(255, 237, 0, 0.7));
 }
 
-/* Formulario */
-.signin-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.signin-label {
-  color: #FFED00;
-  font-size: 0.95rem;
+.login-label {
+  color: #FFED00 !important;
   font-weight: 700;
-  margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-size: 0.95rem;
 }
 
-.signin-input {
-  width: 100%;
-  padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 237, 0, 0.3);
-  border-radius: 0.75rem;
+.login-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff;
-  font-size: 1rem;
-  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
 
-.signin-input::placeholder {
+.login-input::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
 
-.signin-input:focus {
+.login-input:focus {
+  border-color: rgba(255, 237, 0, 0.5) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 0 3px rgba(255, 237, 0, 0.2) !important;
   outline: none;
-  border-color: rgba(255, 237, 0, 0.5);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 3px rgba(255, 237, 0, 0.2);
 }
 
-/* Botones con estilo de landing page */
-.signin-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.signin-actions .btn {
-  width: 100%;
-  padding: 1rem 2rem;
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.4s ease;
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Personalización de botones DaisyUI */
 .btn-primary {
   background: linear-gradient(135deg, #FFED00, #FFD700);
   color: #000000;
-  box-shadow: 0 4px 20px rgba(255, 237, 0, 0.4);
+  border: none;
   font-weight: 700;
+  box-shadow: 0 4px 20px rgba(255, 237, 0, 0.4);
 }
 
 .btn-primary:hover {
+  background: linear-gradient(135deg, #FFFF00, #FFED00);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(255, 237, 0, 0.5);
-  background: linear-gradient(135deg, #FFFF00, #FFED00);
 }
 
-.btn-secondary {
+.btn-outline.btn-warning {
   background: transparent;
   color: #FFED00;
   border: 2px solid rgba(255, 237, 0, 0.5);
   backdrop-filter: blur(10px);
-  box-shadow: none;
-  font-weight: 600;
 }
 
-.btn-secondary:hover {
+.btn-outline.btn-warning:hover {
   background: rgba(255, 237, 0, 0.1);
   border-color: rgba(255, 237, 0, 0.8);
   color: #FFFF00;
   transform: translateY(-3px);
 }
 
-/* Divisor */
-.signin-divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 0.5rem 0;
-}
-
-.signin-divider::before,
-.signin-divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid rgba(255, 237, 0, 0.3);
-}
-
-.signin-divider span {
-  padding: 0 1rem;
-  color: rgba(255, 237, 0, 0.6);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-/* Responsive */
 @media (max-width: 640px) {
-  .signin-card {
-    padding: 2rem 1.5rem;
-    margin: 1rem;
-  }
-
-  .signin-logo {
+  .login-logo {
     max-width: 150px;
-  }
-
-  .signin-actions .btn {
-    padding: 0.9rem 1.5rem;
   }
 }
