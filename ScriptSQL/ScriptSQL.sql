@@ -39,29 +39,27 @@ CREATE DATABASE fantasy_league
 		f_nacim date not null
 	);
 
+--Existia un campo participantes que iba a ser un contador para poder calcular las plazas libres que quedaban y saber si se 
+--llegaba a 20 pero se sustituye ese campo solo por una consulta con un count. Esto funciona por ser más sencillo, quitar complejidad
+--a la BD y porque se resuelve más fácil en lugar de tener que actualizar el campo cada vez que se crea un equipo en esa liga.
+		create table if not exists ligas(
+		liga_id uuid default gen_random_uuid() primary key,
+		nombre_liga varchar(50) not null,
+		usuario_id uuid not null references usuarios(usuario_id)
+	);
 
+--Al principio estaba mal pensado. Lo había planteado de tal forma que un equipo podía pertenecer a varias ligas. Como un equipo
+--solo puede pertenecer a una liga, lo lógico, es que el equipo creado lleve una FK que indique a que liga pertenece.
+
+--Visto esto hay que realizar una serie de cambio en el E/R y en el script SQL
 	create table if not exists equipos(
 		equipo_id uuid default gen_random_uuid() primary key,
 		nombre varchar(50) not null,
 		logo text,
-		usuario_id uuid not null references usuarios(usuario_id)
+		usuario_id uuid not null references usuarios(usuario_id),
+		liga_id uuid not null references ligas(liga_id)
 	);
 
-
-	create table if not exists ligas(
-		liga_id uuid default gen_random_uuid() primary key,
-		nombre_liga varchar(50) not null,
-		participantes integer default 1 not null,
-		usuario_id uuid not null references usuarios(usuario_id)
-	);
-
-	select * from ligas;
-
-	create table if not exists participantes_liga(
-		liga_id uuid not null references ligas(liga_id),
-		equipo_id uuid not null references equipos(equipo_id),
-		primary key(liga_id, equipo_id)
-	);
 
 	create table if not exists jugadores(
 		jugador_id integer primary key,
