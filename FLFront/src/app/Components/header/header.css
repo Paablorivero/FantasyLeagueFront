@@ -1,6 +1,4 @@
 .app-header {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 237, 0, 0.2);
   padding: 1rem 2rem;
   position: sticky;
@@ -90,3 +88,4 @@
     padding: 0.4rem 0.8rem;
   }
 }
+
