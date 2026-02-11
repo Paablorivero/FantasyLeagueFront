@@ -21,9 +21,9 @@ CREATE DATABASE fantasy_league
 	drop table if exists jornadas;
 	drop table if exists temporadas;
 	drop table if exists jugadores;
-	drop table if exists participantes_liga;
-	drop table if exists ligas;
+	
 	drop table if exists equipos;
+	drop table if exists ligas;
 	drop table if exists usuarios;
 
 -- Parece ser que para usar UUID y almacenar correctamente los pass necesito la extensión pgcrypto
@@ -76,13 +76,13 @@ CREATE DATABASE fantasy_league
 	select * from jugadores;
 
 	create table if not exists temporadas(
-		temporada_id integer primary key,
+		temporada_id serial primary key,
 		f_inicio date not null,
 		f_fin date not null
 	);
 
 	create table if not exists jornadas(
-		jornada_id integer primary key,
+		jornada_id serial primary key,
 		f_inicio date not null,
 		f_fin date not null,
 		temporada_id integer not null references temporadas(temporada_id)
@@ -99,3 +99,5 @@ CREATE DATABASE fantasy_league
 	select * from jugadores;
 
 	select * from usuarios;
+
+	select * from temporadas;
