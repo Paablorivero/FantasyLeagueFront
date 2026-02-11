@@ -1,37 +1,189 @@
 <!-- Contenedor centrado con imagen de fondo -->
-<div class="min-h-screen flex items-center justify-center p-4 signin-background relative overflow-hidden">
-  <!-- Overlay con gradientes similares a landing page -->
-  <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-  <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
-  
-  <!-- Tarjeta de formulario con estilo moderno -->
-  <div class="relative z-10 signin-card">
-    <!-- Logo destacado -->
-    <div class="signin-logo-container">
-      <img src="/images/LogoFNTS__1_-removebg-preview.png" alt="Logo" class="signin-logo" />
-    </div>
+<div class="hero min-h-screen login-background">
+  <!-- Overlays con gradientes -->
+  <div class="hero-overlay bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+  <div class="hero-overlay bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
 
-    <!-- Formulario -->
-    <div class="signin-form">
-      <label class="signin-label">Usuario</label>
-      <input type="text" class="signin-input" placeholder="Nombre de usuario" />
-
-      <label class="signin-label">Email</label>
-      <input type="email" class="signin-input" placeholder="Email" />
-
-      <label class="signin-label">Contraseña</label>
-      <input type="password" class="signin-input" placeholder="Password" />
-
-      <label class="signin-label">Confirmar Contraseña</label>
-      <input type="password" class="signin-input" placeholder="Confirmar Password" />
-
-      <!-- Botones con estilo de landing page -->
-      <div class="signin-actions">
-        <button class="btn btn-primary">Crear cuenta</button>
-        <div class="signin-divider">
-          <span>O</span>
+  <!-- Contenido centrado -->
+  <div class="hero-content flex-col w-full max-w-md p-4">
+    <!-- Tarjeta de login -->
+    <div class="card w-full bg-base-100/5 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <div class="card-body p-8">
+        <!-- Logo -->
+        <div class="flex justify-center mb-6">
+          <img src="/images/LogoFNTS__1_-removebg-preview.png" alt="Logo" class="login-logo" />
         </div>
-        <button class="btn btn-secondary">Ya tengo cuenta</button>
+
+        <!-- Título "Crear cuenta" -->
+        <h2 class="text-center text-2xl font-bold text-[#FFED00] uppercase tracking-wide mb-6">
+          Crear cuenta
+        </h2>
+
+        <!-- Formulario -->
+        <div class="form-control gap-4">
+          <div>
+            <div>
+              <label class="label">
+                <span class="label-text login-label">Usuario</span>
+              </label>
+              <input
+                type="usuario"
+                placeholder="usuario"
+                class="input input-bordered w-full login-input"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label class="label">
+                <span class="label-text login-label">Correo</span>
+              </label>
+              <input
+                type="email"
+                placeholder="Email"
+                class="input input-bordered w-full login-input"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label class="label">
+                <span class="label-text login-label">Contraseña</span>
+              </label>
+
+              <div class="relative">
+                <input
+                  [type]="passwordVisible ? 'text' : 'password'"
+                  placeholder="Contraseña"
+                  class="input input-bordered w-full login-input pr-12"
+                />
+
+                <button
+                  type="button"
+                  (click)="togglePassword()"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity"
+                  style="background: none; border: none; padding: 0"
+                >
+                  @if (!passwordVisible) {
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="white"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5
+  c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5
+  c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M3 3l18 18"
+                      />
+                    </svg>
+                  }
+                  @if (passwordVisible) {
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="white"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5
+  12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5
+  12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            <!-- Campo confirmar contraseña -->
+            <div class="mt-4">
+              <label class="label">
+                <span class="label-text login-label">Confirmar contraseña</span>
+              </label>
+
+              <div class="relative">
+                <input
+                  [type]="passwordVisible ? 'text' : 'password'"
+                  placeholder="Confirmar contraseña"
+                  class="input input-bordered w-full login-input pr-12"
+                />
+
+                <button
+                  type="button"
+                  (click)="togglePassword()"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 hover:opacity-80 transition-opacity"
+                  style="background: none; border: none; padding: 0"
+                >
+                  @if (!passwordVisible) {
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="white"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5
+  c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5
+  c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M3 3l18 18"
+                      />
+                    </svg>
+                  }
+                  @if (passwordVisible) {
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="white"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5
+  12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5
+  12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--Divisor de botones y formulario-->
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-center items-center w-full gap-2 mt-5">
+          <button class="btn btn-primary flex-1 max-w-[160px]">Entrar</button>
+          <div class="divider divider-horizontal text-warning/60 m-0">O</div>
+          <a
+            class="btn btn-outline btn-warning flex-1 max-w-[160px]"
+            [routerLink]="['/daznfantasy/login']"
+            >Ya tengo cuenta</a
+          >
+        </div>
       </div>
     </div>
   </div>
