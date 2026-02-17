@@ -10,16 +10,18 @@ import {LigaMercado} from './Pages/liga-mercado/liga-mercado';
 import {LigaPlantilla} from './Pages/liga-plantilla/liga-plantilla';
 import {Page404} from './Pages/page404/page404';
 import {UserSettings} from './Pages/user-settings/user-settings';
+import {DashboardLigas} from './Pages/dashboard-ligas/dashboard-ligas';
 
 export const routes: Routes = [
   {path: '', pathMatch: "full", redirectTo: 'daznfantasy'},
   {path: 'daznfantasy', component: LandinPage},
   {path: 'daznfantasy/login', component: LogIn},
   {path: 'daznfantasy/register',component: SignIn},
+  {path: 'daznfantasy/home', component: Home},
   {path: 'daznfantasy/news', component: LigaNoticias},
   {path: 'daznfantasy/leagues', component: SeleccionLigas},
   {path: 'daznfantasy/user/:id', component: UserSettings},
-  {path: 'daznfantasy/league/:id', component: Home, canActivate: [], children: [
+  {path: 'daznfantasy/league/:id', component: DashboardLigas, canActivate: [], children: [
       {path: 'clasificacion', component: LigaClasificacion},
       {path: 'mercado', component: LigaMercado},
       {path: 'noticias', component: LigaNoticias},
