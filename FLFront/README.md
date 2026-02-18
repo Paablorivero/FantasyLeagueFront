@@ -1,59 +1,75 @@
-# FLFront
+# FLFront - Interfaz de Liga Fantasy
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+FLFront es una aplicación web moderna para gestionar y participar en ligas de deportes fantasy. Desarrollada con Angular, Tailwind CSS y DaisyUI, ofrece una interfaz ágil e intuitiva para los aficionados al deporte.
 
-## Development server
+## Características
 
-To start a local development server, run:
+- **Página de Inicio (Landing Page)**: Información sobre la plataforma y cómo unirse.
+- **Autenticación de Usuarios**: Funcionalidades de inicio de sesión y registro.
+- **Panel de Control (Home)**: Vista general de las actividades y actualizaciones del usuario.
+- **Gestión de Ligas**: Explorar, unirse y ver diversas ligas deportivas.
+- **Paneles de Liga**:
+  - **Clasificación**: Seguimiento de tu posición en la liga.
+  - **Mercado**: Compra, venta y gestión de jugadores para tu equipo.
+  - **Noticias**: Mantente al día con las últimas novedades de los deportes y de la liga.
+  - **Plantilla**: Gestión de los jugadores y la alineación de tu equipo.
+- **Configuración de Usuario**: Personaliza tu perfil y preferencias de la aplicación.
+- **Gestión de Errores**: Páginas 404 personalizadas para una mejor experiencia de usuario.
 
-```bash
-ng serve
-```
+## Tecnologías Utilizadas
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Framework**: [Angular](https://angular.dev/) (v21.1.2)
+- **Estilos**: [Tailwind CSS](https://tailwindcss.com/) y [DaisyUI](https://daisyui.com/)
+- **Pruebas (Testing)**: [Vitest](https://vitest.dev/)
+- **Lenguaje**: TypeScript
 
-## Code scaffolding
+## Desarrollo
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Prerrequisitos
 
-```bash
-ng generate component component-name
-```
+- Node.js (v20+ recomendado)
+- npm (v10+ recomendado)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Instalación
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
+### Servidor de desarrollo
 
-For end-to-end (e2e) testing, run:
+Para iniciar un servidor de desarrollo local, ejecuta:
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente cada vez que modifiques algún archivo fuente.
 
-## Additional Resources
+### Compilación (Build)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para compilar el proyecto para producción:
+
+```bash
+npm run build
+```
+
+Los archivos resultantes se guardarán en el directorio `dist/`.
+
+### Ejecutar Pruebas
+
+Para ejecutar las pruebas unitarias con Vitest:
+
+```bash
+npm test
+```
+
+## Estructura del Proyecto
+
+- `src/app/Pages`: Contiene los componentes principales de las vistas (Inicio, Liga, Mercado, etc.).
+- `src/app/Components`: Componentes de UI reutilizables (Barra de navegación, Pie de página, etc.).
+- `public/`: Recursos estáticos (imágenes, iconos, etc.).
+
+---
+
+*Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) versión 21.1.2.*
