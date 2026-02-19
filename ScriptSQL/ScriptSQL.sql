@@ -36,7 +36,9 @@ CREATE DATABASE fantasy_league
 		username varchar(50) not null unique,
 		email varchar(100) not null unique,
 		--Hay que dejar sitio al password. Usa pgcrypto, pero hay que mirar como se inserta y se valida desde el front.
-		f_nacim date not null
+		f_nacim date not null,
+		constraint check_f_nacim_pasado
+			check (f_nacim <= current_date)
 	);
 
 --Existia un campo participantes que iba a ser un contador para poder calcular las plazas libres que quedaban y saber si se 
@@ -57,7 +59,8 @@ CREATE DATABASE fantasy_league
 		nombre varchar(50) not null,
 		logo text,
 		usuario_id uuid not null references usuarios(usuario_id),
-		liga_id uuid not null references ligas(liga_id)
+		liga_id uuid not null references ligas(liga_id),
+		constraint unique_usuario_liga unique(usuario_id, liga_id)
 	);
 
 
@@ -70,7 +73,9 @@ CREATE DATABASE fantasy_league
 		nacionalidad varchar(50) not null,
 		lesionado boolean default FALSE,
 		foto text not null,
-		equipo_profesional_id integer not null
+		equipo_profesional_id integer not null,
+		constraint check_edad_positiva
+			check (edad > 0)
 	);
 
 	select * from jugadores;
@@ -78,14 +83,18 @@ CREATE DATABASE fantasy_league
 	create table if not exists temporadas(
 		temporada_id serial primary key,
 		f_inicio date not null,
-		f_fin date not null
+		f_fin date not null,
+		constraint check_fechas_validate
+			check (f_fin > f_inicio)
 	);
 
 	create table if not exists jornadas(
 		jornada_id serial primary key,
 		f_inicio date not null,
 		f_fin date not null,
-		temporada_id integer not null references temporadas(temporada_id)
+		temporada_id integer not null references temporadas(temporada_id),
+		constraint check_fechas_jornada
+			check (f_fin > f_inicio)
 	);
 
 	create table if not exists alineaciones(
@@ -93,7 +102,9 @@ CREATE DATABASE fantasy_league
 		jugador_id integer not null references jugadores(jugador_id),
 		jornada_id integer not null references jornadas(jornada_id),
 		puntuacion integer not null,
-		primary key (equipo_id,jugador_id, jornada_id)
+		primary key (equipo_id,jugador_id, jornada_id),
+		constraint check_puntuacion_notlesszero
+			check(puntuacion >= 0)
 	);
 
 	select * from jugadores;
