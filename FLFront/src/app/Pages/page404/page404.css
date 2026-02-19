@@ -1,1 +1,49 @@
-/* Estilos para la página 404 */
+/* Grid de fondo */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* Glow amarillo */
+.center-glow {
+  position: fixed;
+  width: 500px; height: 300px;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(255,237,0,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Logo watermark de fondo */
+.logo-bg {
+  position: fixed;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  opacity: 0.03;
+  pointer-events: none;
+  filter: blur(1px);
+}
+.logo-bg img {
+  width: 100%;
+}
+
+.btn{
+  background-color: #FFED00;
+  border-color: #FFED00;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up   { animation: fadeUp 0.6s ease both; }
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.18s; }
+.fade-up-3 { animation-delay: 0.30s; }

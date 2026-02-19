@@ -1,1 +1,52 @@
-/* Estilos para la configuración de usuario */
+/*Gradient text*/
+.gradient-text {
+  background: linear-gradient(135deg, #FFED00 0%, #FFFF00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/*Cards*/
+.nav-card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(23, 23, 23, 0.6);
+  transition: all 0.5s ease;
+}
+
+/*Badge Próximamente*/
+.dazn-badge-yellow {
+  background: rgba(255, 237, 0, 0.1);
+  border: 1px solid rgba(255, 237, 0, 0.3);
+  backdrop-filter: blur(20px);
+}
+
+.dazn-pulse {
+  animation: pulse-yellow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/*Inputs focus*/
+input:focus {
+  border-color: #FFED00 !important;
+  box-shadow: 0 0 0 2px rgba(255, 237, 0, 0.08) !important;
+  outline: none !important;
+}
+
+/*Animations*/
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up   { animation: fadeUp 0.65s ease both; }
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.2s;  }
+.fade-up-3 { animation-delay: 0.32s; }
+.fade-up-4 { animation-delay: 0.42s; }
+.fade-up-5 { animation-delay: 0.50s; }
