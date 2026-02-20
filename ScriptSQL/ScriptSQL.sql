@@ -18,6 +18,7 @@ CREATE DATABASE fantasy_league
 	create user usuario_prueba  with password 'test' superuser;
 
 	drop table if exists alineaciones;
+	drop table if exists plantillas;
 	drop table if exists jornadas;
 	drop table if exists temporadas;
 	drop table if exists jugadores;
@@ -35,7 +36,8 @@ CREATE DATABASE fantasy_league
 		usuario_id uuid default gen_random_uuid() primary key,
 		username varchar(50) not null unique,
 		email varchar(100) not null unique,
-		--Hay que dejar sitio al password. Usa pgcrypto, pero hay que mirar como se inserta y se valida desde el front.
+		password_hash text not null,
+		rol text not null default 'user',
 		f_nacim date not null,
 		constraint check_f_nacim_pasado
 			check (f_nacim <= current_date)
@@ -60,6 +62,8 @@ CREATE DATABASE fantasy_league
 		logo text,
 		usuario_id uuid not null references usuarios(usuario_id),
 		liga_id uuid not null references ligas(liga_id),
+		presupuesto integer not null default 100000000,
+		constraint check_presupuesto_positivo check (presupuesto > 0),
 		constraint unique_usuario_liga unique(usuario_id, liga_id)
 	);
 
@@ -74,6 +78,8 @@ CREATE DATABASE fantasy_league
 		lesionado boolean default FALSE,
 		foto text not null,
 		equipo_profesional_id integer not null,
+		valor integer not null default 1000000,
+		constraint check_valor_positivo check (valor > 0),
 		constraint check_edad_positiva
 			check (edad > 0)
 	);
@@ -95,6 +101,19 @@ CREATE DATABASE fantasy_league
 		temporada_id integer not null references temporadas(temporada_id),
 		constraint check_fechas_jornada
 			check (f_fin > f_inicio)
+	);
+
+	create table if not exists plantillas(
+		plantilla_id serial primary key,
+		liga_id uuid not null references ligas(liga_id),
+		equipo_uuid uuid not null references equipos(equipo_id),
+		jugador_pro integer not null references jugadores(jugador_id),
+		jornada_inicio integer not null references jornadas(jornada_id),
+		precio_compra integer not null,
+		precio_venta integer,
+		jornada_fin integer references jornadas(jornada_id),
+		constraint check_precio_compra check ((precio_compra >=0) and (precio_venta is null or precio_venta >=0)),
+		constraint check_jornada_fin check (jornada_fin is null or jornada_fin > jornada_inicio)
 	);
 
 	create table if not exists alineaciones(
