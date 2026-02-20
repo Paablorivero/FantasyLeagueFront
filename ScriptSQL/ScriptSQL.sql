@@ -6,26 +6,26 @@ CREATE DATABASE fantasy_league
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'Spanish_Spain.1252'
-    LC_CTYPE = 'Spanish_Spain.1252'
+    LC_COLLATE = 'es_ES.UTF8'
+    LC_CTYPE = 'es_ES.UTF8'
     LOCALE_PROVIDER = 'libc'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
 --Creamos un usuario que es el que vamos a usar por ahora y le damos todos los privilegios para poder trabajar y hacer pruebas
-	create user usuario_prueba  with password 'test';
+	drop user usuario_prueba;
+	create user usuario_prueba  with password 'test' superuser;
 
-	grant all privileges on fantasy_league to usuario_prueba;
-
-	drop table if exists usuarios;
+	drop table if exists alineaciones;
+	drop table if exists plantillas;
+	drop table if exists jornadas;
+	drop table if exists temporadas;
+	drop table if exists jugadores;
+	
 	drop table if exists equipos;
 	drop table if exists ligas;
-	drop table if exists participantes_liga;
-	drop table if exists jugadores;
-	drop table if exists temporadas;
-	drop table if exists jornadas;
-	drop table if exists alineaciones;
+	drop table if exists usuarios;
 
 -- Parece ser que para usar UUID y almacenar correctamente los pass necesito la extensión pgcrypto
 
@@ -36,33 +36,37 @@ CREATE DATABASE fantasy_league
 		usuario_id uuid default gen_random_uuid() primary key,
 		username varchar(50) not null unique,
 		email varchar(100) not null unique,
-		--Hay que dejar sitio al password. Usa pgcrypto, pero hay que mirar como se inserta y se valida desde el front.
-		f_nacim date not null
+		password_hash text not null,
+		rol text not null default 'user',
+		f_nacim date not null,
+		constraint check_f_nacim_pasado
+			check (f_nacim <= current_date)
 	);
 
+--Existia un campo participantes que iba a ser un contador para poder calcular las plazas libres que quedaban y saber si se 
+--llegaba a 20 pero se sustituye ese campo solo por una consulta con un count. Esto funciona por ser más sencillo, quitar complejidad
+--a la BD y porque se resuelve más fácil en lugar de tener que actualizar el campo cada vez que se crea un equipo en esa liga.
+		create table if not exists ligas(
+		liga_id uuid default gen_random_uuid() primary key,
+		nombre_liga varchar(50) not null,
+		usuario_id uuid not null references usuarios(usuario_id)
+	);
 
+--Al principio estaba mal pensado. Lo había planteado de tal forma que un equipo podía pertenecer a varias ligas. Como un equipo
+--solo puede pertenecer a una liga, lo lógico, es que el equipo creado lleve una FK que indique a que liga pertenece.
+
+--Visto esto hay que realizar una serie de cambio en el E/R y en el script SQL
 	create table if not exists equipos(
 		equipo_id uuid default gen_random_uuid() primary key,
 		nombre varchar(50) not null,
 		logo text,
-		usuario_id uuid not null references usuarios(usuario_id)
-	);
-
-
-	create table if not exists ligas(
-		liga_id uuid default gen_random_uuid() primary key,
-		nombre_liga varchar(50) not null,
-		participantes integer default 1 not null,
-		usuario_id uuid not null references usuarios(usuario_id)
-	);
-
-	select * from ligas;
-
-	create table if not exists participantes_liga(
+		usuario_id uuid not null references usuarios(usuario_id),
 		liga_id uuid not null references ligas(liga_id),
-		equipo_id uuid not null references equipos(equipo_id),
-		primary key(liga_id, equipo_id)
+		presupuesto integer not null default 100000000,
+		constraint check_presupuesto_positivo check (presupuesto > 0),
+		constraint unique_usuario_liga unique(usuario_id, liga_id)
 	);
+
 
 	create table if not exists jugadores(
 		jugador_id integer primary key,
@@ -73,22 +77,43 @@ CREATE DATABASE fantasy_league
 		nacionalidad varchar(50) not null,
 		lesionado boolean default FALSE,
 		foto text not null,
-		equipo_profesional_id integer not null
+		equipo_profesional_id integer not null,
+		valor integer not null default 1000000,
+		constraint check_valor_positivo check (valor > 0),
+		constraint check_edad_positiva
+			check (edad > 0)
 	);
 
 	select * from jugadores;
 
 	create table if not exists temporadas(
-		temporada_id integer primary key,
+		temporada_id serial primary key,
 		f_inicio date not null,
-		f_fin date not null
+		f_fin date not null,
+		constraint check_fechas_validate
+			check (f_fin > f_inicio)
 	);
 
 	create table if not exists jornadas(
-		jornada_id integer primary key,
+		jornada_id serial primary key,
 		f_inicio date not null,
 		f_fin date not null,
-		temporada_id integer not null references temporadas(temporada_id)
+		temporada_id integer not null references temporadas(temporada_id),
+		constraint check_fechas_jornada
+			check (f_fin > f_inicio)
+	);
+
+	create table if not exists plantillas(
+		plantilla_id serial primary key,
+		liga_id uuid not null references ligas(liga_id),
+		equipo_uuid uuid not null references equipos(equipo_id),
+		jugador_pro integer not null references jugadores(jugador_id),
+		jornada_inicio integer not null references jornadas(jornada_id),
+		precio_compra integer not null,
+		precio_venta integer,
+		jornada_fin integer references jornadas(jornada_id),
+		constraint check_precio_compra check ((precio_compra >=0) and (precio_venta is null or precio_venta >=0)),
+		constraint check_jornada_fin check (jornada_fin is null or jornada_fin > jornada_inicio)
 	);
 
 	create table if not exists alineaciones(
@@ -96,5 +121,13 @@ CREATE DATABASE fantasy_league
 		jugador_id integer not null references jugadores(jugador_id),
 		jornada_id integer not null references jornadas(jornada_id),
 		puntuacion integer not null,
-		primary key (equipo_id,jugador_id, jornada_id)
+		primary key (equipo_id,jugador_id, jornada_id),
+		constraint check_puntuacion_notlesszero
+			check(puntuacion >= 0)
 	);
+
+	select * from jugadores;
+
+	select * from usuarios;
+
+	select * from temporadas;
