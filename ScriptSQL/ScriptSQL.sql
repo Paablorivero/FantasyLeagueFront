@@ -22,7 +22,7 @@ CREATE DATABASE fantasy_league
 	drop table if exists jornadas;
 	drop table if exists temporadas;
 	drop table if exists jugadores;
-	
+	drop table if exists equipos_profesionales
 	drop table if exists equipos;
 	drop table if exists ligas;
 	drop table if exists usuarios;
@@ -67,21 +67,27 @@ CREATE DATABASE fantasy_league
 		constraint unique_usuario_liga unique(usuario_id, liga_id)
 	);
 
+	CREATE TABLE IF NOT EXISTS equipos_profesionales (
+    	equipo_id INTEGER PRIMARY KEY,
+    	nombre VARCHAR(80) NOT NULL,
+    	logo TEXT NOT NULL
+	);
+
 
 	create table if not exists jugadores(
 		jugador_id integer primary key,
 		nombre varchar(50) not null,
 		first_name varchar(50) not null,
 		last_name varchar(50) not null,
-		edad integer not null,
+		fecha_nacimiento date null,
 		nacionalidad varchar(50) not null,
 		lesionado boolean default FALSE,
 		foto text not null,
-		equipo_profesional_id integer not null,
+		equipo_profesional_id integer not null references equipos_profesionales(equipo_id),
+		posicion text null,
 		valor integer not null default 1000000,
 		constraint check_valor_positivo check (valor > 0),
-		constraint check_edad_positiva
-			check (edad > 0)
+		constraint check_posicion check ( posicion in ('Goalkeeper', 'Defender', 'Midfielder', 'Attacker'))
 	);
 
 	select * from jugadores;
@@ -131,3 +137,15 @@ CREATE DATABASE fantasy_league
 	select * from usuarios;
 
 	select * from temporadas;
+
+	select distinct posicion from jugadores;
+
+	select * from equipos_profesionales;
+
+	SELECT COUNT(*)
+FROM jugadores
+WHERE fecha_nacimiento IS NULL;
+
+SELECT COUNT(*)
+FROM jugadores
+WHERE equipo_profesional_id IS NULL;
