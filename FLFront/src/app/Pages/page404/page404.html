@@ -1,7 +1,26 @@
-<div class="min-h-screen flex items-center justify-center">
-  <div class="text-center">
-    <h1 class="text-6xl font-bold mb-4">404</h1>
-    <p class="text-xl mb-8">Página no encontrada</p>
-    <a routerLink="/daznfantasy" class="btn btn-primary">Volver al inicio</a>
+<body class="bg-base-100 text-base-content min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="grid-bg"></div>
+  <div class="center-glow"></div>
+  <!--Logo marca de agua-->
+  <div class="logo-bg">
+    <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="Logo Dazn Fantasy">
   </div>
-</div>
+  <!--Contenido-->
+  <main class="relative z-10 flex flex-col items-center text-center px-6">
+    <div class="mb-10 fade-up fade-up-1">
+      <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="Logo Dazn Fantasy"  class="w-40">
+    </div>
+    <!--404 y mensaje-->
+    <div class="flex items-center gap-6 mb-8 fade-up fade-up-2">
+      <span class="text-5xl font-bold text-base-content tracking-tight">404</span>
+      <div class="w-px h-16 bg-base-content/10 flex-shrink-0"></div>
+      <span class="text-base text-base-content/40 text-left leading-snug max-w-[200px]">Esta página no existe o ha sido movida.</span>
+    </div>
+    <!--Boton de regreso-->
+    <div class="flex items-center gap-3 fade-up fade-up-3">
+      <button class="btn btn-sm font-semibold text-black">
+        <span class="relative z-10" routerLink="/daznfantasy">Volver</span>
+      </button>
+    </div>
+  </main>
+</body>

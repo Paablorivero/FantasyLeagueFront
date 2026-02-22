@@ -20,7 +20,7 @@ export const routes: Routes = [
   {path: 'daznfantasy/home', component: Home},
   {path: 'daznfantasy/news', component: LigaNoticias},
   {path: 'daznfantasy/leagues', component: SeleccionLigas},
-  {path: 'daznfantasy/user/:id', component: UserSettings},
+  {path: 'daznfantasy/user', component: UserSettings},
   {path: 'daznfantasy/league/:id', component: DashboardLigas, canActivate: [], children: [
       {path: 'clasificacion', component: LigaClasificacion},
       {path: 'mercado', component: LigaMercado},
