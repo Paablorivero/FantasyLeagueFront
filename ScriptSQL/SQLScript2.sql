@@ -22,7 +22,7 @@ CREATE DATABASE fantasy_league
 	drop table if exists jornadas;
 	drop table if exists temporadas;
 	drop table if exists jugadores;
-	drop table if exists equipos_profesionales
+	
 	drop table if exists equipos;
 	drop table if exists ligas;
 	drop table if exists usuarios;
@@ -63,14 +63,8 @@ CREATE DATABASE fantasy_league
 		usuario_id uuid not null references usuarios(usuario_id),
 		liga_id uuid not null references ligas(liga_id),
 		presupuesto integer not null default 100000000,
-		constraint check_presupuesto_positivo check (presupuesto >= 0),
+		constraint check_presupuesto_positivo check (presupuesto > 0),
 		constraint unique_usuario_liga unique(usuario_id, liga_id)
-	);
-
-	CREATE TABLE IF NOT EXISTS equipos_profesionales (
-    	equipo_id INTEGER PRIMARY KEY,
-    	nombre VARCHAR(80) NOT NULL,
-    	logo TEXT NOT NULL
 	);
 
 
@@ -80,14 +74,15 @@ CREATE DATABASE fantasy_league
 		first_name varchar(50) not null,
 		last_name varchar(50) not null,
 		fecha_nacimiento date null,
+		edad integer generated always as (date_part('year', age(current_date, fecha_nacimiento))) stored,
 		nacionalidad varchar(50) not null,
 		lesionado boolean default FALSE,
 		foto text not null,
-		equipo_profesional_id integer not null references equipos_profesionales(equipo_id),
+		equipo_profesional_id integer not null,
 		posicion text null,
 		valor integer not null default 1000000,
 		constraint check_valor_positivo check (valor > 0),
-		constraint check_posicion check ( posicion in ('Goalkeeper', 'Defender', 'Midfielder', 'Attacker'))
+		constraint check_posicion check ( pos)
 	);
 
 	select * from jugadores;
@@ -111,14 +106,13 @@ CREATE DATABASE fantasy_league
 
 	create table if not exists plantillas(
 		plantilla_id serial primary key,
+		liga_id uuid not null references ligas(liga_id),
 		equipo_uuid uuid not null references equipos(equipo_id),
-		liga_uuid uuid not null references ligas(liga_id),
 		jugador_pro integer not null references jugadores(jugador_id),
 		jornada_inicio integer not null references jornadas(jornada_id),
 		precio_compra integer not null,
 		precio_venta integer,
 		jornada_fin integer references jornadas(jornada_id),
-		constraint unique_jugador_por_liga unique (liga_id, jugador_pro) where jornada_fin is null,
 		constraint check_precio_compra check ((precio_compra >=0) and (precio_venta is null or precio_venta >=0)),
 		constraint check_jornada_fin check (jornada_fin is null or jornada_fin > jornada_inicio)
 	);
@@ -133,40 +127,8 @@ CREATE DATABASE fantasy_league
 			check(puntuacion >= 0)
 	);
 
-
-
-
-
-
-
-
-
-
-
-	---- Todo esto a partir de aquí son lineas que uso como comprobaciones pero que eliminaré cuando crea que el script ya está en un estado definitivo.
-
 	select * from jugadores;
 
 	select * from usuarios;
 
 	select * from temporadas;
-
-	select distinct posicion from jugadores;
-
-	select * from equipos_profesionales;
-
-	SELECT COUNT(*)
-FROM jugadores
-WHERE fecha_nacimiento IS NULL;
-
-SELECT COUNT(*)
-FROM jugadores
-WHERE equipo_profesional_id IS NULL;
-
-select * from ligas;
-
-select * from equipos;
-
-select u.username, e.nombre, l.nombre_liga from usuarios u
-join equipos e on u.usuario_id = e.usuario_id
-join ligas l on l.liga_id = e.liga_id;
