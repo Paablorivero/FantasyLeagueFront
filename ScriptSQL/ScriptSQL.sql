@@ -22,7 +22,7 @@ CREATE DATABASE fantasy_league
 	drop table if exists jornadas;
 	drop table if exists temporadas;
 	drop table if exists jugadores;
-	drop table if exists equipos_profesionales
+	drop table if exists equipos_profesionales;
 	drop table if exists equipos;
 	drop table if exists ligas;
 	drop table if exists usuarios;
@@ -112,16 +112,17 @@ CREATE DATABASE fantasy_league
 	create table if not exists plantillas(
 		plantilla_id serial primary key,
 		equipo_uuid uuid not null references equipos(equipo_id),
-		liga_uuid uuid not null references ligas(liga_id),
+		liga_id uuid not null references ligas(liga_id),
 		jugador_pro integer not null references jugadores(jugador_id),
 		jornada_inicio integer not null references jornadas(jornada_id),
 		precio_compra integer not null,
 		precio_venta integer,
 		jornada_fin integer references jornadas(jornada_id),
-		constraint unique_jugador_por_liga unique (liga_id, jugador_pro) where jornada_fin is null,
 		constraint check_precio_compra check ((precio_compra >=0) and (precio_venta is null or precio_venta >=0)),
 		constraint check_jornada_fin check (jornada_fin is null or jornada_fin > jornada_inicio)
 	);
+
+	create unique index unique_jugador_por_liga on plantillas (liga_id, jugador_pro) where jornada_fin is null;
 
 	create table if not exists alineaciones(
 		equipo_id uuid not null references equipos(equipo_id),
@@ -232,7 +233,9 @@ END;
 $$;
 
 
+insert into temporadas (f_inicio, f_fin) values ('2025-08-16','2026-06-15');
 
+insert into jornadas (f_inicio, f_fin, temporada_id) values ('2025-08-16','2025-08-18',1); 
 
 
 
@@ -264,3 +267,8 @@ select * from equipos;
 select u.username, e.nombre, l.nombre_liga from usuarios u
 join equipos e on u.usuario_id = e.usuario_id
 join ligas l on l.liga_id = e.liga_id;
+
+select j.nombre, j.fecha_nacimiento, j.valor, j.posicion from plantillas p
+join equipos e on e.equipo_id = p.equipo_uuid
+join jugadores j on j.jugador_id = p.jugador_pro
+where e.equipo_id = '19b29d7f-ea1b-481c-ac52-9f1a7faef2f3';
