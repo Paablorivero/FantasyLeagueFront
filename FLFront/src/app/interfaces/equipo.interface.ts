@@ -1,4 +1,3 @@
-
 export interface EquipoInterface {
   equipoId: string;
   nombre: string;

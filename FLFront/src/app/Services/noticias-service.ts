@@ -22,6 +22,9 @@ export class NoticiasService {
       apiKey: this.apiKey,
     };
 
+    if (from) params['from'] = from;
+    if (to) params['to'] = to;
+
     return this.httpClient.get<ApiNoticias>(this.baseUrl, { params });
   }
 }

@@ -1,4 +1,3 @@
-
 export interface JugadorInterface {
   jugadorId: number;
   nombre: string;
