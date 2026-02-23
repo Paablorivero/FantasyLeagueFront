@@ -131,6 +131,15 @@ export class LigaNoticias implements OnInit {
       .replace(/\.net$/i, '')
       .replace(/\.co$/i, '')
       .replace(/\.info$/i, '')
+      .replace(/\.com.uy$/i, '')
+      .replace(/\.com.mx$/i, '')
+      .replace(/\.com.ar$/i, '')
+      .replace(/\.com.br$/i, '')
+      .replace(/\.com.cl$/i, '')
+      .replace(/\.com.co$/i, '')
+      .replace(/\.com.pe$/i, '')
+      .replace(/\.com.ve$/i, '')
+      .replace(/\.com.py$/i, '')
       .trim();
   }
 }
