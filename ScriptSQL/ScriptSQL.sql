@@ -134,8 +134,102 @@ CREATE DATABASE fantasy_league
 	);
 
 
+--Defino una función que va a ser la que realiza el sorteo de jugadores para una plantilla cuando se registra un equipo, ya sea al crear ligas o al unirse creando equipos
 
+--Esto, en esencia es igual a algunas funciones del año pasado, aunque postgre añade sus propias cosas. Lo que hago es mandarle los parametros p que yo quiero, el número de jugadores
+--de un tipo que yo quiero (cantidad) y en la jornada, siempre voy a mandar por ahora 1, ya que se supone que es el sorteo de inicio de temporada.
+CREATE OR REPLACE FUNCTION sortear_jugadores_posicion(
+    p_liga_id uuid,
+    p_equipo_id uuid,
+    p_posicion text,
+    p_cantidad integer,
+    p_jornada integer
+)
+RETURNS integer
+LANGUAGE plpgsql
+AS $$
+DECLARE
+	--Aqui se define total_coste, para que calcule el total del precio de los jugadores, los sume y luego lo reste del presupuesto del equipo.
+    total_coste integer;
+BEGIN
 
+    WITH seleccion AS (
+        SELECT j.jugador_id, j.valor
+        FROM jugadores j
+        WHERE j.posicion = p_posicion
+        AND j.jugador_id NOT IN (
+            SELECT jugador_pro
+            FROM plantillas
+            WHERE liga_id = p_liga_id
+            AND jornada_fin IS NULL
+        )
+        ORDER BY RANDOM()
+        LIMIT p_cantidad
+    ),
+    insertados AS (
+        INSERT INTO plantillas (
+            liga_id,
+            equipo_uuid,
+            jugador_pro,
+            jornada_inicio,
+            precio_compra
+        )
+        SELECT
+            p_liga_id,
+            p_equipo_id,
+            jugador_id,
+            p_jornada,
+            valor
+        FROM seleccion
+        RETURNING precio_compra
+    )
+    SELECT COALESCE(SUM(precio_compra),0)
+    INTO total_coste
+    FROM insertados;
+
+    UPDATE equipos
+    SET presupuesto = presupuesto - total_coste
+    WHERE equipo_id = p_equipo_id;
+
+    RETURN total_coste;
+
+END;
+$$;
+
+--Para poder usar bien la función anterior debo de llamarla con diferentes parámetro, para las diferentes posiciones.
+
+CREATE OR REPLACE FUNCTION sorteo_inicial_equipo(
+    p_liga_id uuid,
+    p_equipo_id uuid,
+    p_jornada integer
+)
+RETURNS void
+LANGUAGE plpgsql
+AS $$
+BEGIN
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Goalkeeper', 2, p_jornada
+    );
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Defender', 5, p_jornada
+    );
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Midfielder', 4, p_jornada
+    );
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Attacker', 3, p_jornada
+    );
+
+END;
+$$;
 
 
 
