@@ -22,7 +22,7 @@ CREATE DATABASE fantasy_league
 	drop table if exists jornadas;
 	drop table if exists temporadas;
 	drop table if exists jugadores;
-	drop table if exists equipos_profesionales
+	drop table if exists equipos_profesionales;
 	drop table if exists equipos;
 	drop table if exists ligas;
 	drop table if exists usuarios;
@@ -112,16 +112,17 @@ CREATE DATABASE fantasy_league
 	create table if not exists plantillas(
 		plantilla_id serial primary key,
 		equipo_uuid uuid not null references equipos(equipo_id),
-		liga_uuid uuid not null references ligas(liga_id),
+		liga_id uuid not null references ligas(liga_id),
 		jugador_pro integer not null references jugadores(jugador_id),
 		jornada_inicio integer not null references jornadas(jornada_id),
 		precio_compra integer not null,
 		precio_venta integer,
 		jornada_fin integer references jornadas(jornada_id),
-		constraint unique_jugador_por_liga unique (liga_id, jugador_pro) where jornada_fin is null,
 		constraint check_precio_compra check ((precio_compra >=0) and (precio_venta is null or precio_venta >=0)),
 		constraint check_jornada_fin check (jornada_fin is null or jornada_fin > jornada_inicio)
 	);
+
+	create unique index unique_jugador_por_liga on plantillas (liga_id, jugador_pro) where jornada_fin is null;
 
 	create table if not exists alineaciones(
 		equipo_id uuid not null references equipos(equipo_id),
@@ -134,11 +135,107 @@ CREATE DATABASE fantasy_league
 	);
 
 
+--Defino una función que va a ser la que realiza el sorteo de jugadores para una plantilla cuando se registra un equipo, ya sea al crear ligas o al unirse creando equipos
+
+--Esto, en esencia es igual a algunas funciones del año pasado, aunque postgre añade sus propias cosas. Lo que hago es mandarle los parametros p que yo quiero, el número de jugadores
+--de un tipo que yo quiero (cantidad) y en la jornada, siempre voy a mandar por ahora 1, ya que se supone que es el sorteo de inicio de temporada.
+CREATE OR REPLACE FUNCTION sortear_jugadores_posicion(
+    p_liga_id uuid,
+    p_equipo_id uuid,
+    p_posicion text,
+    p_cantidad integer,
+    p_jornada integer
+)
+RETURNS integer
+LANGUAGE plpgsql
+AS $$
+DECLARE
+	--Aqui se define total_coste, para que calcule el total del precio de los jugadores, los sume y luego lo reste del presupuesto del equipo.
+    total_coste integer;
+BEGIN
+
+    WITH seleccion AS (
+        SELECT j.jugador_id, j.valor
+        FROM jugadores j
+        WHERE j.posicion = p_posicion
+        AND j.jugador_id NOT IN (
+            SELECT jugador_pro
+            FROM plantillas
+            WHERE liga_id = p_liga_id
+            AND jornada_fin IS NULL
+        )
+        ORDER BY RANDOM()
+        LIMIT p_cantidad
+    ),
+    insertados AS (
+        INSERT INTO plantillas (
+            liga_id,
+            equipo_uuid,
+            jugador_pro,
+            jornada_inicio,
+            precio_compra
+        )
+        SELECT
+            p_liga_id,
+            p_equipo_id,
+            jugador_id,
+            p_jornada,
+            valor
+        FROM seleccion
+        RETURNING precio_compra
+    )
+    SELECT COALESCE(SUM(precio_compra),0)
+    INTO total_coste
+    FROM insertados;
+
+    UPDATE equipos
+    SET presupuesto = presupuesto - total_coste
+    WHERE equipo_id = p_equipo_id;
+
+    RETURN total_coste;
+
+END;
+$$;
+
+--Para poder usar bien la función anterior debo de llamarla con diferentes parámetro, para las diferentes posiciones.
+
+CREATE OR REPLACE FUNCTION sorteo_inicial_equipo(
+    p_liga_id uuid,
+    p_equipo_id uuid,
+    p_jornada integer
+)
+RETURNS void
+LANGUAGE plpgsql
+AS $$
+BEGIN
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Goalkeeper', 2, p_jornada
+    );
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Defender', 5, p_jornada
+    );
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Midfielder', 4, p_jornada
+    );
+
+    PERFORM sortear_jugadores_posicion(
+        p_liga_id, p_equipo_id,
+        'Attacker', 3, p_jornada
+    );
+
+END;
+$$;
 
 
+insert into temporadas (f_inicio, f_fin) values ('2025-08-16','2026-06-15');
 
-
-
+insert into jornadas (f_inicio, f_fin, temporada_id) values ('2025-08-16','2025-08-18',1); 
 
 
 
@@ -170,3 +267,8 @@ select * from equipos;
 select u.username, e.nombre, l.nombre_liga from usuarios u
 join equipos e on u.usuario_id = e.usuario_id
 join ligas l on l.liga_id = e.liga_id;
+
+select j.nombre, j.fecha_nacimiento, j.valor, j.posicion from plantillas p
+join equipos e on e.equipo_id = p.equipo_uuid
+join jugadores j on j.jugador_id = p.jugador_pro
+where e.equipo_id = '19b29d7f-ea1b-481c-ac52-9f1a7faef2f3';
