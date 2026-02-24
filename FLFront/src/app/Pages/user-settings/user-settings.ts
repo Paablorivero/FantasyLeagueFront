@@ -31,7 +31,6 @@ export class UserSettings implements OnInit {
 
     this.profileForm = new FormGroup({
       username:  new FormControl(null, [Validators.required, Validators.minLength(3)]),
-      fullName:  new FormControl(null, [Validators.required]),
       email:     new FormControl(null, [Validators.required, Validators.email]),
       birthDate: new FormControl(null, []),
     });
