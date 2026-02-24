@@ -83,7 +83,7 @@
     </div>
   </div>
 
-  <!--Seguridad-->
+  <!--Seguridad – Próximamente-->
   <div class="nav-card fade-up fade-up-2">
 
     <div class="px-6 py-4 border-b border-white/[0.07] flex items-center justify-between">
@@ -95,44 +95,42 @@
     </div>
 
     <div class="px-6 py-6">
-      <form [formGroup]="passwordForm"><!--(ngSubmit)="onUpdatePassword()-->
+
         <div class="grid grid-cols-2 gap-4">
 
           <div class="flex flex-col gap-1 col-span-2">
             <label class="text-[0.65rem] font-semibold tracking-[0.16em] uppercase text-white/30">
               Contraseña actual
             </label>
-            <input type="password" formControlName="currentPassword" placeholder="••••••••"
-                   class="w-full bg-[rgba(23,23,23,0.8)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-[#FFED00] focus:shadow-[0_0_0_2px_rgba(255,237,0,0.08)] transition-all"/>
+            <input disabled type="password"  placeholder="••••••••"
+                   class="w-full bg-[rgba(23,23,23,0.8)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 outline-none disabled:opacity-40 disabled:cursor-not-allowed"/>
           </div>
 
           <div class="flex flex-col gap-1">
-            <label class="text-[0.65rem] font-semibold tracking-[0.16em] uppercase text-white/30">
+            <label class="text-[0.65rem] font-semibold tracking-[0.16em] uppercase text-white/30 ">
               Nueva contraseña
             </label>
-            <input type="password" formControlName="newPassword" placeholder="••••••••"
-                   class="w-full bg-[rgba(23,23,23,0.8)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-[#FFED00] focus:shadow-[0_0_0_2px_rgba(255,237,0,0.08)] transition-all"/>
+            <input disabled type="password"  placeholder="••••••••"
+                   class="w-full bg-[rgba(23,23,23,0.8)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 outline-none disabled:opacity-40 disabled:cursor-not-allowed"/>
           </div>
 
           <div class="flex flex-col gap-1">
-            <label class="text-[0.65rem] font-semibold tracking-[0.16em] uppercase text-white/30">
+            <label disabled class="text-[0.65rem] font-semibold tracking-[0.16em] uppercase text-white/30 ">
               Confirmar contraseña
             </label>
-            <input type="password" formControlName="confirmPassword" placeholder="••••••••"
-                   class="w-full bg-[rgba(23,23,23,0.8)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-[#FFED00] focus:shadow-[0_0_0_2px_rgba(255,237,0,0.08)] transition-all"/>
+            <input disabled type="password"  placeholder="••••••••"
+                   class="w-full bg-[rgba(23,23,23,0.8)] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-white/20 outline-none disabled:opacity-40 disabled:cursor-not-allowed"/>
           </div>
 
         </div>
 
         <div class="mt-6">
-          <button type="submit"
-                  [disabled]="passwordForm.invalid"
+          <button disabled
                   class="px-5 py-2 rounded-lg text-sm font-semibold text-black transition-opacity hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed"
                   style="background: #FFED00; border: 1px solid #FFED00;">
             Actualizar contraseña
           </button>
         </div>
-      </form>
     </div>
 
   </div>
@@ -231,8 +229,8 @@
       <p class="text-sm text-white/30 leading-relaxed mb-5">
         Al eliminar tu cuenta se borrarán todos tus datos, ligas y estadísticas de forma permanente. Esta acción no se puede deshacer.
       </p>
-      <button class="px-5 py-2 rounded-lg text-sm font-semibold text-[#f03e3e] bg-transparent border border-[rgba(240,62,62,0.6)] hover:bg-[rgba(240,62,62,0.08)] transition-all">
-        Eliminar cuenta <!--(click)="onDeleteAccount()"-->
+      <button disabled class="px-5 py-2 rounded-lg text-sm font-semibold text-[#f03e3e] bg-transparent border border-[rgba(240,62,62,0.6)] disabled:opacity-40 disabled:cursor-not-allowed">
+        Eliminar cuenta
       </button>
     </div>
 

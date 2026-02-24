@@ -22,7 +22,6 @@ export class UserSettings implements OnInit {
   // userService = inject(UserService);
 
   profileForm: FormGroup;
-  passwordForm: FormGroup;
 
   constructor(private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
@@ -32,16 +31,7 @@ export class UserSettings implements OnInit {
     this.profileForm = new FormGroup({
       username:  new FormControl(null, [Validators.required, Validators.minLength(3)]),
       email:     new FormControl(null, [Validators.required, Validators.email]),
-      birthDate: new FormControl(null, []),
-    });
-
-    this.passwordForm = new FormGroup({
-      currentPassword: new FormControl(null, [Validators.required]),
-      newPassword:     new FormControl(null, [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl(null, [Validators.required]),
-
-      // TODO: Añadir validador personalizado a nivel de grupo para
-      // comprobar que newPassword y confirmPassword coinciden
+      birthDate: new FormControl(null, [])
     });
   }
 
@@ -52,7 +42,6 @@ export class UserSettings implements OnInit {
     // this.userService.getProfile(this.userId).subscribe((user: IUser) => {
     //   this.profileForm.patchValue({
     //     username:  user.username,
-    //     fullName:  user.fullName,
     //     email:     user.email,
     //     birthDate: user.birthDate,
     //   });
@@ -72,31 +61,6 @@ export class UserSettings implements OnInit {
     console.log('Guardar perfil:', this.profileForm.value);
   }
 
-  updatePassword(): void {
-    if (this.passwordForm.invalid) return;
-
-    // TODO: Enviar cambio de contraseña al backend
-    //
-    // this.userService.updatePassword({
-    //   currentPassword: this.passwordForm.value.currentPassword,
-    //   newPassword:     this.passwordForm.value.newPassword,
-    // }).subscribe(() => {
-    //   alert('Contraseña actualizada correctamente');
-    //   this.passwordForm.reset();
-    // });
-
-    console.log('Actualizar contraseña:', this.passwordForm.value);
-  }
-
-  deleteAccount(): void {
-    // TODO: Mostrar modal de confirmación antes de llamar al backend
-    //
-    // this.userService.deleteAccount(this.userId).subscribe(() => {
-    //   // Cerrar sesión y redirigir al login
-    // });
-
-    console.log('Eliminar cuenta');
-  }
 
   checkControl(formGroup: FormGroup, formControlName: string, validator: string): boolean | undefined {
     return formGroup.get(formControlName)?.hasError(validator) &&
