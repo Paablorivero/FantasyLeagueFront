@@ -17,6 +17,8 @@ CREATE DATABASE fantasy_league
 	drop user usuario_prueba;
 	create user usuario_prueba  with password 'test' superuser;
 
+	drop function if exists sortear_jugadores_posicion;
+	drop view if exists clasificacion_ligas;
 	drop table if exists alineaciones;
 	drop table if exists plantillas;
 	drop table if exists jornadas;
@@ -77,12 +79,12 @@ CREATE DATABASE fantasy_league
 	create table if not exists jugadores(
 		jugador_id integer primary key,
 		nombre varchar(50) not null,
-		first_name varchar(50) not null,
-		last_name varchar(50) not null,
+		first_name varchar(50) null,
+		last_name varchar(50) null,
 		fecha_nacimiento date null,
-		nacionalidad varchar(50) not null,
+		nacionalidad varchar(50) null,
 		lesionado boolean default FALSE,
-		foto text not null,
+		foto text null,
 		equipo_profesional_id integer not null references equipos_profesionales(equipo_id),
 		posicion text null,
 		valor integer not null default 1000000,
@@ -252,7 +254,7 @@ insert into jornadas (f_inicio, f_fin, temporada_id) values ('2025-08-16','2025-
 
 	---- Todo esto a partir de aquí son lineas que uso como comprobaciones pero que eliminaré cuando crea que el script ya está en un estado definitivo.
 
-	select * from jugadores;
+	select * from jugadores order by equipo_profesional_id;
 
 	select * from usuarios;
 
@@ -282,3 +284,8 @@ select j.nombre, j.fecha_nacimiento, j.valor, j.posicion from plantillas p
 join equipos e on e.equipo_id = p.equipo_uuid
 join jugadores j on j.jugador_id = p.jugador_pro
 where e.equipo_id = '19b29d7f-ea1b-481c-ac52-9f1a7faef2f3';
+
+--Query para comprobar que al generar una alineación inicial están las posiciones que quiero
+select * from alineaciones a
+join jugadores j on a.jugador_id = j.jugador_id
+order by j.posicion;
