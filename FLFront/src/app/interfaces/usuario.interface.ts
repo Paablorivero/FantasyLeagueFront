@@ -1,6 +1,7 @@
-export interface UsuarioInterface {
+export interface Usuarios {
   usuarioId: string;
   username: string;
   email: string;
-  fechaNacim: string;
+  rol: string;
+  fechaNacimiento: string;
 }
