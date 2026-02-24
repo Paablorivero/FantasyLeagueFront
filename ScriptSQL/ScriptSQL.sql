@@ -146,7 +146,7 @@ CREATE OR REPLACE FUNCTION sortear_jugadores_posicion(
     p_cantidad integer,
     p_jornada integer
 )
-RETURNS integer
+RETURNS void
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -192,8 +192,6 @@ BEGIN
     SET presupuesto = presupuesto - total_coste
     WHERE equipo_id = p_equipo_id;
 
-    RETURN total_coste;
-
 END;
 $$;
 
@@ -238,6 +236,18 @@ insert into temporadas (f_inicio, f_fin) values ('2025-08-16','2026-06-15');
 insert into jornadas (f_inicio, f_fin, temporada_id) values ('2025-08-16','2025-08-18',1); 
 
 
+	--Creo una view para calcular las clasificaciones. Luego desde el back se llama a la view pero se filtra por ligaId para obtener la clasificación de una liga.
+	
+	CREATE OR REPLACE VIEW clasificacion_ligas AS
+	SELECT
+	    e.liga_id,
+	    e.equipo_id,
+	    e.nombre AS nombre_equipo,
+	    COALESCE(SUM(a.puntuacion),0) AS puntos
+	FROM equipos e
+	LEFT JOIN alineaciones a
+	    ON a.equipo_id = e.equipo_id
+	GROUP BY e.liga_id, e.equipo_id, e.nombre;
 
 
 	---- Todo esto a partir de aquí son lineas que uso como comprobaciones pero que eliminaré cuando crea que el script ya está en un estado definitivo.
