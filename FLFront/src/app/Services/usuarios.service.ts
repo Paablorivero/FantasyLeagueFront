@@ -3,6 +3,7 @@ import { usersUrl} from '../../ExternalRouting/backendRoutes';
 import {HttpClient} from '@angular/common/http';
 import {Userprofile} from '../interfaces/dtos/userprofile.interface';
 import {lastValueFrom} from 'rxjs';
+import {Equiposusuariodto} from '../interfaces/dtos/equiposusuariodto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +18,10 @@ export class UsuariosService {
 
   userProfile(): Promise<Userprofile>{
     return lastValueFrom(this.http.get<Userprofile>(`${usersUrl}/me`));
+  }
+
+  // Petición para obtener todos los equipos de un usuario y la liga en la que participan
+  getTeamsLeaguesFromUser(): Promise<Equiposusuariodto>{
+    return lastValueFrom(this.http.get<Equiposusuariodto>(`${usersUrl}/equipos/participacion`));
   }
 }
