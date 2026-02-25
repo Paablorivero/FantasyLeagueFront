@@ -8,7 +8,7 @@ export const loginGuardGuard: CanActivateFn = (route, state) => {
   if(localStorage.getItem('token')){
     isAuth = true;
   } else {
-    router.navigate(['/daznfantasy']);
+    router.createUrlTree(['/daznfantasy/login']); //me da error constantemente con un router.navigate asi que uso esta opcion
   }
   return isAuth;
 };
