@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {RouterLink} from '@angular/router';
+import { UsuariosService } from '../../Services/usuarios.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,16 @@ import {RouterLink} from '@angular/router';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit {
+  private usuariosService = inject(UsuariosService);
+  username = signal('');
 
+  async ngOnInit(): Promise<void> {
+    try {
+      const user = await this.usuariosService.userProfile();
+      this.username.set(user.username ?? '');
+    } catch {
+      this.username.set('');
+    }
+  }
 }
