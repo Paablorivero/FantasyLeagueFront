@@ -55,10 +55,12 @@ export class AuthServiceService {
   async loginUser(loginData: Userlogin): Promise<void>{
     const response = await lastValueFrom(this.http.post<UserLoginResponse>(`${authUrl}/login`, loginData));
 
+    console.log(typeof response.token);
+
     this.authUser0.set(response.user);
     this.isLoggedIn0.set(true);
 
-    localStorage.setItem('token', response.token);
+    localStorage.setItem('token', response.token.token);
   }
 
 //   Un metodo para que cualquier otro elemento o el interceptor obtengan el token

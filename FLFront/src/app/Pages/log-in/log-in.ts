@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import { RouterLink } from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {FormsModule} from '@angular/forms';
 import {Userlogin} from '../../interfaces/userlogin.interface';
 import {AuthServiceService} from '../../Services/auth-service.service';
@@ -21,6 +21,9 @@ export class LogIn {
 
   private authService = inject(AuthServiceService);
 
+  // Inyecto el servicio Router
+  private router: Router = inject(Router);
+
   constructor(){
     // Inicializo la propiedad loginData
     this.loginData = {
@@ -38,6 +41,8 @@ export class LogIn {
 
     try {
       await this.authService.loginUser(this.loginData);
+
+      this.router.navigate(['/daznfantasy/home']);
 
       console.log('log in successfully');
 
