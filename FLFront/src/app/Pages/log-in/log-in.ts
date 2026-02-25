@@ -42,7 +42,7 @@ export class LogIn {
     try {
       await this.authService.loginUser(this.loginData);
 
-      this.router.navigate(['/daznfantasy/home']);
+      this.router.navigate(['/daznfantasy/dashboard/home']);
 
       console.log('log in successfully');
 
