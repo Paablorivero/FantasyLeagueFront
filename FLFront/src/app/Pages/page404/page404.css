@@ -24,7 +24,8 @@
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
   width: 700px;
-  opacity: 0.03;
+  opacity: 0.15;
+  opacity: 0.15;
   pointer-events: none;
   filter: blur(1px);
 }
