@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-sign-in',
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './sign-in.html',
   styleUrl: './sign-in.css',
 })
 export class SignIn {
+  userForm: FormGroup;
  passwordVisible: boolean = false;
 
   togglePassword(): void {

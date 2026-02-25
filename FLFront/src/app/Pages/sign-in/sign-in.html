@@ -20,6 +20,17 @@
         </h2>
 
         <!-- Formulario -->
+        username: string;
+        email: string;
+        rol: string;
+        fechaNacimiento: string;
+        <form [formGroup]="userForm" class="card p-3 border-0 bg-white ms-5" (ngSubmit)="getDataForm()">
+          <div class="my-2">
+              <label for="username" class="form-label">Usuario</label>
+              <input type="text" class="form-control border border-2 border-dark rounded-1" name="username" id="username" placeholder="Introduzca el nombre de usuario"
+              formControlName="username">
+          </div>
+        </form>
         <div class="form-control gap-4">
           <div>
             <div>
