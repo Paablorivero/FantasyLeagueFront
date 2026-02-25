@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthServiceService } from '../../Services/auth-service.service';
 
 @Component({
   selector: 'app-header',
@@ -8,17 +9,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
-  isLogedIn: boolean = false;
   menuOpen = signal(false);
-  router = inject(Router);
+  private router = inject(Router);
+  private authService = inject(AuthServiceService);
 
-  ngOnInit(): void{
-    if (localStorage.getItem('token')) {
-      this.isLogedIn = true;
-    } else {
-      this.isLogedIn = false;
-    }
-    console.log("Estado del log en el navar = ", this.isLogedIn);
+  get isLogedIn(): boolean {
+    return !!this.authService.getToken();
   }
 
   mostrarBotonEntrar(): boolean {
@@ -32,5 +28,11 @@ export class Header {
 
   closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  cerrarSesion(): void {
+    this.authService.userLogOut();
+    this.closeMenu();
+    this.router.navigate(['/daznfantasy/login']);
   }
 }

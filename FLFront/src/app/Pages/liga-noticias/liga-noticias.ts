@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NoticiasService } from '../../Services/noticias-service';
 import { NoticiaInterface } from '../../interfaces/noticia-interface';
 import { TarjetaNoticia } from '../../Components/tarjeta-noticia/tarjeta-noticia';
@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-liga-noticias',
-  imports: [TarjetaNoticia, FormsModule],
+  imports: [TarjetaNoticia, FormsModule, RouterLink],
   templateUrl: './liga-noticias.html',
   styleUrl: './liga-noticias.css',
 })

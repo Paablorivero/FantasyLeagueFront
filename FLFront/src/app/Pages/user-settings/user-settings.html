@@ -3,7 +3,7 @@
   <div class="fade-up fade-up-1">
     <button type="button" routerLink="/daznfantasy/home"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white/40 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white/70 transition-all">
-      Volver al inicio
+      Volver al menu
     </button>
   </div>
   <!--Header-->
@@ -29,7 +29,7 @@
       <div class="flex items-center gap-4 mb-6">
         <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm text-black flex-shrink-0"
              style="background: #FFED00;">
-          PR
+          {{ userInitials }}
         </div>
         <div>
           <p class="text-sm font-semibold text-white">{{ profileForm.get('username')?.value }}</p>
@@ -37,7 +37,14 @@
         </div>
       </div>
 
-      <form [formGroup]="profileForm"> <!--(ngSubmit)="onSaveProfile()"-->
+      @if (loadingProfile) {
+        <p class="mb-4 text-sm text-white/60">Cargando datos del usuario...</p>
+      }
+      @if (profileError) {
+        <p class="mb-4 text-sm text-red-400">{{ profileError }}</p>
+      }
+
+      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
         <div class="grid grid-cols-2 gap-4">
 
           <div class="flex flex-col gap-1 col-span-2">
@@ -68,12 +75,12 @@
 
         <div class="flex gap-3 mt-6">
           <button type="submit"
-                  [disabled]="profileForm.invalid"
+                  [disabled]="profileForm.invalid || loadingProfile"
                   class="px-5 py-2 rounded-lg text-sm font-semibold text-black transition-opacity hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed"
                   style="background: #FFED00; border: 1px solid #FFED00;">
             Guardar cambios
           </button>
-          <button type="button" (click)="profileForm.reset()"
+          <button type="button" (click)="resetProfileForm()"
                   class="px-4 py-2 rounded-lg text-sm font-medium text-white/40 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white/70 transition-all">
             Cancelar
           </button>

@@ -9,7 +9,53 @@
 
   <!-- Contenido principal -->
   <main class="seleccion-content">
-    <p class="seleccion-description">Elige la liga en la que quieres competir</p>
-    <!-- Aquí irán las tarjetas de selección de ligas -->
+    <button
+      type="button"
+      routerLink="/daznfantasy/home"
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white/40 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white/70 transition-all mb-6"
+    >
+      Volver al menu
+    </button>
+
+    <p class="seleccion-description">Consulta las ligas creadas y las ligas a las que te puedes unir.</p>
+
+    @if (loading) {
+      <p class="seleccion-message">Cargando ligas...</p>
+    }
+    @if (error) {
+      <p class="seleccion-message seleccion-error">{{ error }}</p>
+    }
+
+    <section class="ligas-grid">
+      <article class="ligas-panel">
+        <h2>Todas las ligas</h2>
+        @if (!loading && allLigas.length === 0) {
+          <p class="seleccion-message">No hay ligas registradas todavía.</p>
+        }
+        <ul>
+          @for (liga of allLigas; track liga.ligaId) {
+            <li>
+              <span class="liga-name">{{ liga.nombreLiga }}</span>
+              <span class="liga-id">ID: {{ liga.ligaId }}</span>
+            </li>
+          }
+        </ul>
+      </article>
+
+      <article class="ligas-panel">
+        <h2>Ligas con plazas disponibles</h2>
+        @if (!loading && ligasDisponibles.length === 0) {
+          <p class="seleccion-message">Ahora mismo no hay ligas disponibles para unirse.</p>
+        }
+        <ul>
+          @for (liga of ligasDisponibles; track liga.ligaId) {
+            <li>
+              <span class="liga-name">{{ liga.nombreLiga }}</span>
+              <span class="liga-id">ID: {{ liga.ligaId }}</span>
+            </li>
+          }
+        </ul>
+      </article>
+    </section>
   </main>
 </div>

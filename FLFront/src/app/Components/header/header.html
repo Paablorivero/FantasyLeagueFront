@@ -46,21 +46,35 @@
       <div class="nav-divider"></div>
 
       @if (mostrarBotonEntrar()) {
-        <a
-          routerLink="/daznfantasy/login"
-          routerLinkActive="nav-active"
-          class="nav-pill nav-pill-accent"
-        >
-          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.8"
-              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-            />
-          </svg>
-          <span>Entrar</span>
-        </a>
+        @if (isLogedIn) {
+          <button type="button" class="nav-pill nav-pill-accent" (click)="cerrarSesion()">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.8"
+                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+              />
+            </svg>
+            <span>Salir</span>
+          </button>
+        } @else {
+          <a
+            routerLink="/daznfantasy/login"
+            routerLinkActive="nav-active"
+            class="nav-pill nav-pill-accent"
+          >
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.8"
+                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+              />
+            </svg>
+            <span>Entrar</span>
+          </a>
+        }
       }
     </nav>
 
@@ -131,22 +145,36 @@
       }
       <div class="mobile-divider"></div>
 
-      <a
-        routerLink="/daznfantasy/login"
-        routerLinkActive="nav-active"
-        class="nav-mobile-link nav-mobile-accent"
-        (click)="closeMenu()"
-      >
-        <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.8"
-            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-          />
-        </svg>
-        Entrar
-      </a>
+      @if (isLogedIn) {
+        <button type="button" class="nav-mobile-link nav-mobile-accent" (click)="cerrarSesion()">
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+            />
+          </svg>
+          Salir
+        </button>
+      } @else {
+        <a
+          routerLink="/daznfantasy/login"
+          routerLinkActive="nav-active"
+          class="nav-mobile-link nav-mobile-accent"
+          (click)="closeMenu()"
+        >
+          <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+            />
+          </svg>
+          Entrar
+        </a>
+      }
     </nav>
   }
 </header>

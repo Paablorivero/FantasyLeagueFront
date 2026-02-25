@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UsuariosService } from '../../Services/usuarios.service';
+import { Userprofile } from '../../interfaces/dtos/userprofile.interface';
 
 // TODO: Importar el servicio de usuario cuando esté listo
 // import { UserService } from '../../services/user.service';
@@ -16,22 +18,22 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class UserSettings implements OnInit {
 
-  userId: string | null = null;
-
-  // TODO: Inyectar el servicio de usuario cuando esté listo
-  // userService = inject(UserService);
+  private userService = inject(UsuariosService);
 
   profileForm: FormGroup;
   passwordForm: FormGroup;
+  loadingProfile = false;
+  profileError = '';
+  private initialProfileValue: { username: string; email: string; birthDate: string | null } = {
+    username: '',
+    email: '',
+    birthDate: null,
+  };
 
-  constructor(private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      this.userId = params['id'];
-    });
-
+  constructor() {
     this.profileForm = new FormGroup({
-      username:  new FormControl(null, [Validators.required, Validators.minLength(3)]),
-      email:     new FormControl(null, [Validators.required]),
+      username:  new FormControl('', [Validators.required, Validators.minLength(3)]),
+      email:     new FormControl('', [Validators.required, Validators.email]),
       birthDate: new FormControl(null, []),
     });
 
@@ -45,18 +47,56 @@ export class UserSettings implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // TODO: Llamar al backend con el userId para traer los datos del usuario
-    // y rellenar el formulario con patchValue()
-    //
-    // this.userService.getProfile(this.userId).subscribe((user: IUser) => {
-    //   this.profileForm.patchValue({
-    //     username:  user.username,
-    //     fullName:  user.fullName,
-    //     email:     user.email,
-    //     birthDate: user.birthDate,
-    //   });
-    // });
+  async ngOnInit(): Promise<void> {
+    await this.loadProfile();
+  }
+
+  get userInitials(): string {
+    const username = this.profileForm.get('username')?.value as string;
+    if (!username) return 'US';
+    return username
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map(word => word[0]?.toUpperCase())
+      .slice(0, 2)
+      .join('');
+  }
+
+  private async loadProfile(): Promise<void> {
+    this.loadingProfile = true;
+    this.profileError = '';
+
+    try {
+      const user: Userprofile = await this.userService.userProfile();
+      const profileValue = {
+        username: user.username ?? '',
+        email: user.email ?? '',
+        birthDate: this.toDateInputValue(user.fechaNacimiento),
+      };
+
+      this.profileForm.patchValue(profileValue);
+      this.initialProfileValue = profileValue;
+    } catch {
+      this.profileError = 'No se pudo cargar la información del usuario.';
+    } finally {
+      this.loadingProfile = false;
+    }
+  }
+
+  resetProfileForm(): void {
+    this.profileForm.reset(this.initialProfileValue);
+  }
+
+  private toDateInputValue(dateValue: string | null | undefined): string | null {
+    if (!dateValue) return null;
+
+    const parsedDate = new Date(dateValue);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return dateValue.slice(0, 10);
+    }
+
+    return parsedDate.toISOString().split('T')[0];
   }
 
   saveProfile(): void {
