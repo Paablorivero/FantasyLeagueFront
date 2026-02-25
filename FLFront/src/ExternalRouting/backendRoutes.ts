@@ -25,3 +25,10 @@ export const usersUrl: string = `http://localhost:3000/daznfntsy/users`;
  * La dirección base sirve para crear una liga
  */
 export const ligasUrl: string = `http://localhost:3000/daznfntsy/ligas`;
+
+
+/**
+ * Este es el endpoint base de alineaciones routes en el back. El endpoint que existe es el siguiente
+ * /actual/:equipoId Nos proporciona un listado con la alineación actual de un equipo equipoId como param
+ */
+export const alineacionesUrl: string = `http://localhost:3000/daznfntsy/alineaciones`;
