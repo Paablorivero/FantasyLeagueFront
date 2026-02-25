@@ -15,22 +15,24 @@ import {loginGuardGuard} from './Guards/login-guard-guard';
 
 export const routes: Routes = [
   {path: '', pathMatch: "full", redirectTo: 'daznfantasy'},
-  {path: 'daznfantasy', component: LandinPage},
-  {path: 'daznfantasy/login', component: LogIn},
-  {path: 'daznfantasy/register',component: SignIn},
-  {path: 'daznfantasy/dashboard', component: DashboardLigas, canActivate: [loginGuardGuard], children: [
-      {path: '', pathMatch: 'full', redirectTo: 'home'},
-      {path: 'home', component: Home},
-      {path: 'news', component: LigaNoticias},
-      {path: 'leagues', component: SeleccionLigas},
-      {path: 'user', component: UserSettings},
-
-      {path: 'clasificacion', component: LigaClasificacion},
-      {path: 'mercado', component: LigaMercado},
-      {path: 'noticias', component: LigaNoticias},
-      {path: 'plantilla', component: LigaPlantilla},
-    ]
+  {path: 'daznfantasy', children: [
+      {path: '', pathMatch:'full', component: LandinPage},
+      {path: 'login', component: LogIn},
+      {path: 'register', component: SignIn},
+      {
+        path: '', component: DashboardLigas, canActivateChild: [loginGuardGuard], children: [
+          {path: 'home', component: Home},
+          {path: 'news', component: LigaNoticias},
+          {path: 'leagues', component: SeleccionLigas},
+          {path: 'user', component: UserSettings},
+          {path: 'clasificacion', component: LigaClasificacion},
+          {path: 'mercado', component: LigaMercado},
+          {path: 'noticias', component: LigaNoticias},
+          {path: 'plantilla', component: LigaPlantilla},
+        ],
+      },
+    ],
   },
   {path: 'page404', component: Page404},
-  {path: '**', redirectTo: 'page404'}
+  {path: '**', component: Page404},
   ];
