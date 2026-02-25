@@ -1,0 +1,27 @@
+
+// Esta es la ruta base para temas de registrarse o logearse. Los dos endpoints que puede usar son
+/**
+ * /login - Para logear un usuario
+ * /register - Para registrarse
+ */
+export const authUrl: string = 'http://localhost:3000/auth';
+
+// La siguiente ruta para los usuarios y los endpoints son
+/**
+ * /me - Perfil de Usuario
+ * /me/update - Updatear el perfil de usuario
+ * /username/:username - buscar usuario por su username (como param)
+ * /all - obtener todos los usuarios, solo para el rol admin si nos da tiempo
+ * /equipos/participacion - Un listado de los equipos de un usuario y las ligas en la que participan
+ */
+
+export const usersUrl: string = `http://localhost:3000/users`;
+
+// La siguiente ruta es la correspondiente para algunas operaciones de ligas. Sus endpoints son
+/**
+ * /all - Para obtener un listado de todas las ligas existentes
+ * /disponibles - Para obtener un listado de las ligas que tienen plazas disponibles
+ * /unirse/:ligaId - Para unirse a una liga ya creada. ligaId como Param
+ * La dirección base sirve para crear una liga
+ */
+export const ligasUrl: string = `http://localhost:3000/ligas`;
