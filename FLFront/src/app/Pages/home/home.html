@@ -17,7 +17,10 @@
       </div>
       <!--Titulo principal del hero-->
       <h1 class="text-5xl md:text-6xl font-black tracking-tighter leading-none fade-up fade-up-1">Bienvenido, <br>
-        <span class="gradient-text">Mister</span> <!--Aqui podemos poner que ponga el nombre del usuario-->
+        <span class="gradient-text">Mister</span>
+        @if (username()) {
+          <span class="gradient-text"> {{ username() }}</span>
+        }
       </h1>
       <!--Subtitulo del hero-->
       <p class="text-white/60 text-base md:text-lg leading-relaxed max-w-xl fade-up fade-up-2">Este es tu centro de control. Consulta las últimas noticias de LaLiga,
