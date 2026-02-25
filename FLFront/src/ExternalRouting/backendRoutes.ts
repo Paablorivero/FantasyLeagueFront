@@ -4,7 +4,7 @@
  * /login - Para logear un usuario
  * /register - Para registrarse
  */
-export const loginUrl: string = 'http://localhost:3000/auth';
+export const authUrl: string = 'http://localhost:3000/auth';
 
 // La siguiente ruta para los usuarios y los endpoints son
 /**
