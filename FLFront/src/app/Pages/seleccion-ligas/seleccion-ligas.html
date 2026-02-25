@@ -35,8 +35,7 @@
         <ul>
           @for (liga of allLigas; track liga.ligaId) {
             <li>
-              <span class="liga-name">{{ liga.nombreLiga }}</span>
-              <span class="liga-id">ID: {{ liga.ligaId }}</span>
+              <app-tarjeta-seleccion [liga]="liga" />
             </li>
           }
         </ul>

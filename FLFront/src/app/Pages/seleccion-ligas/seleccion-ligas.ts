@@ -1,16 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LigasService } from '../../Services/ligas.service';
 import { Liga } from '../../interfaces/liga.interface';
+import { TarjetaSeleccion } from '../../Components/tarjeta-seleccion/tarjeta-seleccion';
 
 @Component({
   selector: 'app-seleccion-ligas',
-  imports: [RouterLink],
+  imports: [RouterLink, TarjetaSeleccion],
   templateUrl: './seleccion-ligas.html',
   styleUrl: './seleccion-ligas.css',
 })
 export class SeleccionLigas implements OnInit {
   private ligasService = inject(LigasService);
+  private cdr = inject(ChangeDetectorRef);
   allLigas: Liga[] = [];
   ligasDisponibles: Liga[] = [];
   loading = false;
@@ -25,17 +27,18 @@ export class SeleccionLigas implements OnInit {
     this.error = '';
 
     try {
-      const [allLigas, ligasDisponibles] = await Promise.all([
-        this.ligasService.getAllLigas(),
-        this.ligasService.getLigasPlazasLibres(),
-      ]);
-
-      this.allLigas = allLigas;
-      this.ligasDisponibles = ligasDisponibles;
+      this.allLigas = await this.ligasService.getAllLigas();
     } catch {
       this.error = 'No se pudieron cargar las ligas. Inténtalo de nuevo.';
-    } finally {
-      this.loading = false;
     }
+
+    try {
+      this.ligasDisponibles = await this.ligasService.getLigasPlazasLibres();
+    } catch {
+      // Si falla ligas disponibles no bloqueamos la página
+    }
+
+    this.loading = false;
+    this.cdr.detectChanges();
   }
 }

@@ -104,6 +104,30 @@
   font-size: 0.75rem;
 }
 
+.liga-ver-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #000000;
+  background: linear-gradient(135deg, #FFED00, #FFD700);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  align-self: flex-start;
+  box-shadow: 0 2px 10px rgba(255, 237, 0, 0.3);
+}
+
+.liga-ver-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 237, 0, 0.5);
+  background: linear-gradient(135deg, #FFFF00, #FFED00);
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .seleccion-logo {

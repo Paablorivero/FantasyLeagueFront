@@ -1,1 +1,10 @@
-<p>tarjeta-seleccion works!</p>
+<div class="tarjeta-liga">
+  <div class="tarjeta-liga-info">
+    <span class="tarjeta-liga-nombre">{{ liga.nombreLiga }}</span>
+  </div>
+  <a
+    [routerLink]="['/daznfantasy/clasificacion']"
+    [queryParams]="{ ligaId: liga.ligaId, nombreLiga: liga.nombreLiga }"
+    class="tarjeta-liga-btn"
+  >Ver clasificación</a>
+</div>
