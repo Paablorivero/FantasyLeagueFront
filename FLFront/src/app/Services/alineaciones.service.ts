@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {alineacionesUrl} from '../../ExternalRouting/backendRoutes';
 import {HttpClient} from '@angular/common/http';
-import {Equipoalineaciondto} from '../interfaces/dtos/equipoalineaciondto.interface';
+import {JugadorResumenDto} from '../interfaces/dtos/jugadorresumendto';
 import {lastValueFrom} from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,16 @@ export class AlineacionesService {
   private http = inject(HttpClient);
 
 //   Metodo que obtiene la alineación de un equipo actual
-  getAlineacion(equipoId: string): Promise<Equipoalineaciondto[]>{
-    return lastValueFrom(this.http.get<Equipoalineaciondto[]>(`${alineacionesUrl}/actual/${equipoId}`));
+  getAlineacion(equipoId: string, jornadaId: number): Promise<JugadorResumenDto[]> {
+    return lastValueFrom(this.http.get<JugadorResumenDto[]>(`${alineacionesUrl}/actual/${equipoId}/${jornadaId}`));
+  }
+
+//   Metodo para actualizar la plantilla de un equipo
+  actualizarAlineacion(equipoId: string, jornadaId: number, jugadores: number[]){
+    return lastValueFrom(this.http.put(`${alineacionesUrl}/${equipoId}/${jornadaId}`, {jugadores}));
+  }
+
+  getPlantillaActiva(equipoId: string): Promise<JugadorResumenDto[]> {
+    return lastValueFrom(this.http.get<JugadorResumenDto[]>(`${alineacionesUrl}/plantilla/${equipoId}`));
   }
 }
