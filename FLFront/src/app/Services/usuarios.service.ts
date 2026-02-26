@@ -24,4 +24,9 @@ export class UsuariosService {
   getTeamsLeaguesFromUser(): Promise<Equiposusuariodto>{
     return lastValueFrom(this.http.get<Equiposusuariodto>(`${usersUrl}/equipos/participacion`));
   }
+
+  //Peticion para actualizar el perfil de usuario
+  updateProfile(username: string, email: string, fechaNacimiento: string): Promise<Userprofile> {
+    return lastValueFrom(this.http.patch<Userprofile>(`${usersUrl}/me/update`, { username, email, fechaNacimiento }));
+  }
 }

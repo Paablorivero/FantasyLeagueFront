@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuariosService } from '../../Services/usuarios.service';
@@ -29,6 +29,8 @@ export class UserSettings implements OnInit {
     email: '',
     birthDate: null,
   };
+  cambiosGuardadospopup = signal(false);
+
 
   constructor() {
     this.profileForm = new FormGroup({
@@ -99,18 +101,18 @@ export class UserSettings implements OnInit {
     return parsedDate.toISOString().split('T')[0];
   }
 
-  saveProfile(): void {
+  async saveProfile(): Promise<void> {
     if (this.profileForm.invalid) return;
-
-    // TODO: Enviar datos actualizados al backend
-    //
-    // let user = this.profileForm.value as IUser;
-    // this.userService.updateProfile(user).subscribe(() => {
-    //   alert('Perfil actualizado correctamente');
-    // });
-
-    console.log('Guardar perfil:', this.profileForm.value);
+    const { username, email, birthDate } = this.profileForm.value;
+    try {
+      await this.userService.updateProfile(username, email, birthDate);
+      this.initialProfileValue = { username, email, birthDate };
+      this.cambiosGuardadospopup.set(true);
+    } catch (error) {
+      console.error('Error al actualizar el perfil:', error);
+    }
   }
+
 
   updatePassword(): void {
     if (this.passwordForm.invalid) return;

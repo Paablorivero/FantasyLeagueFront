@@ -86,9 +86,9 @@
           </button>
         </div>
       </form>
-
     </div>
   </div>
+
 
   <!--Seguridad-->
   <div class="nav-card fade-up fade-up-2">
@@ -242,7 +242,23 @@
         Eliminar cuenta <!--(click)="onDeleteAccount()"-->
       </button>
     </div>
-
   </div>
 
+  @if (cambiosGuardadospopup()) {
+    <div class="fixed top-20 left-1/2 -translate-x-1/2 z-50">
+      <div role="alert" class="alert alert-vertical sm:alert-horizontal w-auto max-w-md border"
+           style="background-color: rgba(255,237,0,0.1); border-color: rgba(255,237,0,0.3);">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6 shrink-0" style="stroke: #FFED00;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span class="text-white font-medium">¡Perfil actualizado correctamente!</span>
+        <div>
+          <button class="btn btn-sm border-0 text-black font-semibold" style="background: #FFED00;"
+                  (click)="cambiosGuardadospopup.set(false)">
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </main>
