@@ -90,10 +90,10 @@
               </div>
 
               <!-- Nombre del equipo -->
-              <div class="col-span-8 flex items-center gap-3">
-                <div class="flex flex-col">
+              <div class="col-span-8 flex items-center gap-3 min-w-0">
+                <div class="flex flex-col min-w-0">
                   <span
-                    class="font-bold text-sm leading-tight"
+                    class="font-bold text-sm leading-tight truncate"
                     [class]="i === 0 ? 'text-yellow-400' : 'text-white'"
                   >{{ equipo.nombre_equipo }}</span>
                   @if (i === 0) {

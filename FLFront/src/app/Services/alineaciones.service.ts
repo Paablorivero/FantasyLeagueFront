@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {alineacionesUrl} from '../../ExternalRouting/backendRoutes';
+import { alineacionesUrl, plantillasUrl } from '../../ExternalRouting/backendRoutes';
 import {HttpClient} from '@angular/common/http';
 import {JugadorResumenDto} from '../interfaces/dtos/jugadorresumendto';
 import {lastValueFrom} from 'rxjs';
@@ -23,6 +23,11 @@ export class AlineacionesService {
   }
 
   getPlantillaActiva(equipoId: string): Promise<JugadorResumenDto[]> {
-    return lastValueFrom(this.http.get<JugadorResumenDto[]>(`${alineacionesUrl}/plantilla/${equipoId}`));
+    return lastValueFrom(this.http.get<JugadorResumenDto[]>(`${plantillasUrl}/activa/${equipoId}`));
+  }
+
+//   Metodo para obtener la plantilla completa de un equipo para una jornada concreta
+  getPlantillaJornada(equipoId: string, jornadaId: number): Promise<JugadorResumenDto[]> {
+    return lastValueFrom(this.http.get<JugadorResumenDto[]>(`${plantillasUrl}/actual/${equipoId}/${jornadaId}`));
   }
 }

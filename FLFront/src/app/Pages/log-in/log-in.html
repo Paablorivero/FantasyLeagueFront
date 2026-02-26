@@ -1,5 +1,5 @@
 <!-- Contenedor centrado con imagen de fondo -->
-<div class="hero min-h-screen login-background">
+<div class="hero min-h-screen auth-background">
   <!-- Overlays con gradientes -->
   <div class="hero-overlay bg-gradient-to-t from-black via-black/50 to-transparent"></div>
   <div class="hero-overlay bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
@@ -11,7 +11,7 @@
       <div class="card-body p-8">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-          <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="Logo" class="login-logo" />
+          <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="Logo" class="auth-logo" />
         </div>
 
         <!-- Título "Iniciar sesión" -->
@@ -23,15 +23,15 @@
         <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value)"  class="form-control gap-4">
           <div>
             <label class="label">
-              <span class="label-text login-label">Usuario</span>
+              <span class="label-text auth-label">Usuario</span>
             </label>
-            <input type="text" name="username" [(ngModel)]="loginData.username" placeholder="Username" class="input input-bordered w-full login-input" />
+            <input type="text" name="username" [(ngModel)]="loginData.username" placeholder="Username" class="input input-bordered w-full auth-input" />
           </div>
 
           <!-- Campo de contraseña con botón toggle -->
           <div class="mt-4">
             <label class="label">
-              <span class="label-text login-label">Contraseña</span>
+              <span class="label-text auth-label">Contraseña</span>
             </label>
             <div class="relative">
               <input
@@ -39,7 +39,7 @@
                 name="password"
                 [(ngModel)]="loginData.password"
                 placeholder="Password"
-                class="input input-bordered w-full login-input pr-12"
+                class="input input-bordered w-full auth-input pr-12"
               />
               <button
                 type="button"
@@ -82,7 +82,7 @@
           <div class="flex justify-center items-center w-full gap-2 mt-5">
             <button type="submit" class="btn btn-primary flex-1 max-w-[160px]">Entrar</button>
             <div class="divider divider-horizontal text-warning/60 m-0">O</div>
-            <a class="btn btn-outline btn-warning flex-1 max-w-[160px]" [routerLink]="['/daznfantasy/register']">Crear cuenta</a>
+            <a class="btn btn-warning btn-outline flex-1 max-w-[160px]" [routerLink]="['/daznfantasy/register']">Crear cuenta</a>
           </div>
         </form>
       </div>

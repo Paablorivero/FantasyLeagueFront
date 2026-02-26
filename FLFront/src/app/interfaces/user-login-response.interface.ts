@@ -3,7 +3,7 @@
 // y se tienen aqui las dos a mano. Además así no hay que importar una interface aquí.
 
 export interface UserLoginResponse {
-  token: {token: string};
+  token: string;
   user: AuthUser;
 }
 

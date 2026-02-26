@@ -20,15 +20,22 @@ export const routes: Routes = [
       {path: 'login', component: LogIn},
       {path: 'register', component: SignIn},
       {
-        path: '', component: DashboardLigas, canActivateChild: [loginGuardGuard], children: [
+        path: '', canActivateChild: [loginGuardGuard], children: [
           {path: 'home', component: Home},
           {path: 'news', component: LigaNoticias},
           {path: 'leagues', component: SeleccionLigas},
           {path: 'user', component: UserSettings},
-          {path: 'clasificacion', component: LigaClasificacion},
           {path: 'mercado', component: LigaMercado},
           {path: 'noticias', component: LigaNoticias},
-          {path: 'plantilla', component: LigaPlantilla},
+          {
+            path: 'liga',
+            component: DashboardLigas,
+            children: [
+              {path: '', pathMatch: 'full', redirectTo: 'clasificacion'},
+              {path: 'clasificacion', component: LigaClasificacion},
+              {path: 'plantilla', component: LigaPlantilla},
+            ],
+          },
         ],
       },
     ],

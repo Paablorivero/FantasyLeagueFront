@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthServiceService } from '../../Services/auth-service.service';
 
+// Controla navegación global y estados del menú según autenticación.
 @Component({
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive],
@@ -15,6 +16,10 @@ export class Header {
 
   get isLogedIn(): boolean {
     return !!this.authService.getToken();
+  }
+
+  get headerHomeRoute(): string {
+    return this.isLogedIn ? '/daznfantasy/home' : '/daznfantasy';
   }
 
   mostrarBotonEntrar(): boolean {

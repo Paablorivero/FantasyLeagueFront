@@ -5,6 +5,7 @@ import { NoticiaInterface } from '../../interfaces/noticia-interface';
 import { TarjetaNoticia } from '../../Components/tarjeta-noticia/tarjeta-noticia';
 import { FormsModule } from '@angular/forms';
 
+// Gestiona noticias, filtros y paginación para la portada de actualidad.
 @Component({
   selector: 'app-liga-noticias',
   imports: [TarjetaNoticia, FormsModule, RouterLink],

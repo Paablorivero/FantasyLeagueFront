@@ -1,5 +1,5 @@
 <!-- Contenedor centrado con imagen de fondo -->
-<div class="hero min-h-screen login-background">
+<div class="hero min-h-screen auth-background">
   <!-- Overlays con gradientes -->
   <div class="hero-overlay bg-gradient-to-t from-black via-black/50 to-transparent"></div>
   <div class="hero-overlay bg-gradient-to-b from-black/30 via-transparent to-black/80"></div>
@@ -11,7 +11,7 @@
       <div class="card-body p-8">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-          <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="Logo" class="login-logo" />
+          <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="Logo" class="auth-logo" />
         </div>
 
         <!-- Título "Crear cuenta" -->
@@ -37,11 +37,11 @@
           <!-- Campo de usuario -->
           <div>
             <label for="username" class="label">
-              <span class="label-text login-label">Usuario</span>
+              <span class="label-text auth-label">Usuario</span>
             </label>
             <input
               type="text"
-              class="input input-bordered w-full login-input"
+              class="input input-bordered w-full auth-input"
               name="username"
               id="username"
               placeholder="Introduzca el nombre de usuario"
@@ -52,11 +52,11 @@
           <!-- Campo de email -->
           <div>
             <label for="email" class="label">
-              <span class="label-text login-label">Email</span>
+              <span class="label-text auth-label">Email</span>
             </label>
             <input
               type="email"
-              class="input input-bordered w-full login-input"
+              class="input input-bordered w-full auth-input"
               name="email"
               id="email"
               placeholder="Introduzca el email"
@@ -67,12 +67,12 @@
           <!-- Campo de contraseña -->
           <div>
             <label for="password" class="label">
-              <span class="label-text login-label">Contraseña</span>
+              <span class="label-text auth-label">Contraseña</span>
             </label>
             <div class="relative">
               <input
                 [type]="showPassword ? 'text' : 'password'"
-                class="input input-bordered w-full login-input pr-12"
+                class="input input-bordered w-full auth-input pr-12"
                 name="password"
                 id="password"
                 placeholder="Introduzca la contraseña"
@@ -121,12 +121,12 @@
           <!-- Campo de confirmar contraseña -->
           <div>
             <label for="confirmPassword" class="label">
-              <span class="label-text login-label">Confirmar contraseña</span>
+              <span class="label-text auth-label">Confirmar contraseña</span>
             </label>
             <div class="relative">
               <input
                 [type]="showConfirmPassword ? 'text' : 'password'"
-                class="input input-bordered w-full login-input pr-12"
+                class="input input-bordered w-full auth-input pr-12"
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="Introduzca la contraseña de nuevo"
@@ -166,7 +166,7 @@
             </div>
 
             @if (userForm.get('confirmPassword')?.touched && userForm.errors?.['passwordMismatch']) {
-              <div class="alert alert-danger py-2 px-3 mt-2 mb-0 text-sm">
+              <div class="alert alert-error py-2 px-3 mt-2 mb-0 text-sm">
                 Las contraseñas no coinciden.
               </div>
             }
@@ -175,11 +175,11 @@
           <!-- Campo de fecha de nacimiento -->
           <div>
             <label for="fechaNacimiento" class="label">
-              <span class="label-text login-label">Fecha de nacimiento</span>
+              <span class="label-text auth-label">Fecha de nacimiento</span>
             </label>
             <input
               type="date"
-              class="input input-bordered w-full login-input"
+              class="input input-bordered w-full auth-input"
               name="fechaNacimiento"
               id="fechaNacimiento"
               formControlName="fechaNacimiento"
@@ -197,7 +197,7 @@
             </button>
             <div class="divider divider-horizontal text-warning/60 m-0">O</div>
             <a
-              class="btn btn-outline btn-warning flex-1 max-w-[160px]"
+              class="btn btn-warning btn-outline flex-1 max-w-[160px]"
               [routerLink]="['/daznfantasy/login']"
             >
               Ya tengo una cuenta

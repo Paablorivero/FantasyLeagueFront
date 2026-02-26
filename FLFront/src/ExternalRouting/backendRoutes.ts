@@ -34,6 +34,12 @@ export const ligasUrl: string = `http://localhost:3000/daznfntsy/ligas`;
 export const alineacionesUrl: string = `http://localhost:3000/daznfntsy/alineaciones`;
 
 /**
+ * Este es el endpoint base de plantillas routes en el back. El endpoint que existe es el siguiente
+ * /actual/:equipoId/:jornadaId - Nos proporciona la plantilla actual de un equipo en una jornada concreta
+ */
+export const plantillasUrl: string = `http://localhost:3000/daznfntsy/plantillas`;
+
+/**
  * Este va a ser la dirección base de temporadas. Lo vamos a usar para obtener la jornada actual de una temporada
  * /:temporadaId como param, por ahora solo va a existir una temporada. Así que con esto sacamos la jornada actual de liga
  */

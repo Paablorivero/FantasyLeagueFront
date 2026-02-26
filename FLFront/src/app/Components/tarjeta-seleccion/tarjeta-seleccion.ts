@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Liga } from '../../interfaces/liga.interface';
 import {EquipoligaService} from '../../Services/equipoliga.service';
 
+// Tarjeta de liga con acción para seleccionar contexto y abrir modal.
 @Component({
   selector: 'app-tarjeta-seleccion',
   imports: [RouterLink],

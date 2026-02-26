@@ -1,0 +1,221 @@
+.lineup-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lineup-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lineup-title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 700;
+}
+
+.lineup-help {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.92rem;
+}
+
+.lineup-toast {
+  position: fixed;
+  top: 92px;
+  right: 24px;
+  z-index: 90;
+  max-width: min(420px, calc(100vw - 2rem));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 191, 36, 0.55);
+  background: rgba(24, 24, 20, 0.95);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+  padding: 0.72rem 0.85rem;
+}
+
+.lineup-toast p {
+  margin: 0;
+  color: #ffd38c;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.lineup-toast button {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.pitch {
+  position: relative;
+  padding: 1.25rem 0.75rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background:
+    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.12), transparent 42%),
+    linear-gradient(to bottom, rgba(19, 90, 51, 0.8), rgba(12, 65, 38, 0.95));
+  overflow: hidden;
+}
+
+.pitch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.06) 0,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 7.1%
+    );
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.pitch::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -260px;
+  transform: translateX(-50%);
+  width: min(700px, 85vw);
+  height: min(700px, 85vw);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pitch-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 0.85rem 0;
+}
+
+.goalkeeper-row {
+  margin-top: 1.35rem;
+}
+
+.player-slot {
+  border-radius: 14px;
+  cursor: grab;
+}
+
+.player-slot:active {
+  cursor: grabbing;
+}
+
+.bench-section {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  padding: 0.95rem;
+}
+
+.bench-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.bench-title {
+  margin: 0;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.bench-note {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.78rem;
+}
+
+.bench-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(126px, 1fr));
+  gap: 0.6rem;
+}
+
+.bench-actions {
+  margin-top: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.save-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  background: linear-gradient(90deg, #6ee7b7, #34d399);
+  color: #08291c;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.save-message {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.82rem;
+}
+
+.bench-slot {
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.loading-state {
+  margin: 1rem 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 720px) {
+  .lineup-page {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .pitch-row {
+    gap: 0.35rem;
+  }
+
+  .bench-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .lineup-toast {
+    top: 82px;
+    right: 12px;
+    left: 12px;
+    max-width: none;
+  }
+}

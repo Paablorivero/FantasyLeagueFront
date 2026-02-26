@@ -1,13 +1,28 @@
-<div class="min-h-screen bg-black">
-  <!-- Header con logo -->
-  <header class="seleccion-header">
-    <div class="seleccion-logo-container">
-      <img src="/images/LOGO_FINAL_VERSION%20(1).svg" alt="FNTS Logo" class="seleccion-logo" />
+<div class="min-h-screen bg-[#0a0a0a]">
+  <!-- Hero superior con contexto y acceso rápido a la zona de ligas. -->
+  <section class="relative flex items-center overflow-hidden min-h-[52vh]">
+    <div class="absolute inset-0 bg-cover bg-center brightness-50 contrast-125 saturate-50"
+         style="background-image: url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=2200&auto=format&fit=crop')">
     </div>
-    <h1 class="seleccion-title">Selecciona tu Liga</h1>
-  </header>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/55 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent"></div>
 
-  <!-- Contenido principal -->
+    <div class="relative z-10 container mx-auto px-6 py-16 max-w-6xl">
+      <div class="max-w-2xl space-y-5 fade-up fade-up-1">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 dazn-badge-yellow rounded-full">
+          <span class="font-mono text-xs font-bold tracking-wider uppercase text-yellow-400">Zona de ligas</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black tracking-tighter leading-none">
+          Seleccion de <span class="gradient-text">Ligas</span>
+        </h1>
+        <p class="text-white/60 text-base leading-relaxed max-w-xl">
+          Revisa tus ligas activas, descubre ligas disponibles y accede rapido a tu plantilla para cada competicion.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal con tablas separadas de ligas unidas y disponibles. -->
   <main class="seleccion-content">
     <button
       type="button"
@@ -17,84 +32,136 @@
       Volver al menu
     </button>
 
-    <p class="seleccion-description">Consulta las ligas creadas y las ligas a las que te puedes unir.</p>
-
     @if (loading) {
       <p class="seleccion-message">Cargando ligas...</p>
     }
     @if (error) {
-      <p class="seleccion-message seleccion-error">{{ error }}</p>
+      <div class="alert-wrap">
+        <div role="alert" class="alert alert-vertical sm:alert-horizontal w-auto max-w-md border"
+             style="background-color: rgba(255,237,0,0.1); border-color: rgba(255,237,0,0.3);">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6 shrink-0" style="stroke: #FFED00;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M12 3a9 9 0 100 18 9 9 0 000-18z"/>
+          </svg>
+          <span class="text-white font-medium">{{ error }}</span>
+          <div>
+            <button class="btn btn-sm border-0 text-black font-semibold" style="background: #FFED00;"
+                    (click)="cerrarError()">
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
     }
 
     <section class="ligas-grid">
       <article class="ligas-panel">
-        <h2>Todas las ligas</h2>
-        @if (!loading && allLigas.length === 0) {
-          <p class="seleccion-message">No hay ligas registradas todavía.</p>
-        }
-        <ul>
-          @for (liga of allLigas; track liga.ligaId) {
-            <li>
-              <app-tarjeta-seleccion [liga]="liga" (abrirModal)="abrirModal()" />
-            </li>
+        <div class="panel-header">
+          <h2>Ligas en las que participas</h2>
+          <span class="panel-count">{{ ligasUnidas.length }}</span>
+        </div>
+
+        <div class="panel-scroll">
+          @if (!loading && ligasUnidas.length === 0) {
+            <p class="seleccion-message">Todavia no estas unido a ninguna liga.</p>
           }
-        </ul>
+
+          @if (ligasUnidas.length > 0) {
+            <div class="overflow-x-auto">
+            <table class="table table-zebra ligas-table min-w-[560px]">
+              <thead class="text-white/70">
+              <tr>
+                <th>Liga</th>
+                <th>Tu equipo</th>
+                <th>Accion</th>
+              </tr>
+              </thead>
+              <tbody>
+            @for (liga of ligasUnidas; track liga.equipoId) {
+              <tr>
+                <td>{{ liga.nombreLiga }}</td>
+                <td>{{ liga.nombreEquipo }}</td>
+                <td>
+                  <button class="btn btn-warning btn-xs sm:btn-sm text-black" (click)="mostrarPlantilla(liga)">
+                    Mostrar plantilla
+                  </button>
+                </td>
+              </tr>
+            }
+              </tbody>
+            </table>
+            </div>
+          }
+        </div>
       </article>
 
       <article class="ligas-panel">
-        <h2>Ligas con plazas disponibles</h2>
-        @if (!loading && ligasDisponibles.length === 0) {
-          <p class="seleccion-message">Ahora mismo no hay ligas disponibles para unirse.</p>
-        }
-        <ul>
-          @for (liga of ligasDisponibles; track liga.ligaId) {
-            <li>
-              <app-tarjeta-seleccion [liga]="liga" (abrirModal)="abrirModal()" />
-            </li>
-<!--            <li>-->
-<!--              <span class="liga-name">{{ liga.nombreLiga }}</span>-->
-<!--              <span class="liga-id">ID: {{ liga.ligaId }}</span>-->
-<!--            </li>-->
+        <div class="panel-header">
+          <h2>Ligas disponibles</h2>
+          <span class="panel-count">{{ ligasDisponibles.length }}</span>
+        </div>
+
+        <div class="panel-scroll">
+          @if (!loading && ligasDisponibles.length === 0) {
+            <p class="seleccion-message">Ahora mismo no hay ligas disponibles para unirse.</p>
           }
-        </ul>
+
+          @if (ligasDisponibles.length > 0) {
+            <div class="overflow-x-auto">
+            <table class="table table-zebra ligas-table min-w-[430px]">
+              <thead class="text-white/70">
+              <tr>
+                <th>Liga</th>
+                <th>Accion</th>
+              </tr>
+              </thead>
+              <tbody>
+            @for (liga of ligasDisponibles; track liga.ligaId) {
+              <tr>
+                <td>{{ liga.nombreLiga }}</td>
+                <td>
+                  <button class="btn btn-warning btn-xs sm:btn-sm text-black" (click)="abrirModal(liga)">
+                    Unirse
+                  </button>
+                </td>
+              </tr>
+            }
+              </tbody>
+            </table>
+            </div>
+          }
+        </div>
       </article>
 
-<!--      Aquí se abre el modal para insertar el nombre del equipo-->
-        @if (mostrarModal) {
-          <div class="modal-overlay">
+      @if (mostrarModal) {
+        <div class="modal-overlay">
+          <div class="modal-content">
+            <h3 class="modal-title">
+              Unirse a la liga
+            </h3>
 
-            <div class="modal-content">
+            <input
+              type="text"
+              [(ngModel)]="nombreEquipo"
+              placeholder="Nombre del equipo"
+              class="modal-input"
+            />
 
-              <h3 class="modal-title">
-                Unirse a la liga
-              </h3>
+            <div class="modal-actions">
+              <button
+                class="btn btn-warning btn-sm text-black"
+                (click)="confirmarUnirse()">
+                Unirse
+              </button>
 
-              <input
-                type="text"
-                [(ngModel)]="nombreEquipo"
-                placeholder="Nombre del equipo"
-                class="modal-input"
-              />
-
-              <div class="modal-actions">
-                <button
-                  class="liga-ver-btn"
-                  (click)="confirmarUnirse()">
-                  Unirse
-                </button>
-
-                <button
-                  class="modal-cancel"
-                  (click)="mostrarModal = false">
-                  Cancelar
-                </button>
-              </div>
-
+              <button
+                class="modal-cancel"
+                (click)="cancelarModal()">
+                Cancelar
+              </button>
             </div>
-
           </div>
-        }
-
+        </div>
+      }
     </section>
   </main>
 </div>

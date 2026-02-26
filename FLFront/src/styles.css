@@ -88,3 +88,53 @@ body {
 .fade-up-3 { animation-delay: 0.32s; }
 .fade-up-4 { animation-delay: 0.42s; }
 .fade-up-5 { animation-delay: 0.50s; }
+
+/* Base compartida para pantallas de auth */
+.auth-background {
+  background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.auth-logo {
+  max-width: 200px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.auth-logo:hover {
+  transform: scale(1.05);
+}
+
+.auth-label {
+  color: #FFED00 !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+}
+
+.auth-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff;
+  backdrop-filter: blur(10px);
+}
+
+.auth-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.auth-input:focus {
+  border-color: rgba(255, 237, 0, 0.5) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 0 3px rgba(255, 237, 0, 0.2) !important;
+  outline: none;
+}
+
+@media (max-width: 640px) {
+  .auth-logo {
+    max-width: 150px;
+  }
+}

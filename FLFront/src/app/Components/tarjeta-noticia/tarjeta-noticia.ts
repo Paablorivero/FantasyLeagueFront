@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { NoticiaInterface } from '../../interfaces/noticia-interface';
 import { DatePipe } from '@angular/common';
 
+// Renderiza una noticia y normaliza el nombre del medio para mostrarlo limpio.
 @Component({
   selector: 'app-tarjeta-noticia',
   imports: [DatePipe],

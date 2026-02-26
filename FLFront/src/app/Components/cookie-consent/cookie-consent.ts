@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 
+// Gestiona la visibilidad y persistencia del consentimiento de cookies.
 @Component({
   selector: 'app-cookie-consent',
   imports: [],

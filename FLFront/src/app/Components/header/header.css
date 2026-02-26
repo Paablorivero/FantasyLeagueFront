@@ -41,6 +41,8 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav-pill {
@@ -190,7 +192,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header-nav-desktop {
     display: none;
   }
@@ -204,7 +206,7 @@
   }
 
   .header-logo {
-    height: 32px;
-    max-width: 140px;
+    height: 34px;
+    max-width: 145px;
   }
 }

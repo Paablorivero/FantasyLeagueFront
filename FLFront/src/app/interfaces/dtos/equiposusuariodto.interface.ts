@@ -4,8 +4,11 @@
 export interface Equiposusuariodto {
   username: string;
   Equipos: {
+    equipoId: string;
     nombre: string;
+    ligaId: string;
     Liga: {
+      ligaId: string;
       nombreLiga: string;
     };
   }[];

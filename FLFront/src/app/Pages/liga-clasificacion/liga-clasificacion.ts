@@ -2,7 +2,9 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LigasService } from '../../Services/ligas.service';
 import { Ligaclasificaciondto } from '../../interfaces/dtos/ligaclasificaciondto.interface';
+import { EquipoligaService } from '../../Services/equipoliga.service';
 
+// Carga y ordena la clasificación de la liga seleccionada.
 @Component({
   selector: 'app-liga-clasificacion',
   imports: [RouterLink],
@@ -12,6 +14,7 @@ import { Ligaclasificaciondto } from '../../interfaces/dtos/ligaclasificaciondto
 export class LigaClasificacion implements OnInit {
   private ligasService = inject(LigasService);
   private route = inject(ActivatedRoute);
+  private equipoLigaService = inject(EquipoligaService);
 
   clasificacion = signal<Ligaclasificaciondto[]>([]);
   cargando = signal(false);
@@ -28,7 +31,15 @@ export class LigaClasificacion implements OnInit {
         this.nombreLiga.set(nombre ?? '');
         await this.cargarClasificacion(id);
       } else {
-        this.error.set('No se ha especificado una liga.');
+        const ligaSeleccionada = this.equipoLigaService.ligaSeleccionada();
+        if (!ligaSeleccionada) {
+          this.error.set('No se ha especificado una liga.');
+          return;
+        }
+
+        this.ligaId.set(ligaSeleccionada.ligaId);
+        this.nombreLiga.set(ligaSeleccionada.nombreLiga);
+        await this.cargarClasificacion(ligaSeleccionada.ligaId);
       }
     });
   }

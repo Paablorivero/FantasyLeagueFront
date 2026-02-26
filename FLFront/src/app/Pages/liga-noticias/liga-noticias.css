@@ -1,3 +1,7 @@
+.noticias-back-wrap {
+  margin-bottom: 2.25rem;
+}
+
 /* Filtros */
 .noticias-filter-group {
   display: flex;
@@ -115,6 +119,10 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .noticias-back-wrap {
+    margin-bottom: 1.4rem;
+  }
+
   .noticias-filter-select,
   .noticias-filter-input {
     min-width: 140px;

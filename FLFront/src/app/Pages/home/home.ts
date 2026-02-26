@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import {RouterLink} from '@angular/router';
 import { UsuariosService } from '../../Services/usuarios.service';
 
+// Obtiene el usuario para personalizar el hero del home.
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
