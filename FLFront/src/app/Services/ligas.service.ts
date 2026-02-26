@@ -26,8 +26,8 @@ export class LigasService {
 
   //Creo el método que nos permite unirnos a una liga
   unirseLiga(ligaId: string, nombreEquipo: string): Promise<void>{
-
-    return lastValueFrom(this.http.post<void>(`${ligasUrl}/unirse/${ligaId}`, nombreEquipo));
+    
+    return lastValueFrom(this.http.post<void>(`${ligasUrl}/unirse/${ligaId}`, {nombreEquipo}));
   }
 
 // Creo el método que me devuelve todas las ligas

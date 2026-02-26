@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Liga } from '../../interfaces/liga.interface';
+import {EquipoligaService} from '../../Services/equipoliga.service';
 
 @Component({
   selector: 'app-tarjeta-seleccion',
@@ -10,4 +11,17 @@ import { Liga } from '../../interfaces/liga.interface';
 })
 export class TarjetaSeleccion {
   @Input() liga!: Liga;
+
+  @Output() abrirModal = new EventEmitter<void>();
+
+  private equipoLigaService = inject(EquipoligaService);
+
+
+  protected unirseLiga() {
+
+    console.log("Click Card");
+    this.equipoLigaService.setLiga(this.liga);
+
+    this.abrirModal.emit();
+  }
 }

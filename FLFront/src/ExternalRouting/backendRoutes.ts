@@ -32,3 +32,10 @@ export const ligasUrl: string = `http://localhost:3000/daznfntsy/ligas`;
  * /actual/:equipoId Nos proporciona un listado con la alineación actual de un equipo equipoId como param
  */
 export const alineacionesUrl: string = `http://localhost:3000/daznfntsy/alineaciones`;
+
+/**
+ * Este va a ser la dirección base de temporadas. Lo vamos a usar para obtener la jornada actual de una temporada
+ * /:temporadaId como param, por ahora solo va a existir una temporada. Así que con esto sacamos la jornada actual de liga
+ */
+
+export const temporadasUrl: string = `http://localhost:3000/daznfntsy/temporadas`;

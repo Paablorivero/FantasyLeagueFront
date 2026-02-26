@@ -12,6 +12,7 @@ import {JugadorAlineacionComponent} from '../../Components/jugador-alineacion/ju
   imports: [JugadorAlineacionComponent],
   templateUrl: './liga-plantilla.html',
   styleUrl: './liga-plantilla.css',
+  standalone: true
 })
 export class LigaPlantilla implements OnInit {
 
@@ -44,12 +45,12 @@ export class LigaPlantilla implements OnInit {
 
   async loadAlineacion() {
 
-    const equipoId = this.seleccionEquipoLiga.equipoSeleccionado();
+    const equipo = this.seleccionEquipoLiga.equipoSeleccionado();
     const jornada = this.jornadasService.jornadaSeleccionada();
 
-    if (!equipoId || !jornada) return;
+    if (!equipo || !jornada) return;
 
-    const data = await this.alineacionService.getAlineacion(equipoId, jornada);
+    const data = await this.alineacionService.getAlineacion(equipo?.equipoId, jornada);
 
     this.resetEstructura();
 
@@ -57,7 +58,7 @@ export class LigaPlantilla implements OnInit {
       this.titulares[jugador.posicion].push(jugador);
     });
 
-    await this.loadSuplentes(equipoId);
+    await this.loadSuplentes(equipo.equipoId);
   }
 
   async loadSuplentes(equipoId: string){
@@ -96,12 +97,12 @@ export class LigaPlantilla implements OnInit {
     this.titulares.Midfielder.forEach(j => jugadoresIds.push(j.jugadorId));
     this.titulares.Attacker.forEach(j => jugadoresIds.push(j.jugadorId));
 
-    const equipoId = this.seleccionEquipoLiga.equipoSeleccionado();
+    const equipo = this.seleccionEquipoLiga.equipoSeleccionado();
     const jornada = this.jornadasService.jornadaSeleccionada();
 
-    if (!equipoId || !jornada) return;
+    if (!equipo || !jornada) return;
 
-    await this.alineacionService.actualizarAlineacion(equipoId,jornada, jugadoresIds);
+    await this.alineacionService.actualizarAlineacion(equipo.equipoId,jornada, jugadoresIds);
   }
 
 }

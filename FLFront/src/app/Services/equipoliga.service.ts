@@ -1,4 +1,6 @@
 import {Injectable, signal} from '@angular/core';
+import {Liga} from '../interfaces/liga.interface';
+import {Equipo} from '../interfaces/equipo.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -6,18 +8,18 @@ import {Injectable, signal} from '@angular/core';
 export class EquipoligaService {
 
   //Este signal se actualizará con la id de una liga seleccionada por el jugador
-  ligaSeleccionada = signal<string | null>(null);
+  ligaSeleccionada = signal<Liga | null>(null);
 
   // Este signal se actualizara con la id de un equipo seleccionado por el jugador
-  equipoSeleccionado = signal<string | null>(null);
+  equipoSeleccionado = signal<Equipo | null>(null);
 
 //   Metodo para actualizar el valor del signal de liga
-  setLiga(id: string) {
-    this.ligaSeleccionada.set(id);
+  setLiga(liga: Liga) {
+    this.ligaSeleccionada.set(liga);
   }
 
 //   Metodo para actualizar el valor del signal de equipo
-  setEquipo(id: string) {
-    this.equipoSeleccionado.set(id);
+  setEquipo(equipo: Equipo) {
+    this.equipoSeleccionado.set(equipo);
   }
 }

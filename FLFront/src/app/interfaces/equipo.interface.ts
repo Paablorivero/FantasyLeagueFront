@@ -1,5 +1,5 @@
 export interface Equipo {
-  equipoID: string;
+  equipoId: string;
   nombre: string;
   logo: string;
   usuarioId: string;

@@ -3,23 +3,38 @@ import { RouterLink } from '@angular/router';
 import { LigasService } from '../../Services/ligas.service';
 import { Liga } from '../../interfaces/liga.interface';
 import { TarjetaSeleccion } from '../../Components/tarjeta-seleccion/tarjeta-seleccion';
+import {FormsModule} from '@angular/forms';
+import {EquipoligaService} from '../../Services/equipoliga.service';
 
 @Component({
   selector: 'app-seleccion-ligas',
-  imports: [RouterLink, TarjetaSeleccion],
+  imports: [RouterLink, TarjetaSeleccion, FormsModule],
   templateUrl: './seleccion-ligas.html',
   styleUrl: './seleccion-ligas.css',
 })
 export class SeleccionLigas implements OnInit {
   private ligasService = inject(LigasService);
+
+  private equipoLigaService = inject(EquipoligaService);
+
   private cdr = inject(ChangeDetectorRef);
   allLigas: Liga[] = [];
   ligasDisponibles: Liga[] = [];
   loading = false;
   error = '';
 
-  async ngOnInit(): Promise<void> {
-    await this.loadLigas();
+  // Modal para el nombre del equipo, cuando pulse unir ligas
+  mostrarModal = false;
+
+  // Campo para el nombre del equipo
+  nombreEquipo: string;
+
+  constructor(){
+    this.nombreEquipo = '';
+  }
+
+  ngOnInit(): void {
+    this.loadLigas();
   }
 
   private async loadLigas(): Promise<void> {
@@ -34,11 +49,29 @@ export class SeleccionLigas implements OnInit {
 
     try {
       this.ligasDisponibles = await this.ligasService.getLigasPlazasLibres();
+      console.log(this.ligasDisponibles);
     } catch {
       // Si falla ligas disponibles no bloqueamos la página
     }
 
     this.loading = false;
     this.cdr.detectChanges();
+  }
+
+  abrirModal(){
+    console.log("Modal Abrir");
+    this.mostrarModal = true;
+  };
+
+  async confirmarUnirse() {
+
+    const liga = this.equipoLigaService.ligaSeleccionada();
+
+    if (!liga || !this.nombreEquipo.trim()) return;
+
+    await this.ligasService.unirseLiga(liga.ligaId, this.nombreEquipo);
+
+    this.nombreEquipo = '';
+    this.mostrarModal = false;
   }
 }

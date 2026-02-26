@@ -35,7 +35,7 @@
         <ul>
           @for (liga of allLigas; track liga.ligaId) {
             <li>
-              <app-tarjeta-seleccion [liga]="liga" />
+              <app-tarjeta-seleccion [liga]="liga" (abrirModal)="abrirModal()" />
             </li>
           }
         </ul>
@@ -49,12 +49,52 @@
         <ul>
           @for (liga of ligasDisponibles; track liga.ligaId) {
             <li>
-              <span class="liga-name">{{ liga.nombreLiga }}</span>
-              <span class="liga-id">ID: {{ liga.ligaId }}</span>
+              <app-tarjeta-seleccion [liga]="liga" (abrirModal)="abrirModal()" />
             </li>
+<!--            <li>-->
+<!--              <span class="liga-name">{{ liga.nombreLiga }}</span>-->
+<!--              <span class="liga-id">ID: {{ liga.ligaId }}</span>-->
+<!--            </li>-->
           }
         </ul>
       </article>
+
+<!--      Aquí se abre el modal para insertar el nombre del equipo-->
+        @if (mostrarModal) {
+          <div class="modal-overlay">
+
+            <div class="modal-content">
+
+              <h3 class="modal-title">
+                Unirse a la liga
+              </h3>
+
+              <input
+                type="text"
+                [(ngModel)]="nombreEquipo"
+                placeholder="Nombre del equipo"
+                class="modal-input"
+              />
+
+              <div class="modal-actions">
+                <button
+                  class="liga-ver-btn"
+                  (click)="confirmarUnirse()">
+                  Unirse
+                </button>
+
+                <button
+                  class="modal-cancel"
+                  (click)="mostrarModal = false">
+                  Cancelar
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        }
+
     </section>
   </main>
 </div>
