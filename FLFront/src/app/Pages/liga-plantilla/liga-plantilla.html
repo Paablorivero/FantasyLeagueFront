@@ -4,77 +4,81 @@
     Mi <span class="gradient-text">Alineación</span>
   </h1>
 
-  <!-- ================= PORTERO ================= -->
-  <section class="flex flex-col items-center gap-4">
-    <h2 class="text-sm uppercase tracking-wider text-white/40">
-      Portero
-    </h2>
+  @if (titulares.Goalkeeper.length > 0 || titulares.Defender.length > 0) {
+    <!-- ================= PORTERO ================= -->
+    <section class="flex flex-col items-center gap-4">
+      <h2 class="text-sm uppercase tracking-wider text-white/40">
+        Portero
+      </h2>
 
-    @for (jugador of titulares.Goalkeeper; track jugador.jugadorId) {
-      <div (click)="selectTitular(jugador)" class="cursor-pointer">
-        <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
+      @for (jugador of titulares.Goalkeeper; track jugador.jugadorId) {
+        <div (click)="selectTitular(jugador)" class="cursor-pointer">
+          <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
+        </div>
+      }
+    </section>
+
+    <!-- ================= DEFENSAS ================= -->
+    <section class="flex flex-col gap-4">
+      <h2 class="text-sm uppercase tracking-wider text-white/40 text-center">
+        Defensas
+      </h2>
+
+      <div class="grid grid-cols-4 gap-4">
+        @for (jugador of titulares.Defender; track jugador.jugadorId) {
+          <div (click)="selectTitular(jugador)" class="cursor-pointer">
+            <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
+          </div>
+        }
       </div>
-    }
-  </section>
+    </section>
 
-  <!-- ================= DEFENSAS ================= -->
-  <section class="flex flex-col gap-4">
-    <h2 class="text-sm uppercase tracking-wider text-white/40 text-center">
-      Defensas
-    </h2>
+    <!-- ================= MEDIOS ================= -->
+    <section class="flex flex-col gap-4">
+      <h2 class="text-sm uppercase tracking-wider text-white/40 text-center">
+        Centrocampistas
+      </h2>
 
-    <div class="grid grid-cols-4 gap-4">
-      @for (jugador of titulares.Defender; track jugador.jugadorId) {
-        <div (click)="selectTitular(jugador)" class="cursor-pointer">
-          <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
-        </div>
-      }
-    </div>
-  </section>
+      <div class="grid grid-cols-4 gap-4">
+        @for (jugador of titulares.Midfielder; track jugador.jugadorId) {
+          <div (click)="selectTitular(jugador)" class="cursor-pointer">
+            <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
+          </div>
+        }
+      </div>
+    </section>
 
-  <!-- ================= MEDIOS ================= -->
-  <section class="flex flex-col gap-4">
-    <h2 class="text-sm uppercase tracking-wider text-white/40 text-center">
-      Centrocampistas
-    </h2>
+    <!-- ================= DELANTEROS ================= -->
+    <section class="flex flex-col gap-4">
+      <h2 class="text-sm uppercase tracking-wider text-white/40 text-center">
+        Delanteros
+      </h2>
 
-    <div class="grid grid-cols-4 gap-4">
-      @for (jugador of titulares.Midfielder; track jugador.jugadorId) {
-        <div (click)="selectTitular(jugador)" class="cursor-pointer">
-          <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
-        </div>
-      }
-    </div>
-  </section>
+      <div class="grid grid-cols-2 gap-4 justify-center">
+        @for (jugador of titulares.Attacker; track jugador.jugadorId) {
+          <div (click)="selectTitular(jugador)" class="cursor-pointer">
+            <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
+          </div>
+        }
+      </div>
+    </section>
 
-  <!-- ================= DELANTEROS ================= -->
-  <section class="flex flex-col gap-4">
-    <h2 class="text-sm uppercase tracking-wider text-white/40 text-center">
-      Delanteros
-    </h2>
+    <!-- ================= SUPLENTES ================= -->
+    <section>
+      <h2 class="text-sm uppercase tracking-wider text-white/40 mb-4">
+        Suplentes
+      </h2>
 
-    <div class="grid grid-cols-2 gap-4 justify-center">
-      @for (jugador of titulares.Attacker; track jugador.jugadorId) {
-        <div (click)="selectTitular(jugador)" class="cursor-pointer">
-          <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
-        </div>
-      }
-    </div>
-  </section>
-
-  <!-- ================= SUPLENTES ================= -->
-  <section>
-    <h2 class="text-sm uppercase tracking-wider text-white/40 mb-4">
-      Suplentes
-    </h2>
-
-    <div class="grid grid-cols-5 gap-4">
-      @for (jugador of suplentes; track jugador.jugadorId) {
-        <div (click)="cambiarJugador(jugador)" class="cursor-pointer">
-          <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
-        </div>
-      }
-    </div>
-  </section>
+      <div class="grid grid-cols-5 gap-4">
+        @for (jugador of suplentes; track jugador.jugadorId) {
+          <div (click)="cambiarJugador(jugador)" class="cursor-pointer">
+            <app-jugador-alineacion [jugador]="jugador"></app-jugador-alineacion>
+          </div>
+        }
+      </div>
+    </section>
+  } @else {
+    <p>Cargando alineacion</p>
+  }
 
 </main>

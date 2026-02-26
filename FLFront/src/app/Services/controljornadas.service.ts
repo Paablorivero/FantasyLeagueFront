@@ -13,6 +13,11 @@ export class ControljornadasService {
 
 //   Métodos para actualizar los signals
 
+  constructor(){
+    //Llamo a un método que hará una petición para saber el valor de la jornada Activa. Esto solo se hará al arrancar la app
+    this.obtenerJornadaActiva();
+  }
+
   setJornadaActiva(jornada: number) {
     this.jornadaActiva.set(jornada);
   }
@@ -21,10 +26,7 @@ export class ControljornadasService {
     this.jornadaSeleccionada.set(jornada);
   }
 
-  constructor(){
-    //Llamo a un método que hará una petición para saber el valor de la jornada Activa. Esto solo se hará al arrancar la app
-    this.obtenerJornadaActiva();
-  }
+
 
   async obtenerJornadaActiva(){
   //   Ya generaré el código cuando tenga el servicio para obtener las jornadas.

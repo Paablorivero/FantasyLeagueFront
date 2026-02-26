@@ -1,10 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {JugadorResumenDto} from '../../interfaces/dtos/jugadorresumendto';
+import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'app-jugador-alineacion',
   standalone: true,
-  imports: [],
+  imports: [
+    JsonPipe
+  ],
   templateUrl: './jugador-alineacion.component.html',
   styleUrl: './jugador-alineacion.component.css',
 })

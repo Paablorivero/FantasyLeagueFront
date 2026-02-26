@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, effect, inject, OnInit} from '@angular/core';
 import {JugadorInterface} from '../../interfaces/jugador.interface';
 import {AlineacionesService} from '../../Services/alineaciones.service';
 import {JugadorResumenDto} from '../../interfaces/dtos/jugadorresumendto';
@@ -6,6 +6,7 @@ import {ControljornadasService} from '../../Services/controljornadas.service';
 import {EquipoligaService} from '../../Services/equipoliga.service';
 import {Posicion} from '../../interfaces/types/posicion.type';
 import {JugadorAlineacionComponent} from '../../Components/jugador-alineacion/jugador-alineacion.component';
+import {TemporadaService} from '../../Services/temporada.service';
 
 @Component({
   selector: 'app-liga-plantilla',
@@ -15,6 +16,10 @@ import {JugadorAlineacionComponent} from '../../Components/jugador-alineacion/ju
   standalone: true
 })
 export class LigaPlantilla implements OnInit {
+
+  temporadaSev = inject(TemporadaService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   titulares: Record<Posicion, JugadorResumenDto[]> = {
     Goalkeeper: [],
@@ -30,8 +35,21 @@ export class LigaPlantilla implements OnInit {
   jornadasService = inject(ControljornadasService);
   seleccionEquipoLiga = inject(EquipoligaService);
 
+  constructor(){
+    effect(() => {
+      const equipo = this.seleccionEquipoLiga.equipoSeleccionado();
+      const jornada = this.jornadasService.jornadaSeleccionada();
+
+      console.log('Efecto disparado:', { equipo, jornada });
+
+      if (equipo && jornada) {
+        this.loadAlineacion();
+      }
+    });
+  }
+
   ngOnInit() {
-    this.loadAlineacion();
+
   }
 
   resetEstructura() {
@@ -45,20 +63,48 @@ export class LigaPlantilla implements OnInit {
 
   async loadAlineacion() {
 
+    this.resetEstructura();
+
+    await this.temporadaSev.obtenerJornadaActual();
+
     const equipo = this.seleccionEquipoLiga.equipoSeleccionado();
     const jornada = this.jornadasService.jornadaSeleccionada();
 
+    console.log(equipo);
+    console.log(jornada);
+
+    console.log('EQUIPO SIGNAL:', equipo);
+    console.log('KEYS:', Object.keys(equipo ?? {}));
+
     if (!equipo || !jornada) return;
 
-    const data = await this.alineacionService.getAlineacion(equipo?.equipoId, jornada);
+    const data: JugadorResumenDto[] = await this.alineacionService.getAlineacion(equipo?.equipoId, jornada);
+    console.log(data);
 
-    this.resetEstructura();
+    const nuevosTitulares: Record<Posicion, JugadorResumenDto[]> = {
+      Goalkeeper: [],
+      Defender: [],
+      Midfielder: [],
+      Attacker: []
+    };
 
-    data.forEach(jugador => {
-      this.titulares[jugador.posicion].push(jugador);
-    });
+    console.log('DATA REAL:', data);
+    console.log('ES ARRAY?', Array.isArray(data));
+    console.log('LONGITUD:', data.length);
 
-    await this.loadSuplentes(equipo.equipoId);
+    for (const jugador of data) {
+      nuevosTitulares[jugador.posicion].push(jugador);
+    }
+
+    this.titulares = {...nuevosTitulares};
+
+    // data.forEach(jugador => {
+    //   this.titulares[jugador.posicion] = [...this.titulares[jugador.posicion], jugador];
+    // });
+
+    // await this.loadSuplentes(equipo.equipoId);
+
+    this.cdr.detectChanges();
   }
 
   async loadSuplentes(equipoId: string){

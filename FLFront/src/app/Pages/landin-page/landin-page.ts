@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {TemporadaService} from '../../Services/temporada.service';
 
 @Component({
   selector: 'app-landin-page',
@@ -11,4 +12,6 @@ import {RouterLink} from '@angular/router';
 })
 export class LandinPage {
 
+//   Inyecto el servicio de temporadaservice para que obtenga la temporada al arrancar.
+  tempService = inject(TemporadaService);
 }

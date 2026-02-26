@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { LigasService } from '../../Services/ligas.service';
 import { Liga } from '../../interfaces/liga.interface';
 import { TarjetaSeleccion } from '../../Components/tarjeta-seleccion/tarjeta-seleccion';
@@ -16,6 +16,8 @@ export class SeleccionLigas implements OnInit {
   private ligasService = inject(LigasService);
 
   private equipoLigaService = inject(EquipoligaService);
+
+  private router: Router = inject(Router);
 
   private cdr = inject(ChangeDetectorRef);
   allLigas: Liga[] = [];
@@ -69,9 +71,20 @@ export class SeleccionLigas implements OnInit {
 
     if (!liga || !this.nombreEquipo.trim()) return;
 
-    await this.ligasService.unirseLiga(liga.ligaId, this.nombreEquipo);
+    try {
+      const equipo = await this.ligasService.unirseLiga(liga.ligaId, this.nombreEquipo);
 
-    this.nombreEquipo = '';
-    this.mostrarModal = false;
+      this.equipoLigaService.setEquipo(equipo);
+      console.log(equipo);
+
+      this.nombreEquipo = '';
+      this.mostrarModal = false;
+
+      await this.loadLigas();
+
+      this.router.navigate(['/daznfantasy/plantilla']);
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

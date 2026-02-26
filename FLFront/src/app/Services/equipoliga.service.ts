@@ -13,13 +13,32 @@ export class EquipoligaService {
   // Este signal se actualizara con la id de un equipo seleccionado por el jugador
   equipoSeleccionado = signal<Equipo | null>(null);
 
+  constructor() {
+    this.actualizarDatos();
+  }
+
 //   Metodo para actualizar el valor del signal de liga
   setLiga(liga: Liga) {
     this.ligaSeleccionada.set(liga);
+    localStorage.setItem('liga', JSON.stringify(liga));
   }
 
 //   Metodo para actualizar el valor del signal de equipo
   setEquipo(equipo: Equipo) {
     this.equipoSeleccionado.set(equipo);
+    localStorage.setItem('equipo', JSON.stringify(equipo));
+  }
+
+  private actualizarDatos() {
+    const equipoSalvado = localStorage.getItem('equipo');
+    const ligaSalvada = localStorage.getItem('liga');
+
+    if(ligaSalvada){
+      this.setLiga(JSON.parse(ligaSalvada));
+    }
+
+    if(equipoSalvado){
+      this.setEquipo(JSON.parse(equipoSalvado));
+    }
   }
 }

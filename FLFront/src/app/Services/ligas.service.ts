@@ -6,6 +6,7 @@ import {lastValueFrom} from 'rxjs';
 import {LigaClasificacion} from '../Pages/liga-clasificacion/liga-clasificacion';
 import {Ligaclasificaciondto} from '../interfaces/dtos/ligaclasificaciondto.interface';
 import {LigaEquiposUsuarioDto} from '../interfaces/dtos/ligaequiposusuariodto.interface';
+import {Equipo} from '../interfaces/equipo.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +26,9 @@ export class LigasService {
   }
 
   //Creo el método que nos permite unirnos a una liga
-  unirseLiga(ligaId: string, nombreEquipo: string): Promise<void>{
-    
-    return lastValueFrom(this.http.post<void>(`${ligasUrl}/unirse/${ligaId}`, {nombreEquipo}));
+  unirseLiga(ligaId: string, nombreEquipo: string): Promise<Equipo>{
+
+    return lastValueFrom(this.http.post<Equipo>(`${ligasUrl}/unirse/${ligaId}`, {nombreEquipo}));
   }
 
 // Creo el método que me devuelve todas las ligas

@@ -98,6 +98,8 @@ CREATE DATABASE fantasy_league
 		temporada_id serial primary key,
 		f_inicio date not null,
 		f_fin date not null,
+		jornada_actual integer not null default 1,
+		constraint check_jornada_actual check (jornada_actual between 1 and 38),
 		constraint check_fechas_validate
 			check (f_fin > f_inicio)
 	);
@@ -289,3 +291,39 @@ where e.equipo_id = '19b29d7f-ea1b-481c-ac52-9f1a7faef2f3';
 select * from alineaciones a
 join jugadores j on a.jugador_id = j.jugador_id
 order by j.posicion;
+
+select * from equipos;
+
+
+DO $$
+DECLARE
+    u_id UUID;
+    i INTEGER;
+    cont INTEGER := 1;
+BEGIN
+    -- Creamos una tabla temporal para manejar los IDs de tus usuarios
+    CREATE TEMP TABLE IF NOT EXISTS mis_usuarios (id UUID);
+    DELETE FROM mis_usuarios; -- Limpiamos por si acaso
+    
+    INSERT INTO mis_usuarios VALUES 
+    ('b5a685be-0b5e-4c7f-bd96-0e92da7772ac'),
+    ('4183fd53-dafe-4e1e-ab09-960327b01921'),
+    ('5669343f-c8d0-4134-a740-ffb43d87a3dd');
+
+    -- Iteramos 12 veces para crear las ligas
+    FOR i IN 13..30 LOOP
+        -- Seleccionamos un usuario de la tabla temporal de forma rotativa
+        SELECT id INTO u_id 
+        FROM (SELECT id, row_number() OVER () as rn FROM mis_usuarios) t 
+        WHERE rn = ((i - 1) % 3) + 1;
+
+        INSERT INTO ligas (nombre_liga, usuario_id)
+        VALUES ('Liga Fantasy ' || i, u_id);
+    END LOOP;
+
+    DROP TABLE mis_usuarios;
+END $$;
+
+SELECT l.nombre_liga, u.username 
+FROM ligas l 
+JOIN usuarios u ON l.usuario_id = u.usuario_id;
