@@ -24,13 +24,23 @@
 
   <!-- Contenido principal con tablas separadas de ligas unidas y disponibles. -->
   <main class="seleccion-content">
-    <button
-      type="button"
-      routerLink="/daznfantasy/home"
-      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white/40 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white/70 transition-all mb-6"
-    >
-      Volver al menu
-    </button>
+    <div class="mb-6 flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        routerLink="/daznfantasy/home"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white/40 bg-white/5 border border-white/10 hover:bg-white/10 hover:text-white/70 transition-all"
+      >
+        Volver al menu
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-warning btn-sm text-black"
+        (click)="abrirModalCrearLiga()"
+      >
+        Añadir liga
+      </button>
+    </div>
 
     @if (loading) {
       <p class="seleccion-message">Cargando ligas...</p>
@@ -156,6 +166,44 @@
               <button
                 class="modal-cancel"
                 (click)="cancelarModal()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (mostrarModalCrearLiga) {
+        <div class="modal-overlay">
+          <div class="modal-content">
+            <h3 class="modal-title">
+              Añadir nueva liga
+            </h3>
+
+            <input
+              type="text"
+              [(ngModel)]="nombreNuevaLiga"
+              placeholder="Nombre de la liga"
+              class="modal-input"
+            />
+
+            <input
+              type="text"
+              [(ngModel)]="nombreEquipoNuevaLiga"
+              placeholder="Nombre del equipo"
+              class="modal-input mt-3"
+            />
+
+            <div class="modal-actions">
+              <button
+                class="btn btn-warning btn-sm text-black"
+                (click)="confirmarCrearLiga()">
+                Añadir
+              </button>
+
+              <button
+                class="modal-cancel"
+                (click)="cancelarModalCrearLiga()">
                 Cancelar
               </button>
             </div>

@@ -13,6 +13,20 @@
             <h2 class="mt-1 truncate text-base font-bold text-white">
               {{ equipoLigaService.ligaSeleccionada()?.nombreLiga }}
             </h2>
+            @if (equipoDataService.cargando()) {
+              <p class="mt-2 text-xs text-white/45">Cargando equipo...</p>
+            }
+            @if (equipoDataService.error()) {
+              <p class="mt-2 text-xs text-error">{{ equipoDataService.error() }}</p>
+            }
+            <p class="mt-2 text-[0.68rem] uppercase tracking-widest text-white/45">Equipo</p>
+            <p class="mt-1 truncate text-sm font-semibold text-white/85">
+              {{ nombreEquipo() }}
+            </p>
+            <p class="mt-2 text-[0.68rem] uppercase tracking-widest text-white/45">Saldo</p>
+            <p class="mt-1 text-sm font-semibold text-warning">
+              {{ saldoEquipo() }}
+            </p>
           </div>
 
           <ul class="menu mt-3 gap-1 rounded-box bg-base-100/40 p-2">
@@ -31,6 +45,14 @@
                 routerLinkActive="menu-active !bg-warning !text-black"
                 [routerLinkActiveOptions]="{ exact: true }">
                 Alineacion
+              </a>
+            </li>
+            <li>
+              <a
+                routerLink="/daznfantasy/liga/mercado"
+                routerLinkActive="menu-active !bg-warning !text-black"
+                [routerLinkActiveOptions]="{ exact: true }">
+                Mercado
               </a>
             </li>
           </ul>

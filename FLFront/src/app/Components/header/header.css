@@ -92,6 +92,30 @@
   flex-shrink: 0;
 }
 
+.nav-logo {
+  width: 5.2rem;
+  height: 1rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nav-pill-laliga {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  padding: 0.36rem 0.5rem;
+}
+
+.nav-pill-laliga:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  opacity: 0.92;
+}
+
+.nav-pill-laliga.nav-active {
+  background: #ffffff;
+  border-color: rgba(255, 237, 0, 0.85);
+}
+
 .nav-divider {
   width: 1px;
   height: 1.25rem;
@@ -172,6 +196,19 @@
 
 .nav-mobile-accent {
   color: #FFED00;
+}
+
+.nav-mobile-laliga {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  width: fit-content;
+  padding: 0.55rem 0.65rem;
+}
+
+.nav-mobile-laliga:hover,
+.nav-mobile-laliga.nav-active {
+  background: #ffffff;
+  border-color: rgba(255, 237, 0, 0.85);
 }
 
 .mobile-divider {

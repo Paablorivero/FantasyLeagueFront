@@ -42,12 +42,17 @@ export class SeleccionLigas implements OnInit {
 
   // Modal para el nombre del equipo, cuando pulse unir ligas
   mostrarModal = false;
+  mostrarModalCrearLiga = false;
 
   // Campo para el nombre del equipo
   nombreEquipo: string;
+  nombreNuevaLiga: string;
+  nombreEquipoNuevaLiga: string;
 
   constructor(){
     this.nombreEquipo = '';
+    this.nombreNuevaLiga = '';
+    this.nombreEquipoNuevaLiga = '';
   }
 
   ngOnInit(): void {
@@ -158,6 +163,51 @@ export class SeleccionLigas implements OnInit {
     this.mostrarModal = false;
     this.nombreEquipo = '';
     this.ligaModal = null;
+  }
+
+  abrirModalCrearLiga(): void {
+    this.mostrarModalCrearLiga = true;
+    this.nombreNuevaLiga = '';
+    this.nombreEquipoNuevaLiga = '';
+  }
+
+  async confirmarCrearLiga(): Promise<void> {
+    const nombreLiga = this.nombreNuevaLiga.trim();
+    const nombreEquipo = this.nombreEquipoNuevaLiga.trim();
+
+    if (!nombreLiga || !nombreEquipo) {
+      return;
+    }
+
+    this.error = '';
+
+    try {
+      await this.ligasService.postLiga(nombreLiga, nombreEquipo);
+      this.mostrarModalCrearLiga = false;
+      this.nombreNuevaLiga = '';
+      this.nombreEquipoNuevaLiga = '';
+
+      await this.loadLigas();
+    } catch (e) {
+      if (e instanceof HttpErrorResponse) {
+        if (e.status === 500) {
+          this.error = 'No se pudo crear la liga. Inténtalo de nuevo en unos segundos.';
+        } else if (e.error?.error || e.error?.message) {
+          this.error = e.error.error ?? e.error.message;
+        } else {
+          this.error = `No se pudo crear la liga (error ${e.status}).`;
+        }
+      } else {
+        this.error = 'Se produjo un error inesperado al crear la liga.';
+      }
+      console.error(e);
+    }
+  }
+
+  cancelarModalCrearLiga(): void {
+    this.mostrarModalCrearLiga = false;
+    this.nombreNuevaLiga = '';
+    this.nombreEquipoNuevaLiga = '';
   }
 
   cerrarError(): void {

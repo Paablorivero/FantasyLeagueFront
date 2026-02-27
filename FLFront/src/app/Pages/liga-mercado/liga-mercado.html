@@ -1,1 +1,78 @@
-<p>liga-mercado works!</p>
+<section class="mercado-page">
+  <div class="mercado-header">
+    <h1>Mercado</h1>
+    <p>20 jugadores libres disponibles para fichar.</p>
+  </div>
+
+  @if (cargando()) {
+    <div class="mercado-state">Cargando mercado...</div>
+  }
+
+  @if (error()) {
+    <div class="mercado-state mercado-error">{{ error() }}</div>
+  }
+
+  @if (mensaje()) {
+    <div class="mercado-state mercado-ok">{{ mensaje() }}</div>
+  }
+
+  @if (!cargando() && !error()) {
+    <div class="mercado-grid">
+      @for (jugador of jugadoresMercado(); track jugador.jugadorId) {
+        <article class="jugador-card">
+          <div class="jugador-top">
+            <img
+              class="jugador-foto"
+              [src]="jugador.foto || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'"
+              [alt]="jugador.nombre"
+            />
+            <div class="jugador-meta">
+              <h3>{{ jugador.nombre }}</h3>
+              <div class="equipo-row">
+                @if (jugador.equipoProfesionalLogo) {
+                  <img [src]="jugador.equipoProfesionalLogo" [alt]="jugador.equipoProfesionalNombre" />
+                }
+                <span>{{ jugador.equipoProfesionalNombre }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="jugador-bottom">
+            <span class="precio">{{ formatearPrecio(jugador.precio) }}</span>
+            <button
+              type="button"
+              class="btn-comprar"
+              [disabled]="estaComprando(jugador.jugadorId)"
+              (click)="solicitarCompra(jugador)"
+            >
+              {{ estaComprando(jugador.jugadorId) ? 'Comprando...' : 'Comprar' }}
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  @if (jugadorParaConfirmar(); as jugadorConfirmacion) {
+    <div class="modal-backdrop" (click)="cancelarCompra()">
+      <div class="modal-card" (click)="$event.stopPropagation()">
+        <h3>Confirmar compra</h3>
+        <p>
+          Quieres fichar a <strong>{{ jugadorConfirmacion.nombre }}</strong>
+          por <strong>{{ formatearPrecio(jugadorConfirmacion.precio) }}</strong>?
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-modal btn-cancelar" (click)="cancelarCompra()">Cancelar</button>
+          <button
+            type="button"
+            class="btn-modal btn-confirmar"
+            [disabled]="estaComprando(jugadorConfirmacion.jugadorId)"
+            (click)="confirmarCompra()"
+          >
+            {{ estaComprando(jugadorConfirmacion.jugadorId) ? 'Comprando...' : 'Confirmar compra' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>

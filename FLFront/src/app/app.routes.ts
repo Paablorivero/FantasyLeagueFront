@@ -8,6 +8,7 @@ import {Home} from './Pages/home/home';
 import {LigaClasificacion} from './Pages/liga-clasificacion/liga-clasificacion';
 import {LigaMercado} from './Pages/liga-mercado/liga-mercado';
 import {LigaPlantilla} from './Pages/liga-plantilla/liga-plantilla';
+import {LigaWidgets} from './Pages/liga-widgets/liga-widgets';
 import {Page404} from './Pages/page404/page404';
 import {UserSettings} from './Pages/user-settings/user-settings';
 import {DashboardLigas} from './Pages/dashboard-ligas/dashboard-ligas';
@@ -27,6 +28,7 @@ export const routes: Routes = [
           {path: 'user', component: UserSettings},
           {path: 'mercado', component: LigaMercado},
           {path: 'noticias', component: LigaNoticias},
+          {path: 'widgets', component: LigaWidgets},
           {
             path: 'liga',
             component: DashboardLigas,
@@ -34,6 +36,7 @@ export const routes: Routes = [
               {path: '', pathMatch: 'full', redirectTo: 'clasificacion'},
               {path: 'clasificacion', component: LigaClasificacion},
               {path: 'plantilla', component: LigaPlantilla},
+              {path: 'mercado', component: LigaMercado},
             ],
           },
         ],

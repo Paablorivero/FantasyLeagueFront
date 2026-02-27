@@ -1,0 +1,169 @@
+.mercado-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.mercado-header h1 {
+  margin: 0;
+  color: #fff;
+}
+
+.mercado-header p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.mercado-state {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.82);
+  padding: 0.9rem 1rem;
+}
+
+.mercado-error {
+  border-color: rgba(255, 90, 90, 0.35);
+  background: rgba(255, 90, 90, 0.08);
+}
+
+.mercado-ok {
+  border-color: rgba(80, 255, 165, 0.35);
+  background: rgba(80, 255, 165, 0.1);
+}
+
+.mercado-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.8rem;
+}
+
+.jugador-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.jugador-top {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.jugador-foto {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.jugador-meta h3 {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #fff;
+}
+
+.equipo-row {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.84rem;
+}
+
+.equipo-row img {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+.jugador-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.precio {
+  color: #ffed00;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.btn-comprar {
+  border: 1px solid rgba(255, 237, 0, 0.45);
+  background: rgba(255, 237, 0, 0.1);
+  color: #ffed00;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-comprar:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(0, 0, 0, 0.62);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal-card {
+  width: min(460px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #101010;
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+
+.modal-card h3 {
+  margin: 0;
+  color: #fff;
+}
+
+.modal-card p {
+  margin: 0.7rem 0 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.btn-modal {
+  border-radius: 0.5rem;
+  padding: 0.42rem 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancelar {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-confirmar {
+  border: 1px solid rgba(255, 237, 0, 0.45);
+  background: rgba(255, 237, 0, 0.12);
+  color: #ffed00;
+}
+
+.btn-modal:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

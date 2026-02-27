@@ -7,6 +7,7 @@ import {LigaClasificacion} from '../Pages/liga-clasificacion/liga-clasificacion'
 import {Ligaclasificaciondto} from '../interfaces/dtos/ligaclasificaciondto.interface';
 import {LigaEquiposUsuarioDto} from '../interfaces/dtos/ligaequiposusuariodto.interface';
 import {Equipo} from '../interfaces/equipo.interface';
+import {MercadoJugadorDto} from '../interfaces/dtos/mercadojugadordto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class LigasService {
 
 //   Después de importar la url correspondiente a las ligas inyecto httpclient
   private http = inject(HttpClient);
+  private mercadoCache = new Map<string, MercadoJugadorDto[]>();
 
 //   Creo el método que permite crear una liga
 
@@ -49,5 +51,39 @@ export class LigasService {
 //   Método que devuelve los equipos participantes de una liga y su nombre de usuarios
   getParticipantesLiga(ligaId: string): Promise<LigaEquiposUsuarioDto>{
     return lastValueFrom(this.http.get<LigaEquiposUsuarioDto>(`${ligasUrl}/${ligaId}/participantes`));
+  }
+
+  getMercadoLiga(ligaId: string, limit: number = 20): Promise<MercadoJugadorDto[]>{
+    return lastValueFrom(this.http.get<MercadoJugadorDto[]>(`${ligasUrl}/${ligaId}/mercado?limit=${limit}`));
+  }
+
+  async getMercadoLigaCached(ligaId: string, limit: number = 20, forceReload: boolean = false): Promise<MercadoJugadorDto[]> {
+    if (!forceReload && this.mercadoCache.has(ligaId)) {
+      return this.mercadoCache.get(ligaId)!;
+    }
+
+    const jugadores = await this.getMercadoLiga(ligaId, limit);
+    this.mercadoCache.set(ligaId, jugadores);
+    return jugadores;
+  }
+
+  removeJugadorMercadoCache(ligaId: string, jugadorId: number): void {
+    const actuales = this.mercadoCache.get(ligaId) ?? [];
+    this.mercadoCache.set(ligaId, actuales.filter((j) => j.jugadorId !== jugadorId));
+  }
+
+  clearMercadoCache(ligaId?: string): void {
+    if (!ligaId) {
+      this.mercadoCache.clear();
+      return;
+    }
+    this.mercadoCache.delete(ligaId);
+  }
+
+  comprarJugadorMercado(ligaId: string, jugadorId: number): Promise<{ ok: boolean; presupuestoRestante: number }>{
+    return lastValueFrom(this.http.post<{ ok: boolean; presupuestoRestante: number }>(
+      `${ligasUrl}/${ligaId}/mercado/comprar`,
+      { jugadorId }
+    ));
   }
 }

@@ -45,3 +45,9 @@ export const plantillasUrl: string = `http://localhost:3000/daznfntsy/plantillas
  */
 
 export const temporadasUrl: string = `http://localhost:3000/daznfntsy/temporadas`;
+
+/**
+ * Endpoint base de equipos.
+ * /mio/:ligaId devuelve el equipo del usuario autenticado en una liga.
+ */
+export const equiposUrl: string = `http://localhost:3000/daznfntsy/equipos`;
