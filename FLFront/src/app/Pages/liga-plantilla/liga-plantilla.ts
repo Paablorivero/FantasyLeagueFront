@@ -7,6 +7,8 @@ import {Posicion} from '../../interfaces/types/posicion.type';
 import {JugadorAlineacionComponent} from '../../Components/jugador-alineacion/jugador-alineacion.component';
 import {TemporadaService} from '../../Services/temporada.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {UsuariosService} from '../../Services/usuarios.service';
+import {Liga} from '../../interfaces/liga.interface';
 
 // Gestiona la carga de plantilla y los cambios de jugadores en la alineación.
 @Component({
@@ -34,6 +36,8 @@ export class LigaPlantilla implements OnInit {
   selectedTitular: JugadorResumenDto | null = null;
   feedback: string = '';
   saveMessage: string = '';
+  loadError: string = '';
+  isLoading: boolean = false;
   isSaving: boolean = false;
   private dragged:
     | {
@@ -47,6 +51,7 @@ export class LigaPlantilla implements OnInit {
   alineacionService = inject(AlineacionesService);
   jornadasService = inject(ControljornadasService);
   seleccionEquipoLiga = inject(EquipoligaService);
+  usuariosService = inject(UsuariosService);
 
   constructor(){
     effect(() => {
@@ -61,8 +66,8 @@ export class LigaPlantilla implements OnInit {
     });
   }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    await this.ensureLigaYEquipoSeleccionados();
   }
 
   resetEstructura() {
@@ -75,6 +80,8 @@ export class LigaPlantilla implements OnInit {
   }
 
   async loadAlineacion() {
+    this.isLoading = true;
+    this.loadError = '';
 
     this.resetEstructura();
     this.suplentes = [];
@@ -93,9 +100,8 @@ export class LigaPlantilla implements OnInit {
     if (!equipo || !jornada) return;
 
     try {
-      const data: JugadorResumenDto[] = await this.alineacionService.getAlineacion(equipo?.equipoId, jornada);
       const plantillaJornada: JugadorResumenDto[] = await this.obtenerPlantillaParaJornada(equipo.equipoId, jornada);
-      console.log(data);
+      const data: JugadorResumenDto[] = await this.obtenerAlineacionConFallback(equipo.equipoId, jornada, plantillaJornada);
 
       const nuevosTitulares: Record<Posicion, JugadorResumenDto[]> = {
         Goalkeeper: [],
@@ -116,9 +122,40 @@ export class LigaPlantilla implements OnInit {
       this.loadSuplentes(plantillaJornada);
     } catch (error) {
       console.error('Error cargando alineacion/plantilla:', error);
+      if (error instanceof HttpErrorResponse && error.error?.error) {
+        this.loadError = error.error.error;
+      } else {
+        this.loadError = 'No se pudo cargar la plantilla del equipo.';
+      }
+    } finally {
+      this.isLoading = false;
     }
 
     this.cdr.detectChanges();
+  }
+
+  private async obtenerAlineacionConFallback(
+    equipoId: string,
+    jornadaId: number,
+    plantillaJornada: JugadorResumenDto[]
+  ): Promise<JugadorResumenDto[]> {
+    try {
+      return await this.alineacionService.getAlineacion(equipoId, jornadaId);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 404) {
+        // Si no hay alineacion guardada, construimos 4-3-3 desde la plantilla activa.
+        return this.construirAlineacion433(plantillaJornada);
+      }
+      throw error;
+    }
+  }
+
+  private construirAlineacion433(plantilla: JugadorResumenDto[]): JugadorResumenDto[] {
+    const gk = plantilla.filter(j => j.posicion === 'Goalkeeper').slice(0, 1);
+    const df = plantilla.filter(j => j.posicion === 'Defender').slice(0, 4);
+    const mf = plantilla.filter(j => j.posicion === 'Midfielder').slice(0, 3);
+    const at = plantilla.filter(j => j.posicion === 'Attacker').slice(0, 3);
+    return [...gk, ...df, ...mf, ...at];
   }
 
   private async obtenerPlantillaParaJornada(equipoId: string, jornadaId: number): Promise<JugadorResumenDto[]> {
@@ -131,6 +168,43 @@ export class LigaPlantilla implements OnInit {
       }
       throw error;
     }
+  }
+
+  private async ensureLigaYEquipoSeleccionados(): Promise<void> {
+    const participaciones = await this.usuariosService.getTeamsLeaguesFromUser();
+    const equipos = participaciones.Equipos ?? [];
+    if (equipos.length === 0) {
+      return;
+    }
+
+    const ligaActual = this.seleccionEquipoLiga.ligaSeleccionada();
+    const equipoActual = this.seleccionEquipoLiga.equipoSeleccionado();
+    const seleccionValida = equipos.some((eq) =>
+      eq.equipoId === equipoActual?.equipoId && eq.ligaId === ligaActual?.ligaId
+    );
+    if (seleccionValida) {
+      return;
+    }
+
+    const primerEquipo = equipos[0];
+    if (!primerEquipo || !primerEquipo.Liga) {
+      return;
+    }
+
+    const liga: Liga = {
+      ligaId: primerEquipo.Liga.ligaId,
+      nombreLiga: primerEquipo.Liga.nombreLiga,
+      usuarioId: '',
+    };
+
+    this.seleccionEquipoLiga.setLiga(liga);
+    this.seleccionEquipoLiga.setEquipo({
+      equipoId: primerEquipo.equipoId,
+      nombre: primerEquipo.nombre,
+      logo: null,
+      usuarioId: '',
+      ligaId: primerEquipo.ligaId,
+    });
   }
 
   loadSuplentes(plantilla: JugadorResumenDto[]){

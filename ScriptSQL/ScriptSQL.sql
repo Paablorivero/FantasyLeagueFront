@@ -14,10 +14,13 @@ CREATE DATABASE fantasy_league
     IS_TEMPLATE = False;
 
 --Creamos un usuario que es el que vamos a usar por ahora y le damos todos los privilegios para poder trabajar y hacer pruebas
-	drop user usuario_prueba;
+	drop user if exists usuario_prueba;
 	create user usuario_prueba  with password 'test' superuser;
 
 	drop function if exists sortear_jugadores_posicion;
+	drop function if exists crear_ligas_demo;
+	drop function if exists poblar_ligas_con_jugadores_demo;
+	drop function if exists inicializar_40_ligas_demo;
 	drop view if exists clasificacion_ligas;
 	drop table if exists alineaciones;
 	drop table if exists plantillas;
@@ -64,7 +67,7 @@ CREATE DATABASE fantasy_league
 		logo text,
 		usuario_id uuid not null references usuarios(usuario_id),
 		liga_id uuid not null references ligas(liga_id),
-		presupuesto integer not null default 100000000,
+		presupuesto integer not null default 10000000,
 		constraint check_presupuesto_positivo check (presupuesto >= 0),
 		constraint unique_usuario_liga unique(usuario_id, liga_id)
 	);
@@ -295,34 +298,173 @@ order by j.posicion;
 select * from equipos;
 
 
-DO $$
+-- Crea N ligas de demo asignando el propietario de forma rotativa.
+CREATE OR REPLACE FUNCTION crear_ligas_demo(
+    p_total_ligas integer DEFAULT 40
+)
+RETURNS integer
+LANGUAGE plpgsql
+AS $$
 DECLARE
-    u_id UUID;
-    i INTEGER;
-    cont INTEGER := 1;
+    usuarios_ids uuid[];
+    usuarios_count integer;
+    i integer;
+    owner_idx integer;
 BEGIN
-    -- Creamos una tabla temporal para manejar los IDs de tus usuarios
-    CREATE TEMP TABLE IF NOT EXISTS mis_usuarios (id UUID);
-    DELETE FROM mis_usuarios; -- Limpiamos por si acaso
-    
-    INSERT INTO mis_usuarios VALUES 
-    ('b5a685be-0b5e-4c7f-bd96-0e92da7772ac'),
-    ('4183fd53-dafe-4e1e-ab09-960327b01921'),
-    ('5669343f-c8d0-4134-a740-ffb43d87a3dd');
+    IF p_total_ligas <= 0 THEN
+        RAISE EXCEPTION 'p_total_ligas debe ser mayor que 0';
+    END IF;
 
-    -- Iteramos 12 veces para crear las ligas
-    FOR i IN 13..30 LOOP
-        -- Seleccionamos un usuario de la tabla temporal de forma rotativa
-        SELECT id INTO u_id 
-        FROM (SELECT id, row_number() OVER () as rn FROM mis_usuarios) t 
-        WHERE rn = ((i - 1) % 3) + 1;
+    SELECT array_agg(usuario_id ORDER BY usuario_id)
+    INTO usuarios_ids
+    FROM usuarios;
 
+    usuarios_count := COALESCE(array_length(usuarios_ids, 1), 0);
+    IF usuarios_count = 0 THEN
+        RAISE EXCEPTION 'No hay usuarios para asignar como propietarios de liga';
+    END IF;
+
+    FOR i IN 1..p_total_ligas LOOP
+        owner_idx := ((i - 1) % usuarios_count) + 1;
         INSERT INTO ligas (nombre_liga, usuario_id)
-        VALUES ('Liga Fantasy ' || i, u_id);
+        VALUES ('Liga Fantasy ' || i, usuarios_ids[owner_idx]);
     END LOOP;
 
-    DROP TABLE mis_usuarios;
+    RETURN p_total_ligas;
+END;
+$$;
+
+-- Garantiza que cada liga tenga entre 10 y 20 jugadores en plantilla activa.
+-- Si la liga no tiene equipo, se crea uno de demo para poder asignar jugadores.
+CREATE OR REPLACE FUNCTION poblar_ligas_con_jugadores_demo(
+    p_min_jugadores integer DEFAULT 10,
+    p_max_jugadores integer DEFAULT 20,
+    p_jornada integer DEFAULT 1
+)
+RETURNS integer
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    liga_row record;
+    equipo_id_objetivo uuid;
+    jugadores_actuales integer;
+    jugadores_objetivo integer;
+    jugadores_a_insertar integer;
+    owner_liga uuid;
+BEGIN
+    IF p_min_jugadores < 1 OR p_max_jugadores < p_min_jugadores THEN
+        RAISE EXCEPTION 'Rango de jugadores invalido';
+    END IF;
+
+    FOR liga_row IN
+        SELECT l.liga_id, l.usuario_id
+        FROM ligas l
+    LOOP
+        owner_liga := liga_row.usuario_id;
+
+        SELECT e.equipo_id
+        INTO equipo_id_objetivo
+        FROM equipos e
+        WHERE e.liga_id = liga_row.liga_id
+        ORDER BY e.equipo_id
+        LIMIT 1;
+
+        IF equipo_id_objetivo IS NULL THEN
+            INSERT INTO equipos (nombre, logo, usuario_id, liga_id, presupuesto)
+            VALUES (
+                'Equipo Demo ' || substring(liga_row.liga_id::text from 1 for 6),
+                NULL,
+                owner_liga,
+                liga_row.liga_id,
+                100000000
+            )
+            RETURNING equipo_id INTO equipo_id_objetivo;
+        END IF;
+
+        SELECT COUNT(*)
+        INTO jugadores_actuales
+        FROM plantillas p
+        WHERE p.liga_id = liga_row.liga_id
+          AND p.jornada_fin IS NULL;
+
+        IF jugadores_actuales < p_min_jugadores THEN
+            jugadores_objetivo := floor(random() * (p_max_jugadores - p_min_jugadores + 1) + p_min_jugadores)::integer;
+            jugadores_a_insertar := jugadores_objetivo - jugadores_actuales;
+
+            INSERT INTO plantillas (equipo_uuid, liga_id, jugador_pro, jornada_inicio, precio_compra)
+            SELECT
+                equipo_id_objetivo,
+                liga_row.liga_id,
+                j.jugador_id,
+                p_jornada,
+                j.valor
+            FROM jugadores j
+            WHERE j.jugador_id NOT IN (
+                SELECT p2.jugador_pro
+                FROM plantillas p2
+                WHERE p2.liga_id = liga_row.liga_id
+                  AND p2.jornada_fin IS NULL
+            )
+            ORDER BY random()
+            LIMIT jugadores_a_insertar;
+        END IF;
+    END LOOP;
+
+    RETURN (SELECT COUNT(*) FROM ligas);
+END;
+$$;
+
+-- Helper principal: crea 40 ligas de demo sin poblar plantillas.
+CREATE OR REPLACE FUNCTION inicializar_40_ligas_demo()
+RETURNS void
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    PERFORM crear_ligas_demo(40);
+END;
+$$;
+
+-- Usuario administrador por defecto (login: admin / password: adminDazn)
+INSERT INTO usuarios (username, email, password_hash, rol, f_nacim)
+VALUES (
+    'admin',
+    'admin@daznfantasy.local',
+    crypt('adminDazn', gen_salt('bf')),
+    'admin',
+    '1990-01-01'
+)
+ON CONFLICT (username) DO UPDATE
+SET
+    email = EXCLUDED.email,
+    password_hash = EXCLUDED.password_hash,
+    rol = EXCLUDED.rol,
+    f_nacim = EXCLUDED.f_nacim;
+
+-- Usuarios demo adicionales para repartir la propiedad de ligas.
+DO $$
+DECLARE
+    i integer;
+BEGIN
+    FOR i IN 1..20 LOOP
+        INSERT INTO usuarios (username, email, password_hash, rol, f_nacim)
+        VALUES (
+            'user_demo_' || i,
+            'user_demo_' || i || '@daznfantasy.local',
+            crypt('demoDazn', gen_salt('bf')),
+            'user',
+            '1995-01-01'
+        )
+        ON CONFLICT (username) DO UPDATE
+        SET
+            email = EXCLUDED.email,
+            password_hash = EXCLUDED.password_hash,
+            rol = EXCLUDED.rol,
+            f_nacim = EXCLUDED.f_nacim;
+    END LOOP;
 END $$;
+
+-- Ejecuta seed de demo automáticamente.
+SELECT inicializar_40_ligas_demo();
 
 SELECT l.nombre_liga, u.username 
 FROM ligas l 

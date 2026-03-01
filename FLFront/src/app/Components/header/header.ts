@@ -22,6 +22,10 @@ export class Header {
     return this.isLogedIn ? '/daznfantasy/home' : '/daznfantasy';
   }
 
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   mostrarBotonEntrar(): boolean {
     const rutasOcultas = ['/daznfantasy/login', '/daznfantasy/register'];
     return !rutasOcultas.includes(this.router.url);

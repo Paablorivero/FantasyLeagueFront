@@ -55,6 +55,11 @@
             alt="LaLiga"
           />
         </a>
+        @if (isAdmin) {
+          <a routerLink="/daznfantasy/admin/config" routerLinkActive="nav-active" class="nav-pill nav-pill-admin">
+            <span>Admin</span>
+          </a>
+        }
       }
       <div class="nav-divider"></div>
 
@@ -169,6 +174,16 @@
             alt="LaLiga"
           />
         </a>
+        @if (isAdmin) {
+          <a
+            routerLink="/daznfantasy/admin/config"
+            routerLinkActive="nav-active"
+            class="nav-mobile-link nav-mobile-admin"
+            (click)="closeMenu()"
+          >
+            Admin
+          </a>
+        }
       }
       <div class="mobile-divider"></div>
 

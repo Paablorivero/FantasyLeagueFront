@@ -13,6 +13,8 @@ import {Page404} from './Pages/page404/page404';
 import {UserSettings} from './Pages/user-settings/user-settings';
 import {DashboardLigas} from './Pages/dashboard-ligas/dashboard-ligas';
 import {loginGuardGuard} from './Guards/login-guard-guard';
+import { AdminConfig } from './Pages/admin-config/admin-config';
+import { adminGuard } from './Guards/admin-guard';
 
 export const routes: Routes = [
   {path: '', pathMatch: "full", redirectTo: 'daznfantasy'},
@@ -29,6 +31,7 @@ export const routes: Routes = [
           {path: 'mercado', component: LigaMercado},
           {path: 'noticias', component: LigaNoticias},
           {path: 'widgets', component: LigaWidgets},
+          {path: 'admin/config', component: AdminConfig, canActivate: [adminGuard]},
           {
             path: 'liga',
             component: DashboardLigas,

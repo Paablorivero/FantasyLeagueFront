@@ -17,7 +17,9 @@
     </p>
   </header>
 
-  @if (titulares.Goalkeeper.length > 0 || titulares.Defender.length > 0) {
+  @if (loadError) {
+    <p class="loading-state">{{ loadError }}</p>
+  } @else if (titulares.Goalkeeper.length > 0 || titulares.Defender.length > 0 || titulares.Midfielder.length > 0 || titulares.Attacker.length > 0) {
     <!-- Campo visual con titulares organizados por posición. -->
     <section class="pitch">
       <div class="pitch-row attackers-row">
@@ -125,7 +127,9 @@
         }
       </div>
     </section>
-  } @else {
+  } @else if (isLoading) {
     <p class="loading-state">Cargando alineacion...</p>
+  } @else {
+    <p class="loading-state">No hay plantilla disponible para el equipo seleccionado.</p>
   }
 </main>

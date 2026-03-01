@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Userprofile} from '../interfaces/dtos/userprofile.interface';
 import {lastValueFrom} from 'rxjs';
 import {Equiposusuariodto} from '../interfaces/dtos/equiposusuariodto.interface';
+import {AdminUserListItem} from '../interfaces/dtos/admin-user-list-item.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +29,9 @@ export class UsuariosService {
   //Peticion para actualizar el perfil de usuario
   updateProfile(username: string, email: string, fechaNacimiento: string): Promise<Userprofile> {
     return lastValueFrom(this.http.patch<Userprofile>(`${usersUrl}/me/update`, { username, email, fechaNacimiento }));
+  }
+
+  getAllUsersAdmin(): Promise<AdminUserListItem[]> {
+    return lastValueFrom(this.http.get<AdminUserListItem[]>(`${usersUrl}/all`));
   }
 }

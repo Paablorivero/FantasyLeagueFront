@@ -59,6 +59,7 @@ export class AuthServiceService {
     this.isLoggedIn0.set(true);
 
     localStorage.setItem('token', response.token);
+    localStorage.setItem('role', response.user.rol);
   }
 
 //   Un metodo para que cualquier otro elemento o el interceptor obtengan el token
@@ -90,6 +91,7 @@ export class AuthServiceService {
     //   Actualizamos valores
       this.authUser0.set(logedUser);
       this.isLoggedIn0.set(true);
+      localStorage.setItem('role', user.rol);
     }catch(error){
     // Si hay error, 401/403 simplemente llamo a la función logout que actualiza los estados correctamente
       this.userLogOut();
@@ -99,8 +101,17 @@ export class AuthServiceService {
 // Defino un método para el logout de un usuario.
   userLogOut(){
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     this.isLoggedIn0.set(false);
     this.authUser0.set(null);
+  }
+
+  getRole(): string | null {
+    return this.authUser0()?.rol ?? localStorage.getItem('role');
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === 'admin';
   }
 
 }

@@ -116,6 +116,25 @@
   border-color: rgba(255, 237, 0, 0.85);
 }
 
+.nav-pill-admin {
+  color: #ffe866;
+  border: 1px solid rgba(255, 230, 102, 0.28);
+  background: linear-gradient(180deg, rgba(255, 237, 0, 0.14) 0%, rgba(255, 237, 0, 0.06) 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 237, 0, 0.04);
+}
+
+.nav-pill-admin:hover {
+  color: #fff4a3;
+  border-color: rgba(255, 237, 0, 0.5);
+  background: linear-gradient(180deg, rgba(255, 237, 0, 0.2) 0%, rgba(255, 237, 0, 0.08) 100%);
+}
+
+.nav-pill-admin.nav-active {
+  color: #0f0f0f;
+  background: #ffed00;
+  border-color: #ffed00;
+}
+
 .nav-divider {
   width: 1px;
   height: 1.25rem;
@@ -196,6 +215,19 @@
 
 .nav-mobile-accent {
   color: #FFED00;
+}
+
+.nav-mobile-admin {
+  color: #ffe866;
+  border: 1px solid rgba(255, 230, 102, 0.28);
+  background: linear-gradient(180deg, rgba(255, 237, 0, 0.14) 0%, rgba(255, 237, 0, 0.06) 100%);
+}
+
+.nav-mobile-admin:hover,
+.nav-mobile-admin.nav-active {
+  color: #0f0f0f;
+  border-color: #ffed00;
+  background: #ffed00;
 }
 
 .nav-mobile-laliga {

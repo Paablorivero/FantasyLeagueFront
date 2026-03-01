@@ -17,6 +17,7 @@ export class LigasService {
 //   Después de importar la url correspondiente a las ligas inyecto httpclient
   private http = inject(HttpClient);
   private mercadoCache = new Map<string, MercadoJugadorDto[]>();
+  private mercadoVersionCache = new Map<string, number>();
 
 //   Creo el método que permite crear una liga
 
@@ -57,13 +58,28 @@ export class LigasService {
     return lastValueFrom(this.http.get<MercadoJugadorDto[]>(`${ligasUrl}/${ligaId}/mercado?limit=${limit}`));
   }
 
+  getMercadoVersion(ligaId: string): Promise<number> {
+    return lastValueFrom(
+      this.http.get<{ ok: boolean; version: number }>(`${ligasUrl}/${ligaId}/mercado/version`)
+    ).then((response) => response.version);
+  }
+
   async getMercadoLigaCached(ligaId: string, limit: number = 20, forceReload: boolean = false): Promise<MercadoJugadorDto[]> {
+    const versionRemota = await this.getMercadoVersion(ligaId);
+    const versionLocal = this.mercadoVersionCache.get(ligaId);
+    const versionDesactualizada = versionLocal !== undefined && versionLocal !== versionRemota;
+
+    if (versionDesactualizada) {
+      this.mercadoCache.delete(ligaId);
+    }
+
     if (!forceReload && this.mercadoCache.has(ligaId)) {
       return this.mercadoCache.get(ligaId)!;
     }
 
     const jugadores = await this.getMercadoLiga(ligaId, limit);
     this.mercadoCache.set(ligaId, jugadores);
+    this.mercadoVersionCache.set(ligaId, versionRemota);
     return jugadores;
   }
 
@@ -75,9 +91,11 @@ export class LigasService {
   clearMercadoCache(ligaId?: string): void {
     if (!ligaId) {
       this.mercadoCache.clear();
+      this.mercadoVersionCache.clear();
       return;
     }
     this.mercadoCache.delete(ligaId);
+    this.mercadoVersionCache.delete(ligaId);
   }
 
   comprarJugadorMercado(ligaId: string, jugadorId: number): Promise<{ ok: boolean; presupuestoRestante: number }>{

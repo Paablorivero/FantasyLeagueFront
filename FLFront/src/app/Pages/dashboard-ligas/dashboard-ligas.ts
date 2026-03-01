@@ -2,6 +2,8 @@ import { Component, OnInit, effect, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { EquipoligaService } from '../../Services/equipoliga.service';
 import { EquipoDataService } from '../../Services/equipo-data.service';
+import { UsuariosService } from '../../Services/usuarios.service';
+import { Liga } from '../../interfaces/liga.interface';
 
 // Contenedor de navegación lateral para secciones internas de una liga.
 @Component({
@@ -13,6 +15,7 @@ import { EquipoDataService } from '../../Services/equipo-data.service';
 export class DashboardLigas implements OnInit {
   protected readonly equipoLigaService = inject(EquipoligaService);
   protected readonly equipoDataService = inject(EquipoDataService);
+  private readonly usuariosService = inject(UsuariosService);
 
   constructor() {
     effect(() => {
@@ -24,6 +27,7 @@ export class DashboardLigas implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    await this.ensureLigaYEquipoSeleccionados();
     const ligaId = this.equipoLigaService.ligaSeleccionada()?.ligaId;
     if (ligaId) {
       await this.equipoDataService.cargarEquipoEnLiga(ligaId);
@@ -57,5 +61,47 @@ export class DashboardLigas implements OnInit {
       ligaId: liga.ligaId,
       nombreLiga: liga.nombreLiga
     };
+  }
+
+  private async ensureLigaYEquipoSeleccionados(): Promise<void> {
+    try {
+      const participaciones = await this.usuariosService.getTeamsLeaguesFromUser();
+      const equipos = participaciones.Equipos ?? [];
+      if (equipos.length === 0) {
+        return;
+      }
+
+      const ligaActual = this.equipoLigaService.ligaSeleccionada();
+      const equipoActual = this.equipoLigaService.equipoSeleccionado();
+      const seleccionValida = equipos.some((eq) =>
+        eq.equipoId === equipoActual?.equipoId && eq.ligaId === ligaActual?.ligaId
+      );
+
+      if (seleccionValida) {
+        return;
+      }
+
+      const primerEquipo = equipos[0];
+      if (!primerEquipo?.Liga) {
+        return;
+      }
+
+      const liga: Liga = {
+        ligaId: primerEquipo.Liga.ligaId,
+        nombreLiga: primerEquipo.Liga.nombreLiga,
+        usuarioId: '',
+      };
+
+      this.equipoLigaService.setLiga(liga);
+      this.equipoLigaService.setEquipo({
+        equipoId: primerEquipo.equipoId,
+        nombre: primerEquipo.nombre,
+        logo: null,
+        usuarioId: '',
+        ligaId: primerEquipo.ligaId,
+      });
+    } catch {
+      // Si falla esta resolución, las pantallas hijas mostrarán su estado de error correspondiente.
+    }
   }
 }

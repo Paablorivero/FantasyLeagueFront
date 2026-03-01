@@ -51,3 +51,18 @@ export const temporadasUrl: string = `http://localhost:3000/daznfntsy/temporadas
  * /mio/:ligaId devuelve el equipo del usuario autenticado en una liga.
  */
 export const equiposUrl: string = `http://localhost:3000/daznfntsy/equipos`;
+
+/**
+ * Configuración administrativa sobre temporada y mercado.
+ */
+export const adminTemporadasUrl: string = `http://localhost:3000/daznfntsy/temporadas/admin`;
+
+/**
+ * Endpoint base de jugadores.
+ */
+export const jugadoresUrl: string = `http://localhost:3000/daznfntsy/jugadores`;
+
+/**
+ * Endpoint base de jornadas.
+ */
+export const jornadasUrl: string = `http://localhost:3000/daznfntsy/jornadas`;
